@@ -1,6 +1,6 @@
 # pokerpy
 
-*authors: dottorDav. & c1au6i0*
+*authors: DottorDav. & c1au6i0*
 *date: April 2020.*
 
 The aim of this project is to develop in `python` the classical power game, and in the process to learn more about `python`,
