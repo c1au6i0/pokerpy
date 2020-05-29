@@ -1,5 +1,5 @@
-from Converter import suitSymbol
-from Converter import numberSymbol
+from pokerpy.Converter import suitSymbol
+from pokerpy.Converter import numberSymbol
 
 
 class Card:
