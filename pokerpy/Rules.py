@@ -99,7 +99,8 @@ class GameRules:
     def max_players(self, value):
         self._maxPlayers = value
 
-class MoneyRules
+
+class MoneyRules:
     # minBet:
     # maxBet: minBet * n
     # maxRise:
