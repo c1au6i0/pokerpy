@@ -57,7 +57,7 @@ class GameRules:
 
     @property
     def board_cards(self):
-        return self._facedDownCards + self._facedUpCards
+        return self._facedDownCards # self._facedUpCards
 
     @property
     def player_faced_down_cards(self):
@@ -77,7 +77,7 @@ class GameRules:
 
     @property
     def board_cards(self):
-        return self._facedDownCards + self._facedUpCards
+        return self._facedDownCards # self._facedUpCards
 
     # just the minimum number of players
     # draw game = 3, texas and others = 2
@@ -98,3 +98,18 @@ class GameRules:
     @max_players.setter
     def max_players(self, value):
         self._maxPlayers = value
+
+class MoneyRules
+    # minBet:
+    # maxBet: minBet * n
+    # maxRise:
+    # richiestaPoste
+    # dealerBet
+    # incrementType
+    # setBlind: [notAllowed, due, allowed]
+    # small  blind, big blind, over
+    # minBetType: [check, blind]
+    # resti / no     limits
+    # obbligo di prendere posta
+    pass
+

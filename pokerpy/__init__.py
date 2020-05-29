@@ -1,1 +1,1 @@
-__all__ = ['Deck', 'Converter', 'Consts', 'PlayingCard']
+__all__ = ['ManyCards', 'Converter', 'Consts', 'SingleCard', 'Money', 'Rounders']

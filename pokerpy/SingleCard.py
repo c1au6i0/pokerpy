@@ -6,9 +6,7 @@ class Card:
     """This class represents a single playing card
 
     numberRank: rank of the number of the card
-    suitRank: rank of the suit of the card
-
-    """
+    suitRank: rank of the suit of the card    """
 
     def __init__(self, numberRank, suitRank):
         if numberRank in range(13):
@@ -23,6 +21,7 @@ class Card:
         # define the name of the Card (number and suit)
         self.name = '{} {}'.format(self._numberSymbol, self._suitSymbol)
         # define the other variables
+        # have I to define these variables with "def" ?
         self.selectedForChange = False
         self.facedDown = False
         self.placeOnPlayingBoard = 0
@@ -75,10 +74,6 @@ class Card:
     def image(self):
         # here is the .jpg or .ico or .png file
         pass
-
-
-
-
 
 
 
