@@ -1,2 +1,2 @@
-# add Modules in __all__
-__all__ = ['ManyCards', 'Converter', 'Consts', 'SingleCard', 'Money', 'Rounders', 'Rules', 'Phases']
+__all__ = ['Additions', 'Consts', 'Converter', 'Dealer', 'ManyCards', 'Money', 'Phases', 'Referee',
+           'Rounders', 'Rules', 'Settings', 'SingleCard']
