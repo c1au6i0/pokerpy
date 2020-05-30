@@ -34,3 +34,12 @@ class Deck(SetOfCards, pd.DataFrame, ABC):
     # create(numberOfPlayers, gameRules)
     pass
 
+
+class OrderRules:
+    # random
+    # insert
+    # primaGliScarti
+    # Sort()
+    pass
+
+

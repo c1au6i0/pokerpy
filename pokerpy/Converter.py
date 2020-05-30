@@ -1,3 +1,4 @@
+# maybe we have to moves omothing to "Consts"
 suitSymbol = (chr(9824), chr(9827), chr(9830), chr(9829))
 suitName = ('Spades', 'Clubs', 'Diamonds', 'Hearts')
 suitNameIta = ('Picche', 'Fiori', 'Quadri', 'Cuori')

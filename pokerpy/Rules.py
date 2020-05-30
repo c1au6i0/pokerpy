@@ -112,5 +112,6 @@ class MoneyRules:
     # minBetType: [check, blind]
     # resti / no     limits
     # obbligo di prendere posta
+    # allowLowerBets
     pass
 

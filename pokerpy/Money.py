@@ -8,6 +8,11 @@ class Cash:
     # show()
     pass
 
+
 class Pot(Cash):
     # playersList
+    pass
+
+
+class LoanShark:
     pass

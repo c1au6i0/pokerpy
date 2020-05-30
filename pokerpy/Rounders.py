@@ -5,6 +5,19 @@ class Player:
     # bankroll: money
     # seat: int
     # playerCards: SetOfCards
+    # playerDeck: Deck (the player doesn't know the status of the real deck!)
+    pass
+
+
+# Pointer... or Talker?
+class Pointer:
+    # check)
+    # call()
+    # rise()
+    # fold()
+    # checkRise()
+    # blind()
+    # bigBlind()
     pass
 
 
