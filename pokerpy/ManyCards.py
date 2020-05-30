@@ -6,16 +6,11 @@ class SetOfCards:
     """This is a group of cards
         PlayerCards, Deck and Flop are SetOfCards"""
     def __init__(self):
-        print('starting init')
-        # create the list of cards, that is empty
+        # create the empty list of cards
         self.cards = []
-        # try append
-        # self.cards.append(Card(4, 1))
-        # self.cards.append(Card(2, 3))
-        print('ending init')
 
     def showOnConsole(self):
-        if self.cards == []:
+        if not self.cards:
             print('There is no card in this group')
         else:
             for card in self.cards:
