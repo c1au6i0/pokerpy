@@ -41,12 +41,15 @@ class PlayerCards(SetOfCards):
 class Deck(SetOfCards):
     """Deck is Deck"""
     # This is the constructor
-    def __init__(self):
+    def __init__(self, lowestcard=2, decks=1):
+        # decks=2 => classic Scala40 deck
         super().__init__()
+        lowestcard = lowestcard - 2
         # fulfill the cards list
-        for n in range(13):
-            for s in range(4):
-                self.cards.append(Card(n, s))
+        for d in range(0, decks):
+            for n in range(lowestcard, 13):
+                for s in range(4):
+                    self.cards.append(Card(n, s))
         # create the rejects list (empty at start)
         rejects = []
     # giveCards()
