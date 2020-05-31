@@ -19,7 +19,7 @@ class Card:
             self.name = '{} {}'.format(self._numberSymbol, self._suitSymbol)
             # define the other variables
             # have I to define these variables with "def" ?
-            self.selectedForChange = False
+            self.selected = False
             self.facedDown = True
             self.placeOnPlayingBoard = 0
         else:

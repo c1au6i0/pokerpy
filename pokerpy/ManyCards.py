@@ -1,6 +1,6 @@
 import pandas as pd
 from pokerpy.SingleCard import Card
-import random
+from random import shuffle
 
 
 class SetOfCards:
@@ -25,6 +25,13 @@ class SetOfCards:
             givenCards.append(self.giveSingleCard(0))
         return givenCards
 
+    def giveSelectedCards(self):
+        givenCards = []
+        for card in self.cards:
+            if card.selected:
+                givenCards.append(card)
+        return givenCards
+
     def takeCards(self, cardsList):
         for singleCard in cardsList:
             self.cards.append(singleCard)
@@ -35,25 +42,22 @@ class SetOfCards:
         else:
             for card in self.cards:
                 print(card.name)
+
+    def sort(self):
+        self.cards.sort()
     # numberOfCards: int
     # faceDownCards: int(?)
     # faceUpCards: int(?)
-    # selectedCards: collection(?)
-    # giveSelected()
-    # change()
-    # get()
-    # selectCard()
+    # selectedCards
     # show()
 
 
 class PlayerCards(SetOfCards):
     """look at the class name, it's not so hard"""
-    # numberPoint
+    # typePoint()
     # selectBestCollections
-    # sort()
     # change()
     # show()
-    # typePoint()
 
 
 # class Deck(SetOfCards, pd.DataFrame):
@@ -77,7 +81,7 @@ class Deck(SetOfCards):
         rejects = []
 
     def shuffle(self):
-        random.shuffle(self.cards)
+        shuffle(self.cards)
 
 
 class OrderRules:
