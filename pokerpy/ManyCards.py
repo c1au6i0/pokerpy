@@ -10,6 +10,9 @@ class SetOfCards:
         # create the empty list of cards
         self.cards = []
 
+    def __len__(self):
+        return len(self.cards)
+
     def giveSingleCard(self, index=0):
         if index in range(0, len(self.cards)):
             singleCard = self.cards[index]
@@ -36,16 +39,16 @@ class SetOfCards:
         for singleCard in cardsList:
             self.cards.append(singleCard)
 
-    def showOnConsole(self):
+    def showOnConsole(self, justSelectedCards=False):
         if not self.cards:
-            print('There is no card in this group')
+            print('No card in this group')
         else:
             for card in self.cards:
-                print(card.name)
+                if not justSelectedCards or card.selected:
+                    print(card.name)
 
     def sort(self):
         self.cards.sort()
-    # numberOfCards: int
     # faceDownCards: int(?)
     # faceUpCards: int(?)
     # selectedCards
@@ -54,6 +57,12 @@ class SetOfCards:
 
 class PlayerCards(SetOfCards):
     """look at the class name, it's not so hard"""
+    def selectCard(self, index):
+        self.cards[index].selected = True
+
+    def unselectCard(self, index):
+        self.cards[index].selected = False
+
     # typePoint()
     # selectBestCollections
     # change()

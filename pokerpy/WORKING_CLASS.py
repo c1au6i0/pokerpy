@@ -4,10 +4,11 @@ import pokerpy.ManyCards as m
 
 
 def tEST1():
-    d1 = m.Deck(10)
-    d2 = m.Deck(10)
-    d2.takeCards(d1.giveCards(5))
-    # d2.takeCards(d1.giveSingleCard(5))
-    # print(d.giveCards(51))
-    d1.showOnConsole()
-    d2.showOnConsole()
+    # create the deck and shuffle it
+    deck = m.Deck(7)
+    deck.shuffle()
+    # create the player cards obj
+    player = m.PlayerCards()
+    # the player take 5 cards from the deck and show 'em
+    player.takeCards(deck.giveCards(5))
+    player.showOnConsole()
