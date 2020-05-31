@@ -8,32 +8,26 @@ class Card:
     numberRank: rank of the number of the card
     suitRank: rank of the suit of the card    """
 
-    # Maybe is better def __init__(self, rankTuple):
-    # numberRank, suitRank = rankTuple
-    def __init__(self, numberRank, suitRank):
-        if numberRank in range(13):
-            self.numberRank = numberRank
-            self._numberSymbol = numberSymbol[numberRank]
-        if suitRank in range(4):
-            self.suitRank = suitRank
-            self._suitSymbol = suitSymbol[suitRank]
-        elif suitRank in suitSymbol:
-            self.suitRank = suitSymbol.index(suitRank)
-            self._suitSymbol = suitRank
-        # define the name of the Card (number and suit)
-        self.name = '{} {}'.format(self._numberSymbol, self._suitSymbol)
-        # define the other variables
-        # have I to define these variables with "def" ?
-        self.selectedForChange = False
-        self.facedDown = False
-        self.placeOnPlayingBoard = 0
+    def __init__(self, rankTuple):
+        if rankTuple[0] in range(13) and rankTuple[1] in range(4):
+            self.rankTuple = rankTuple
+            self.numberRank = self.rankTuple[0]
+            self._numberSymbol = numberSymbol[self.numberRank]
+            self.suitRank = rankTuple[1]
+            self._suitSymbol = suitSymbol[self.suitRank]
+            # define the name of the Card (number and suit)
+            self.name = '{} {}'.format(self._numberSymbol, self._suitSymbol)
+            # define the other variables
+            # have I to define these variables with "def" ?
+            self.selectedForChange = False
+            self.facedDown = True
+            self.placeOnPlayingBoard = 0
+        else:
+            return False
 
     def __str__(self):
         return self.name
-
-    def rank(self):
-        # It doesn't function
-        return self.numberRank, self.suitRank
+        # return self.rankTuple
 
     def __eq__(self, other):
         # Operator '=='

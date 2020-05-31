@@ -11,11 +11,9 @@ class SetOfCards:
 
     def giveSingleCard(self, index=0):
         if index in range(0, len(self.cards)):
-            rank = self.cards[index].numberRank, self.cards[index].suitRank
-            # I don't know why the next line doesn't work
-            # rank = self.cards[index].rank
+            singleCard = self.cards[index]
             self.cards.remove(self.cards[index])
-        return rank
+        return singleCard
 
     def giveCards(self, number):
         givenCards = []
@@ -23,18 +21,12 @@ class SetOfCards:
         number = max(0, number)
         number = min(number, len(self.cards))
         for i in range(number):
-            # If there's a new way, I'll be the first in line
-            givenCards.append((self.cards[0].numberRank, self.cards[0].suitRank))
-            # givenCards.append(self.cards[0].rank)
-            self.cards.remove(self.cards[0])
-            # self.giveSingleCard(0)
-            # givenCards.append(self.giveSingleCard(0))
+            givenCards.append(self.giveSingleCard(0))
         return givenCards
 
     def takeCards(self, cardsList):
-        for cardTuple in cardsList:
-            number, suit = cardTuple
-            self.cards.append(Card(number, suit))
+        for singleCard in cardsList:
+            self.cards.append(singleCard)
 
     def showOnConsole(self):
         if not self.cards:
@@ -72,14 +64,17 @@ class Deck(SetOfCards):
         # decks=0 => empty deck
         # decks=2 => classic Scala40 deck
         super().__init__()
-        lowestcard = lowestcard - 2
+        lowestRank = lowestcard - 2
         # fulfill the cards list
-        for n in range(lowestcard, 13):
+        for n in range(lowestRank, 13):
             for s in range(4):
                 for d in range(0, decks):
-                    self.cards.append(Card(n, s))
+                    rankTuple = (n, s)
+                    singleCard = Card(rankTuple)
+                    self.cards.append(singleCard)
         # create the rejects list (empty at start)
         rejects = []
+
     # shuffle()
     # create(numberOfPlayers, gameRules)
 
