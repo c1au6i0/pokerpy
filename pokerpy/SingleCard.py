@@ -8,6 +8,8 @@ class Card:
     numberRank: rank of the number of the card
     suitRank: rank of the suit of the card    """
 
+    # Maybe is better def __init__(self, rankTuple):
+    # numberRank, suitRank = rankTuple
     def __init__(self, numberRank, suitRank):
         if numberRank in range(13):
             self.numberRank = numberRank
@@ -28,6 +30,10 @@ class Card:
 
     def __str__(self):
         return self.name
+
+    def rank(self):
+        # It doesn't function
+        return self.numberRank, self.suitRank
 
     def __eq__(self, other):
         # Operator '=='
