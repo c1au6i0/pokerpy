@@ -1,5 +1,6 @@
 import pandas as pd
 from pokerpy.SingleCard import Card
+import random
 
 
 class SetOfCards:
@@ -75,8 +76,8 @@ class Deck(SetOfCards):
         # create the rejects list (empty at start)
         rejects = []
 
-    # shuffle()
-    # create(numberOfPlayers, gameRules)
+    def shuffle(self):
+        random.shuffle(self.cards)
 
 
 class OrderRules:
