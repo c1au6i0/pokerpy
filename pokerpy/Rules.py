@@ -15,88 +15,88 @@ class GameRules:
     # generally from 5 to 8 in italian draw game
     # 2 in american game
     @property
-    def lowest_card(self):
+    def lowestCard(self):
         return self._lowestCard
 
-    @lowest_card.setter
-    def lowest_card(self, value):
+    @lowestCard.setter
+    def lowestCard(self, value):
         self._lowestCard = value
 
-    # number_of_cards_for_suit * 4 = number of cards in the deck
+    # number_ofCards_for_suit * 4 = number of cards in the deck
     @property
-    def number_of_cards_for_suit(self):
+    def number_ofCards_for_suit(self):
         return 15 - self._lowestCard
 
     # how many cards can trade a player? (default = 4 in draw game)
     @property
-    def tradable_cards(self):
+    def tradableCards(self):
         return self._tradableCards
 
-    @tradable_cards.setter
-    def tradable_cards(self, value):
+    @tradableCards.setter
+    def tradableCards(self, value):
         self._tradableCards = value
 
     # for no-draw games
     # 5 in starting phase of Texas hold 'em
     @property
-    def faced_down_cards(self):
-        return self._facedDownCards
+    def facedDownCards(self):
+        return self.FacedDownCards
 
-    @faced_down_cards.setter
-    def faced_down_cards(self, value):
-        self._facedDownCards = value
+    @facedDownCards.setter
+    def facedDownCards(self, value):
+        self.facedDownCards = value
 
     # 5 in ending phase of Texas hold 'em
     @property
-    def faced_up_cards(self):
-        return self._facedUpCards
+    def facedUpCards(self):
+        return self.facedUpCards
 
-    @faced_up_cards.setter
-    def faced_up_cards(self, value):
-        self._facedUpCards = value
-
-    @property
-    def board_cards(self):
-        return self._facedDownCards # self._facedUpCards
+    @facedUpCards.setter
+    def facedUpCards(self, value):
+        self.facedUpCards = value
 
     @property
-    def player_faced_down_cards(self):
+    def boardCards(self):
+        return self.facedDownCards # self.FacedUpCards
+
+    @property
+    def playerFacedDownCards(self):
         return self._playerFacedDownCards
 
-    @player_faced_down_cards.setter
-    def player_faced_down_cards(self, value):
+    @playerFacedDownCards.setter
+    def playerFacedDownCards(self, value):
         self._playerFacedDownCards = value
 
     @property
-    def player_faced_up_cards(self):
+    def playerFacedUpCards(self):
         return self._playerFacedUpCards
 
-    @player_faced_up_cards.setter
-    def player_faced_up_cards(self, value):
+    @playerFacedUpCards.setter
+    def playerFacedUpCards(self, value):
         self._playerFacedUpCards = value
 
     @property
-    def board_cards(self):
-        return self._facedDownCards # self._facedUpCards
+    def boardCards(self):
+        return self.FacedDownCards + self.FacedUpCards
 
     # just the minimum number of players
     # draw game = 3, texas and others = 2
     @property
-    def min_players(self):
+    def minPlayers(self):
         return self._minPlayers
 
-    @min_players.setter
-    def min_players(self, value):
+    @minPlayers.setter
+    def minPlayers(self, value):
         self._minPlayers = value
 
     # just the maximum number of players
     # draw game = 6, texas and others = 10 ?
     @property
-    def max_players(self):
+    def maxPlayers(self):
         return self._maxPlayers
 
-    @max_players.setter
-    def max_players(self, value):
+    @maxPlayers.setter
+    def maxPlayers(self, value):
         self._maxPlayers = value
 
 
