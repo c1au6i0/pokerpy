@@ -1,4 +1,5 @@
 from pokerpy.Converter import suitSymbol
+from pokerpy.Converter import numberSymbol
 import array as arr
 
 
@@ -9,7 +10,7 @@ class Referee:
     def pointChecker(self, setOfCards):
         self._setOfCards = setOfCards
         self._setOfCards.sort()
-        return self.__flushCards(setOfCards)
+        return self.__flushCards(setOfCards), self.__numberCards(setOfCards)
 
     # erase this
     def __flushCards_OLD(self, setOfCards):
@@ -27,9 +28,10 @@ class Referee:
         _flushCount = 0
         _flushSuit = 0
         for i in range(4):
+            _flushForSuit = self.__flushForSuit(i, setOfCards)
             if self.__flushForSuit(i, setOfCards) >= _flushCount:
                 _flushSuit = i
-                _flushCount = self.__flushForSuit(i, setOfCards)
+                _flushCount = _flushForSuit
         return '{} of {}'.format(_flushCount, suitSymbol[_flushSuit])
 
     def __flushForSuit(self, suitRank, setOfCards):
@@ -39,8 +41,24 @@ class Referee:
                 _flushCount += 1
         return _flushCount
 
-    def __equalCards(self, setOfCards):
-        print('TO DO')
+    def __numberCards(self, setOfCards):
+        _numberCount = 0
+        _text = ''
+        output = []
+        for i in range(13):
+            _numberCount = self.__equalForNumber(i, setOfCards)
+            if _numberCount > 1:
+                _text = '{} of {}'.format(_numberCount, numberSymbol[i])
+                output.append(_text)
+        return output
+
+    def __equalForNumber(self, numberRank, setOfCards):
+        _numberCount = 0
+        for card in setOfCards.cards:
+            if card.numberRank == numberRank:
+                _numberCount += 1
+        return _numberCount
+
 
 # italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
 # americanPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Flush',                     'Full house', 'Four of a kind', 'Straight flush', 'Royal flush')
