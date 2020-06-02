@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-class Deck(pd.DataFrame):
+class Deck(numCards):
     """" Deck of cards a Pandas dataframe
 
     A dataframe called cards containing 3 columns, with each row representing a card:
@@ -17,17 +17,17 @@ class Deck(pd.DataFrame):
     Parameters:
         numCards : number of cards for each suit (default is 13). If less than for 13, cards will be removed starting from
              2 and up.
-        suits : number unique suits (defalut is 4). Is there even a case where they are less than 4?
-        # (not implemented yet) numJokers: number of jokers. This cards are represented as 0
-
      """
 
-    def create_deck(numCards, suits):
+
+    def __init__(self, numCards):
+        self.numCards = numCards
+
+
+    def create_deck(self, numCards):
         start = 16 - numCards
         cardNumber = np.arange(start, 15, 1).repeat(4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
-        # than I need a recode and paste0() or whatever are the correspective in python
-
-    def __init__ (self):
-        self.cards = []
-
+        df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
+        df['fullCard'] = df.cardNumber.astype(str) + df.suits.astype(str).replace({'1': "♣", '2': "♢", '3': "♠", '4': "♡"})
+        return df
