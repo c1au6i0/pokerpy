@@ -1,8 +1,10 @@
 class RankConverter:
-    def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
-        self.lowestKind = lowestKind
-        self.kind = self.__lowestKindList(lowestKind) + self.__highestKindList(kindLanguage)
+    def __init__(self, lowestKindInt=2, kindLanguage='', suitLanguage=''):
+        self.kind = self.__lowestKindList(lowestKindInt) + self.__highestKindList(kindLanguage)
         self.suit = self.__suitList(suitLanguage)
+
+    def __len__(self):
+        return len(self.kind)
 
     def __lowestKindList(self, lowestKind: int):
         _lowestCard = [str(k) for k in range(lowestKind, 11)]

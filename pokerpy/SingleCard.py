@@ -1,5 +1,6 @@
-from pokerpy.Converter import suitSymbol
-from pokerpy.Converter import kindSymbol
+# from pokerpy.Converter import suitSymbol
+# from pokerpy.Converter import kindSymbol
+from pokerpy.Converters import RankConverter
 
 
 class Card:
@@ -8,15 +9,15 @@ class Card:
     kindRank: rank of the kind of the card
     suitRank: rank of the suit of the card    """
 
-    def __init__(self, rankTuple: tuple):
+    def __init__(self, conv: RankConverter, rankTuple: tuple):
         if rankTuple[0] in range(13) and rankTuple[1] in range(4):
             self.rankTuple = rankTuple
             self.kindRank = self.rankTuple[0]
-            self._kindSymbol = kindSymbol[self.kindRank]
+            self._kind = conv.kind[self.kindRank]
             self.suitRank = rankTuple[1]
-            self._suitSymbol = suitSymbol[self.suitRank]
+            self._suit = conv.suit[self.suitRank]
             # define the name of the Card (kind and suit)
-            self.name = '{} {}'.format(self._kindSymbol, self._suitSymbol)
+            self.name = '{} {}'.format(self._kind, self._suit)
             # define the other variables
             # have I to define these variables with "def" ?
             self.selected = False

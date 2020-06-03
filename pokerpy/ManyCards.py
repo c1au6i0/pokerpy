@@ -1,6 +1,7 @@
 import pandas as pd
 from pokerpy.SingleCard import Card
 from random import shuffle
+from pokerpy.Converters import RankConverter
 
 
 class SetOfCards:
@@ -40,12 +41,14 @@ class SetOfCards:
             self.cards.append(singleCard)
 
     def showOnConsole(self, justSelectedCards=False):
+        _text = ' | '
         if not self.cards:
             print('No card in this group')
         else:
             for card in self.cards:
                 if not justSelectedCards or card.selected:
-                    print(card.name)
+                    _text = _text + card.name + ' | '
+        print(_text)
 
     def sort(self):
         self.cards.sort()
@@ -74,17 +77,16 @@ class PlayerCards(SetOfCards):
 class Deck(SetOfCards):
     """Deck is Deck"""
     # This is the constructor
-    def __init__(self, lowestCard=2, decks=1):
+    def __init__(self, conv: RankConverter, decks=1):
         # decks=0 => empty deck
         # decks=2 => classic Scala40 deck
         super().__init__()
-        lowestRank = lowestCard - 2
         # fulfill the cards list
-        for n in range(lowestRank, 13):
+        for n in range(len(conv.kind)):
             for s in range(4):
-                for d in range(0, decks):
+                for d in range(decks):
                     rankTuple = (n, s)
-                    singleCard = Card(rankTuple)
+                    singleCard = Card(conv, rankTuple)
                     self.cards.append(singleCard)
         # create the rejects list (empty at start)
         rejects = []

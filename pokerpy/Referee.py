@@ -1,10 +1,12 @@
-from pokerpy.Converter import suitSymbol
-from pokerpy.Converter import kindSymbol
+# from pokerpy.Converter import suitSymbol
+# from pokerpy.Converter import kindSymbol
+from pokerpy.Converters import RankConverter
 
 
 class MatchCounter:
-    def __init__(self):
+    def __init__(self, conv: RankConverter):
         self._setOfCards = None
+        self._conv = conv
 
     def pointChecker(self, setOfCards):
         self._setOfCards = setOfCards
@@ -18,7 +20,7 @@ class MatchCounter:
         for i in range(4):
             _suitCount = self.__sameSuit(i, setOfCards)
             if _suitCount > 1:
-                _text = '{} of {}'.format(_suitCount, suitSymbol[i])
+                _text = '{} of {}'.format(_suitCount, self._conv.suit[i])
                 output.append(_text)
         return output
 
@@ -36,7 +38,7 @@ class MatchCounter:
         for i in range(13):
             _kindCount = self.__sameKind(i, setOfCards)
             if _kindCount > 1:
-                _text = '{} of {}'.format(_kindCount, kindSymbol[i])
+                _text = '{} of {}'.format(_kindCount, self._conv.kind[i])
                 output.append(_text)
         return output
 
@@ -52,9 +54,9 @@ class Counter:
     def __init__(self, kindOrSuit, rank, count):
         # kindOrSuit == 0 => kind, kindOrSuit == 1 => suit
         if kindOrSuit == 0:
-            self.symbol = kindSymbol(rank)
+            self.symbol = self._conv.kind[rank]
         else:
-            self.symbol = suitSymbol(rank)
+            self.symbol = self._conv.suit[rank]
         self.text = '{} of {}'.format(count, self.symbol)
 
 # italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
