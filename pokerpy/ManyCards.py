@@ -19,7 +19,7 @@ class SetOfCards:
             self.cards.remove(self.cards[index])
         return singleCard
 
-    def giveCards(self, number):
+    def giveCards(self, number=5):
         givenCards = []
         # number cannot be lower than zero, nor higher than cards
         number = max(0, number)
@@ -35,7 +35,7 @@ class SetOfCards:
                 givenCards.append(card)
         return givenCards
 
-    def takeCards(self, cardsList):
+    def takeCards(self, cardsList: list):
         for singleCard in cardsList:
             self.cards.append(singleCard)
 
@@ -60,7 +60,7 @@ class PlayerCards(SetOfCards):
     def selectCard(self, index):
         self.cards[index].selected = True
 
-    def unselectCard(self, index):
+    def unselectCard(self, index: int):
         self.cards[index].selected = False
 
     # typePoint()
@@ -74,11 +74,11 @@ class PlayerCards(SetOfCards):
 class Deck(SetOfCards):
     """Deck is Deck"""
     # This is the constructor
-    def __init__(self, lowestcard=2, decks=1):
+    def __init__(self, lowestCard=2, decks=1):
         # decks=0 => empty deck
         # decks=2 => classic Scala40 deck
         super().__init__()
-        lowestRank = lowestcard - 2
+        lowestRank = lowestCard - 2
         # fulfill the cards list
         for n in range(lowestRank, 13):
             for s in range(4):
@@ -91,6 +91,22 @@ class Deck(SetOfCards):
 
     def shuffle(self):
         shuffle(self.cards)
+
+    def remainingSuit(self, suitRank: int):
+        _count = 0
+        for _card in self.cards:
+            if _card.suitRank == suitRank:
+                _count += 1
+        return _count
+
+    def remainingKind(self, kindRank: int):
+        _count = 0
+        for _card in self.cards:
+            if _card.kindRank == kindRank:
+                _count += 1
+        return _count
+
+
 
 
 class OrderRules:

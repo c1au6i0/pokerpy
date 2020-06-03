@@ -1,22 +1,22 @@
 from pokerpy.Converter import suitSymbol
-from pokerpy.Converter import numberSymbol
+from pokerpy.Converter import kindSymbol
 
 
 class Card:
     """This class represents a single playing card
 
-    numberRank: rank of the number of the card
+    kindRank: rank of the kind of the card
     suitRank: rank of the suit of the card    """
 
-    def __init__(self, rankTuple):
+    def __init__(self, rankTuple: tuple):
         if rankTuple[0] in range(13) and rankTuple[1] in range(4):
             self.rankTuple = rankTuple
-            self.numberRank = self.rankTuple[0]
-            self._numberSymbol = numberSymbol[self.numberRank]
+            self.kindRank = self.rankTuple[0]
+            self._kindSymbol = kindSymbol[self.kindRank]
             self.suitRank = rankTuple[1]
             self._suitSymbol = suitSymbol[self.suitRank]
-            # define the name of the Card (number and suit)
-            self.name = '{} {}'.format(self._numberSymbol, self._suitSymbol)
+            # define the name of the Card (kind and suit)
+            self.name = '{} {}'.format(self._kindSymbol, self._suitSymbol)
             # define the other variables
             # have I to define these variables with "def" ?
             self.selected = False
@@ -31,9 +31,9 @@ class Card:
 
     def __eq__(self, other):
         # Operator '=='
-        # Returns true if numberRank and suitRank are the same
+        # Returns true if kindRank and suitRank are the same
         # add If applySuitRanking
-        return self.numberRank == other.numberRank and self.suitRank == other.suitRank
+        return self.kindRank == other.kindRank and self.suitRank == other.suitRank
 
     def __lt__(self, other):
         # Operator '<'
@@ -42,9 +42,9 @@ class Card:
         if self == other:
             return False
         else:
-            if self.numberRank < other.numberRank:
+            if self.kindRank < other.kindRank:
                 return True
-            elif self.numberRank > other.numberRank:
+            elif self.kindRank > other.kindRank:
                 return False
             else:
                 if self.suitRank < other.suitRank:
