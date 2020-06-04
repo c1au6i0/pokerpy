@@ -3,11 +3,13 @@ from pokerpy.SingleCard import Card
 from random import shuffle
 from pokerpy.Converters import RankConverter
 
+__all__ = ['SetOfCards', 'Deck', 'PlayerCards']
+
 
 class SetOfCards:
     """This is a group of cards
         PlayerCards, Deck and Flop are SetOfCards"""
-    def __init__(self):
+    def __init__(self, conv: RankConverter):
         # create the empty list of cards
         self.cards = []
 
@@ -21,6 +23,7 @@ class SetOfCards:
         return singleCard
 
     def giveCards(self, number=5):
+        # remove the first 'number' cards from this SetOfCards and return these Cards objects
         givenCards = []
         # number cannot be lower than zero, nor higher than cards
         number = max(0, number)
@@ -80,33 +83,36 @@ class Deck(SetOfCards):
     def __init__(self, conv: RankConverter, decks=1):
         # decks=0 => empty deck
         # decks=2 => classic Scala40 deck
-        super().__init__()
+        super().__init__(conv)
         # fulfill the cards list
-        for n in range(len(conv.kind)):
+        for k in range(len(conv.kind)):
             for s in range(4):
                 for d in range(decks):
-                    rankTuple = (n, s)
-                    singleCard = Card(conv, rankTuple)
+                    singleCard = Card(conv, (k, s))
                     self.cards.append(singleCard)
         # create the rejects list (empty at start)
-        rejects = []
+        self.rejects = []
 
     def shuffle(self):
         shuffle(self.cards)
 
-    def remainingSuit(self, suitRank: int):
+    def remainingSuit(self, rankOfSuit: int):
         _count = 0
         for _card in self.cards:
-            if _card.suitRank == suitRank:
+            if _card.rankOfSuit == rankOfSuit:
                 _count += 1
         return _count
 
-    def remainingKind(self, kindRank: int):
+    def remainingKind(self, rankOfKind: int):
         _count = 0
         for _card in self.cards:
-            if _card.kindRank == kindRank:
+            if _card.rankOfKind == rankOfKind:
                 _count += 1
         return _count
+
+    def takeRejects(self, cardsList: list):
+        for singleCard in cardsList:
+            self.rejects.append(singleCard)
 
 
 

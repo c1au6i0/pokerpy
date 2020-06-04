@@ -7,15 +7,16 @@ from pokerpy.Converters import RankConverter
 
 def tEST1():
     # create the deck and shuffle it
-    conv = RankConverter(7)
+    conv = RankConverter(7, 'ita')
     deck = m.Deck(conv)
     deck.shuffle()
     # create the player cards obj
-    player = m.PlayerCards()
+    player = m.PlayerCards(conv)
     # the player take 5 cards from the deck and show 'em
     player.takeCards(deck.giveCards(5))
+    deck.showOnConsole()
     player.showOnConsole()
     referee = r.MatchCounter(conv)
     print(referee.pointChecker(player))
     print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))
-    print('7 rimanenti: {}'.format(deck.remainingKind(0)))
+    print('Assi rimanenti: {}'.format(deck.remainingKind(7)))

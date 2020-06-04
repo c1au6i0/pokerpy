@@ -1,25 +1,19 @@
-# from pokerpy.Converter import suitSymbol
-# from pokerpy.Converter import kindSymbol
-from pokerpy.Converters import RankConverter
+from pokerpy.Converters import *
 
 
 class Card:
     """This class represents a single playing card
 
-    kindRank: rank of the kind of the card
-    suitRank: rank of the suit of the card    """
+    rankOfKind: rank of the kind of the card
+    rankOfSuit: rank of the suit of the card    """
 
     def __init__(self, conv: RankConverter, rankTuple: tuple):
-        if rankTuple[0] in range(13) and rankTuple[1] in range(4):
-            self.rankTuple = rankTuple
-            self.kindRank = self.rankTuple[0]
-            self._kind = conv.kind[self.kindRank]
-            self.suitRank = rankTuple[1]
-            self._suit = conv.suit[self.suitRank]
+        if rankTuple[0] in range(len(conv.kind)) and rankTuple[1] in range(4):
+            self.rankOfKind, self.rankOfSuit = rankTuple
+            self._kind = conv.kind[self.rankOfKind]
+            self._suit = conv.suit[self.rankOfSuit]
             # define the name of the Card (kind and suit)
             self.name = '{} {}'.format(self._kind, self._suit)
-            # define the other variables
-            # have I to define these variables with "def" ?
             self.selected = False
             self.facedDown = True
             self.placeOnPlayingBoard = 0
@@ -32,9 +26,9 @@ class Card:
 
     def __eq__(self, other):
         # Operator '=='
-        # Returns true if kindRank and suitRank are the same
+        # Returns true if rankOfKind and rankOfSuit are the same
         # add If applySuitRanking
-        return self.kindRank == other.kindRank and self.suitRank == other.suitRank
+        return self.rankOfKind == other.rankOfKind and self.rankOfSuit == other.rankOfSuit
 
     def __lt__(self, other):
         # Operator '<'
@@ -43,14 +37,14 @@ class Card:
         if self == other:
             return False
         else:
-            if self.kindRank < other.kindRank:
+            if self.rankOfKind < other.rankOfKind:
                 return True
-            elif self.kindRank > other.kindRank:
+            elif self.rankOfKind > other.rankOfKind:
                 return False
             else:
-                if self.suitRank < other.suitRank:
+                if self.rankOfSuit < other.rankOfSuit:
                     return True
-                elif self.suitRank > other.suitRank:
+                elif self.rankOfSuit > other.rankOfSuit:
                     return False
 
     def __gt__(self, other):
