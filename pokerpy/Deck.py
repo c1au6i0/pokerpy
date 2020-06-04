@@ -19,7 +19,7 @@ class Deck:
              2 and up.
      """
 
-    def create_deck(self, numCards):
+    def create_deck(self, numCards=13):
         start = 15 - numCards
         cardNumber = np.arange(start, 15, 1).repeat(4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
