@@ -19,11 +19,8 @@ class Deck:
              2 and up.
      """
 
-    def __init__(self, numCards):
-        self.numCards = numCards
-
-    def create_deck(self):
-        start = 15 - self.numCards
+    def create_deck(self, numCards):
+        start = 15 - numCards
         cardNumber = np.arange(start, 15, 1).repeat(4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
