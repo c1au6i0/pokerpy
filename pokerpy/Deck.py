@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-class Deck(numCards):
+class Deck:
     """" Deck of cards a Pandas dataframe
 
     A dataframe called cards containing 3 columns, with each row representing a card:
@@ -19,13 +19,11 @@ class Deck(numCards):
              2 and up.
      """
 
-
     def __init__(self, numCards):
         self.numCards = numCards
 
-
     def create_deck(self, numCards):
-        start = 16 - numCards
+        start = 15 - numCards
         cardNumber = np.arange(start, 15, 1).repeat(4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
