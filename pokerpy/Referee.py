@@ -37,33 +37,24 @@ class MatchCounter:
         return _count
 
 
-class SingleCounter:
-    def __init__(self, rank: int, count: int):
-        self.rank = rank
-        self.count = count
-
-    def name(self):
-        return '{} of {}'.format(self.count, self.rank)
-
-
 class Counter:
     def __init__(self):
         self.counterList = []
 
     def add(self, rank: int, count: int):
-        _single = SingleCounter(rank, count)
+        _single = (rank, count)
         if count > 1:
             self.counterList.append(_single)
 
     def output(self):
-        _text = ''
-        for _single in self.counterList:
-            if _text == '':
-                _text = _single.name()
+        _totText = ''
+        for rank, count in self.counterList:
+            _text = '{} of {}'.format(count, rank)
+            if _totText == '':
+                _totText = _text
             else:
-                _text = _text + ' and ' + _single.name()
-        return _text
-
+                _totText = _totText + ' and ' + _text
+        return _totText
 # add "kickers"
 
 # italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
