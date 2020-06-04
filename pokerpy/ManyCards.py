@@ -1,7 +1,7 @@
 import pandas as pd
 from pokerpy.SingleCard import Card
 from random import shuffle
-from pokerpy.Converters import RankConverter
+from pokerpy.Converters import CardRankConverter
 
 __all__ = ['SetOfCards', 'Deck', 'PlayerCards']
 
@@ -9,7 +9,7 @@ __all__ = ['SetOfCards', 'Deck', 'PlayerCards']
 class SetOfCards:
     """This is a group of cards
         PlayerCards, Deck and Flop are SetOfCards"""
-    def __init__(self, conv: RankConverter):
+    def __init__(self, conv: CardRankConverter):
         # create the empty list of cards
         self.cards = []
 
@@ -80,7 +80,7 @@ class PlayerCards(SetOfCards):
 class Deck(SetOfCards):
     """Deck is Deck"""
     # This is the constructor
-    def __init__(self, conv: RankConverter, decks=1):
+    def __init__(self, conv: CardRankConverter, decks=1):
         # decks=0 => empty deck
         # decks=2 => classic Scala40 deck
         super().__init__(conv)

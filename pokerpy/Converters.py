@@ -1,4 +1,4 @@
-class RankConverter:
+class CardRankConverter:
     def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
@@ -8,8 +8,8 @@ class RankConverter:
         return len(self.kind)
 
 
-# RankConverterWithTranslator have to substite RankConverter. In alternative add translator
-class RankConverterWithTranslator:
+# CardRankConverterWithTranslator have to substite CardRankConverter. In alternative add translator
+class CardRankConverterWithTranslator:
     def __init__(self, lowestKindInt=2, kindLanguage='', suitLanguage=''):
         self.kind = self.__lowestKindList(lowestKindInt) + self.__highestKindList(kindLanguage)
         self.suit = self.__suitList(suitLanguage)

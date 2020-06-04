@@ -1,9 +1,9 @@
-from pokerpy.Converters import RankConverter
+from pokerpy.Converters import CardRankConverter
 from pokerpy.ManyCards import SetOfCards
 
 
 class MatchCounter:
-    def __init__(self, conv: RankConverter):
+    def __init__(self, conv: CardRankConverter):
         self._conv = conv
 
     def pointChecker(self, setOfCards: SetOfCards):
@@ -80,8 +80,6 @@ class Point:
     kicker2 = None
     kicker3 = None
 
-
-# add "kickers"
 
 # italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
 # americanPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Flush',                     'Full house', 'Four of a kind', 'Straight flush', 'Royal flush')

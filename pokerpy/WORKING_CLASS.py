@@ -2,12 +2,12 @@
 # erase it at the end of the Project
 import pokerpy.ManyCards as m
 import pokerpy.Referee as r
-from pokerpy.Converters import RankConverter
+from pokerpy.Converters import CardRankConverter
 
 
 def tEST1():
     # create the deck and shuffle it
-    conv = RankConverter(7)
+    conv = CardRankConverter(7)
     deck = m.Deck(conv)
     deck.shuffle()
     referee = r.MatchCounter(conv)
