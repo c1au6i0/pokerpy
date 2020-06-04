@@ -11,7 +11,7 @@ class Card:
     facedDown = True
     placeOnPlayingBoard = 0
 
-    def __init__(self, conv: RankConverter, rankTuple: tuple):
+    def __init__(self, conv: CardRankConverter, rankTuple: tuple):
         if rankTuple[0] in range(len(conv.kind)) and rankTuple[1] in range(4):
             self.rankOfKind, self.rankOfSuit = rankTuple
             self._kind = conv.kind[self.rankOfKind]

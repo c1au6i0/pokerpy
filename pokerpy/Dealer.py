@@ -28,3 +28,9 @@ class Director:
     # setTurns()
     pass
 
+
+class Hand:
+    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato)
+    # modalitaIncremento=(nullo,a tempo,giri,eliminazioneGiocatore)
+    # tipoApertura=(normale,di parola,nessuno aprì)
+    pass
