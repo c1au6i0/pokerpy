@@ -1,12 +1,17 @@
+from pokerpy.ManyCards import *
+
+
 class Player:
-    # name: string
+    name = ''
     # possibleMoves: collection
     # role: type
     # bankroll: money
     # seat: int
-    # playerCards: SetOfCards
-    # playerDeck: Deck (the player doesn't know the status of the real deck!)
-    pass
+    cards: SetOfCards
+    # the player doesn't know the real status of the real deck
+    personalDeck: Deck
+    def __init__(self):
+        pass
 
 
 # Pointer... or Talker?

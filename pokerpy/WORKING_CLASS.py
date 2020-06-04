@@ -16,7 +16,7 @@ def tEST1():
     player2 = m.PlayerCards(conv)
     # the players take 5 cards from the deck and show 'em
     player1.takeCards(deck.giveCards(5))
-    player2.takeCards(deck.giveCards(5))
+    player2.takeCards(deck.giveCards(7))
     print('Deck')
     deck.showOnConsole()
     print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))

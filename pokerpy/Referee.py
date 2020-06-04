@@ -14,7 +14,7 @@ class MatchCounter:
         _suitCounter = Counter()
         for i in range(4):
             _suitCounter.add(self._conv.suit[i], self.__sameSuit(i, setOfCards))
-        return _suitCounter.output()
+        return _suitCounter.output(3)
 
     def __sameSuit(self, rankOfSuit, setOfCards: SetOfCards):
         _count = 0
@@ -37,24 +37,50 @@ class MatchCounter:
         return _count
 
 
+# just a try
+class Subgroup:
+    def __init__(self, rank: int, count: int):
+        self.rank = rank
+        self.count = count
+
+
 class Counter:
     def __init__(self):
-        self.counterList = []
+        self.subgroupList = []
 
     def add(self, rank: int, count: int):
-        _single = (rank, count)
-        if count > 1:
-            self.counterList.append(_single)
+        # if count >= minCount:
+        self.subgroupList.append((rank, count))
 
-    def output(self):
+    def higherSubgroup(self):
+        _higherCount = 0
+        for rank, count in self.subgroupList:
+            # at least a couple of matches to print it
+            if count >= _higherCount:
+                _higherCount = count
+        return _higherCount
+
+    def output(self, minCount=2):
         _totText = ''
-        for rank, count in self.counterList:
-            _text = '{} of {}'.format(count, rank)
-            if _totText == '':
-                _totText = _text
-            else:
-                _totText = _totText + ' and ' + _text
+        for rank, count in self.subgroupList:
+            # at least a couple of matches to print it
+            if count >= minCount:
+                _text = '{} of {}'.format(count, rank)
+                if _totText == '':
+                    _totText = _text
+                else:
+                    _totText = _totText + ' and ' + _text
         return _totText
+
+
+class Point:
+    point1 = None
+    point2 = None
+    kicker1 = None
+    kicker2 = None
+    kicker3 = None
+
+
 # add "kickers"
 
 # italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
