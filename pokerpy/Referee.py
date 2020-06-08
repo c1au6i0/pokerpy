@@ -1,7 +1,7 @@
 from pokerpy.Converters import CardRankConverter
 from pokerpy.ManyCards import SetOfCards
 
-#
+
 class MatchCounter:
     def __init__(self, conv: CardRankConverter):
         self._conv = conv
@@ -37,53 +37,68 @@ class MatchCounter:
         return _count
 
 
-# just a try
+# add rank in operators?
 class Subgroup:
     def __init__(self, rank: int, count: int):
         self.rank = rank
         self.count = count
+        self.text = '{} of {}'.format(self.count, self.rank)
+
+    def __eq__(self, other):
+        # Operator '=='
+        return self.count == other.count
+
+    def __lt__(self, other):
+        # Operator '<'
+        return self.count < other.count
+
+    def __gt__(self, other):
+        # Operator '>'
+        return self.count > other.count
+
+    def __le__(self, other):
+        # Operator '<='
+        return self < other or self == other
+
+    def __ge__(self, other):
+        # Operator '>='
+        return self > other or self == other
 
 
 class Counter:
     def __init__(self):
-        self.subgroupList = []
+        self._subgroupList = []
 
     def add(self, rank: int, count: int):
-        # if count >= minCount:
-        self.subgroupList.append((rank, count))
+        self._subgroupList.append(Subgroup(rank, count))
 
     def higherSubgroup(self):
-        _higherCount = 0
-        for rank, count in self.subgroupList:
+        _higherSubgroup = Subgroup(0, 0)
+        for _subgroup in self._subgroupList:
             # at least a couple of matches to print it
-            if count >= _higherCount:
-                _higherCount = count
-        return _higherCount
+            if _subgroup >= _higherSubgroup:
+                _higherSubgroup = _subgroup
+        return _higherSubgroup
+        # ...or: return _higherSubgroup.text
 
     def output(self, minCount=2):
         _totText = ''
-        for rank, count in self.subgroupList:
+        for _subgroup in self._subgroupList:
             # at least a couple of matches to print it
-            if count >= minCount:
-                _text = '{} of {}'.format(count, rank)
+            if _subgroup.count >= minCount:
                 if _totText == '':
-                    _totText = _text
+                    _totText = _subgroup.text
                 else:
-                    _totText = _totText + ' and ' + _text
+                    _totText = '{} and {}'.format(_totText, _subgroup.text)
         return _totText
 
 
-class Point:
+class Score:
     point1 = None
     point2 = None
     kicker1 = None
     kicker2 = None
     kicker3 = None
-
-
-# italianPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Full house',                    'Flush', 'Four of a kind', 'Straight flush', 'Royal flush')
-# americanPointRank = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight', 'Flush',                     'Full house', 'Four of a kind', 'Straight flush', 'Royal flush')
-# almostPoint=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
 
 # fullVsFlush: bool
 # straightFlushVsStraightFlush:  

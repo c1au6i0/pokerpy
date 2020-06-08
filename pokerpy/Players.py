@@ -1,21 +1,32 @@
 from pokerpy.ManyCards import *
+from pokerpy.Converters import *
 
 
 class Player:
-    name = ''
+    _playerCards: SetOfCards
+    _deck: Deck
+    _conv: CardRankConverter
     # possibleMoves: collection
-    # role: type
-    # bankroll: money
-    # seat: int
-    cards: SetOfCards
-    # the player doesn't know the real status of the real deck
-    personalDeck: Deck
-    def __init__(self):
-        pass
+    # roleInHand: type
+    bankroll = 0
+    seat: int
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def readMatchInfo(self, conv: CardRankConverter):
+        # add role
+        self._conv = conv
+
+    def takeCards(self, cardsList: list):
+        self._deck = Deck(self._conv)
+        self._playerCards = SetOfCards(self._conv)
+        self._playerCards.takeCards(cardsList)
+        for _card in cardsList:
+            self._deck.cards.remove(_card)
 
 
-# Pointer... or Talker?
-class Pointer:
+class Talker:
     # check)
     # call()
     # rise()

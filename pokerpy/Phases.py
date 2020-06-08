@@ -10,7 +10,7 @@ class Hand:
     pass
 
 
-class Game:
+class Match:
     # Hands()
     # giri
     # ultima mano prima dei giri

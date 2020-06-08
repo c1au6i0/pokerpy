@@ -17,6 +17,7 @@ class Place:
 
 
 class Director:
+    # def assignHandRoles:
     # numberPlayers: int
     # deck: setOfCards
     # turnsLeft
@@ -30,7 +31,7 @@ class Director:
 
 
 class Hand:
-    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato)
+    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato, resti)
     # modalitaIncremento=(nullo,a tempo,giri,eliminazioneGiocatore)
     # tipoApertura=(normale,di parola,nessuno aprì)
     pass
