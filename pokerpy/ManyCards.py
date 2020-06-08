@@ -115,8 +115,6 @@ class Deck(SetOfCards):
             self.rejects.append(singleCard)
 
 
-
-
 class OrderRules:
     # random
     # insert

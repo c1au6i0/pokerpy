@@ -3,7 +3,7 @@ from pokerpy.Converters import *
 
 
 class Player:
-    _playerCards: SetOfCards
+    playerCards: SetOfCards
     _deck: Deck
     _conv: CardRankConverter
     # possibleMoves: collection
@@ -20,8 +20,8 @@ class Player:
 
     def takeCards(self, cardsList: list):
         self._deck = Deck(self._conv)
-        self._playerCards = SetOfCards(self._conv)
-        self._playerCards.takeCards(cardsList)
+        self.playerCards = SetOfCards(self._conv)
+        self.playerCards.takeCards(cardsList)
         for _card in cardsList:
             self._deck.cards.remove(_card)
 
