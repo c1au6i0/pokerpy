@@ -1,9 +1,12 @@
 class CardRankConverter:
+<<<<<<< HEAD
     suit = chr(9824), chr(9827), chr(9830), chr(9829)
     _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
     _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
     score: tuple
 
+=======
+>>>>>>> adf26abccf4833f6c170d283f7d1d33ff9b3671c
     def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
