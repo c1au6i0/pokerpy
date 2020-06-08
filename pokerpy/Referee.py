@@ -1,14 +1,19 @@
 from pokerpy.Converters import CardRankConverter
 from pokerpy.ManyCards import SetOfCards
+from pokerpy.Players import Player
 
 
 class MatchCounter:
     def __init__(self, conv: CardRankConverter):
         self._conv = conv
 
-    def pointChecker(self, setOfCards: SetOfCards):
+    def scoreTester(self, setOfCards: SetOfCards):
         setOfCards.sort()
         return self.__sameSuitList(setOfCards), self.__sameKindList(setOfCards)
+
+    def playerScore(self, player: Player):
+        player.playerCards.sort()
+        return self.__sameSuitList(player.playerCards), self.__sameKindList(player.playerCards)
 
     def __sameSuitList(self, setOfCards: SetOfCards):
         _suitCounter = Counter()

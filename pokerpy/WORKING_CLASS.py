@@ -26,11 +26,8 @@ def tEST1():
     print()
     print(Players[0].name)
     Players[0].playerCards.showOnConsole()
-    sec = Players[0].playerCards
-    print(referee.pointChecker(sec))
-    # print(referee.pointChecker(Players[0]).playerCards)
+    print(referee.scoreTester(Players[0].playerCards))
     print()
     print(Players[1].name)
     Players[1].playerCards.showOnConsole()
-    sec = Players[1].playerCards
-    print(referee.pointChecker(sec))
+    print(referee.playerScore(Players[1]))
