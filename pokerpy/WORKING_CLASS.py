@@ -9,6 +9,7 @@ from pokerpy.ManyCards import *
 
 def tEST1():
     # create the deck and shuffle it
+    print('- - - START TEST - - -')
     conv = CardRankConverter(7)
     Players = [Human("Dave"), Human("Claude")]
     deck = Deck(conv)
@@ -19,11 +20,11 @@ def tEST1():
     # create the players cards obj
     Players[0].takeCards(deck.giveCards(5))
     Players[1].takeCards(deck.giveCards(5))
-    print('Deck')
-    deck.showOnConsole()
-    print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))
-    print('Assi rimanenti: {}'.format(deck.remainingKind(7)))
-    print()
+    # print('Deck')
+    # deck.showOnConsole()
+    # print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))
+    # print('Assi rimanenti: {}'.format(deck.remainingKind(7)))
+    # print()
     print(Players[0].name)
     Players[0].playerCards.showOnConsole()
     print(referee.scoreTester(Players[0].playerCards))

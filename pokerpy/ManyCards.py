@@ -40,8 +40,7 @@ class SetOfCards:
         return givenCards
 
     def takeCards(self, cardsList: list):
-        for singleCard in cardsList:
-            self.cards.append(singleCard)
+        self.cards.extend(cardsList)
 
     def showOnConsole(self, justSelectedCards=False):
         _text = ' | '
@@ -111,8 +110,7 @@ class Deck(SetOfCards):
         return _count
 
     def takeRejects(self, cardsList: list):
-        for singleCard in cardsList:
-            self.rejects.append(singleCard)
+        self.rejects.extend(cardsList)
 
 
 class OrderRules:
