@@ -1,5 +1,5 @@
-class Hand:
-    # assegna ruoli
+class HandPhase:
+    # assign roles
     # puntataIniziale e buio
     # distribuzioneCarte
     # puntata
@@ -10,7 +10,9 @@ class Hand:
     pass
 
 
-class Match:
+class MatchPhase:
+    # choose players
+    # assign seats
     # Hands()
     # giri
     # ultima mano prima dei giri

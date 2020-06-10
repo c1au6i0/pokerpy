@@ -1,18 +1,18 @@
 class Cash:
-    # amount
-    # fiches
-    # fichesCuts
-    # currency
-    # getMoney()
-    # giveMoney()
-    # show()
-    pass
+    # fiches (useless?)
+    def __init__(self, currency='$', amount=1000):
+        self._amount = amount
+        self._currency = currency
+
+    def showOnConsole(self):
+        return '{} {}'.format(self.currency, self.amount)
 
 
+# you need a list of Pot for limit game
 class Pot(Cash):
     # playersList
-    pass
-
-
-class LoanShark:
+    # addPlayer
+    # removePlayer
+    # takeMoney
+    # giveMoney
     pass

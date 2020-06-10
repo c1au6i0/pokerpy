@@ -1,4 +1,4 @@
-class GameRules:
+class HandRules:
 
     def __init__(self):
         # default options is for American Draw Game
@@ -10,6 +10,8 @@ class GameRules:
         self._facedUpCards = 0
         self._playerFacedDownCards = 5
         self._playerFacedUpCards = 0
+        # the List is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
+        # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
 
     # the lowest number of a card in the deck
     # generally from 5 to 8 in italian draw game
@@ -22,9 +24,9 @@ class GameRules:
     def lowestCard(self, value):
         self._lowestCard = value
 
-    # number_ofCards_for_suit * 4 = number of cards in the deck
+    # numberOfCardsForSuit * 4 = number of cards in the deck
     @property
-    def number_ofCards_for_suit(self):
+    def numberOfCardsForSuit(self):
         return 15 - self._lowestCard
 
     # how many cards can trade a player? (default = 4 in draw game)
@@ -107,11 +109,21 @@ class MoneyRules:
     # richiestaPoste
     # dealerBet
     # incrementType
+    # incrementTime
     # setBlind: [notAllowed, due, allowed]
     # small  blind, big blind, over
     # minBetType: [check, blind]
-    # resti / no     limits
+    # resti / no limits
     # obbligo di prendere posta
     # allowLowerBets
     pass
 
+
+class ScoreRules:
+    # name?
+    # fullVsFlush: bool (useless?)
+    # straightFlushVsStraightFlush:
+    # ruleNextCard
+    # ruleSuit
+    # fullVsSelf (useless?)
+    pass

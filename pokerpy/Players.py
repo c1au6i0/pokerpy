@@ -1,5 +1,6 @@
 from pokerpy.ManyCards import *
 from pokerpy.Converters import *
+from pokerpy.Money import Cash
 
 
 class Player:
@@ -8,7 +9,7 @@ class Player:
     _conv: CardRankConverter
     # possibleMoves: collection
     # roleInHand: type
-    bankroll = 0
+    bankroll: Cash
     seat: int
 
     def __init__(self, name: str):
@@ -27,7 +28,7 @@ class Player:
 
 
 class Talker:
-    # check)
+    # check()
     # call()
     # rise()
     # fold()

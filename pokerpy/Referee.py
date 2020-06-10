@@ -15,6 +15,7 @@ class MatchCounter:
         player.playerCards.sort()
         return self.__sameSuitList(player.playerCards), self.__sameKindList(player.playerCards)
 
+    # next methods could be part of Class SetOfCards
     def __sameSuitList(self, setOfCards: SetOfCards):
         _suitCounter = Counter()
         for i in range(4):
@@ -101,19 +102,8 @@ class Counter:
 class Score:
     point1 = None
     point2 = None
+    kindScores = []
+    kickers = []
     kicker1 = None
     kicker2 = None
     kicker3 = None
-
-# fullVsFlush: bool
-# straightFlushVsStraightFlush:  
-# minOpen: (JJ, QQ, KK)
-# opening: type
-# minCardDeck
-# specialCards
-# ruleNextCard
-# ruleSuit
-# fullVsSelf
-# validOpening() : bool
-# Winner()
-# validFacedUpCards(): bool

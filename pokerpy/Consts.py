@@ -1,1 +1,1 @@
-typeOrRules = ('Texas hold \'em', 'American Draw Game', 'Italian Draw Game')
+# typeOrRules = ('Texas hold \'em', 'American Draw Game', 'Italian Draw Game')
