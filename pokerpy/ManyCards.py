@@ -119,7 +119,7 @@ class PlayerCards(SetOfCards):
 
         if len(_fours) >= 1:
             self._bestCards.extend(_fours[-1])
-            _name = 'Poker'
+            _name = 'Four of a kind'
         elif len(_threes) >= 1:
             if len(_threes) > 1:
                 _pairFromThree = _threes[-2]
@@ -129,10 +129,10 @@ class PlayerCards(SetOfCards):
             if len(_pairs) >= 1:
                 self._bestCards.extend(_pairs[-1])
                 self._bestCards.extend(_threes[-1])
-                _name = 'Full'
+                _name = 'Full house'
             else:
                 self._bestCards.extend(_threes[0])
-                _name = 'Tris'
+                _name = 'Three of a kind'
         elif len(_pairs) > 1:
             self._bestCards.extend(_pairs[-2])
             self._bestCards.extend(_pairs[-1])
@@ -142,22 +142,29 @@ class PlayerCards(SetOfCards):
             _name = 'Pair'
         else:
             _name = 'High card'
+        # Extending _bestCards with sorted _kickers
+        self._bestCards = self.kickers() + self._bestCards
+        # Taking just the last 5 cards
+        self._bestCards = self._bestCards[(5-len(self._bestCards)):len(self._bestCards)]
+        return self._conv.score.index(_name)
 
-        # Finding the kickers
+    def kickers(self):
         _kickers = []
         _kickers.extend(self.cards)
-        _name = _name + ': '
         # Remove _bestCards from _kickers
         for _card in self._bestCards:
             _kickers.remove(_card)
         _kickers.sort()
-        # Extending _bestCards with sorted _kickers
-        self._bestCards = _kickers + self._bestCards
-        # Taking just the last 5 cards
-        self._bestCards = self._bestCards[(5-len(self._bestCards)):len(self._bestCards)]
+        return _kickers
+
+    def kindScoreName(self):
+        _name = self._conv.score[self.kindScore()]
+        _name = _name + ': '
         for _card in self._bestCards:
             _name = _name + ' ' + _card.name
         return _name
+
+
     # typePoint()
     # change()
     # show()
