@@ -70,6 +70,7 @@ class PlayerCards(SetOfCards):
     def __init__(self, conv: CardRankConverter):
         super().__init__(conv)
         self._bestCards = []
+        self._suitCards = []
 
     def selectCard(self, index):
         self.cards[index].selected = True
@@ -94,12 +95,15 @@ class PlayerCards(SetOfCards):
         return _list
 
     def suitScore(self):
-        _name = ''
-        _suitsCount = [0, 3]
+        _name = 'High card'
 
         for s in range(0, 4):
             _cardList = self.__sameSuitList(s)
-            _suitsCount[s] = len(_cardList)
+            if len(_cardList) >= 5:
+                # Taking just the last 5 cards
+                self._suitCards = _cardList[(len(_cardList)-5):len(_cardList)]
+                _name = 'Flush'
+        return self._conv.score.index(_name)
 
     def kindScore(self):
         _pairs = []
@@ -144,8 +148,10 @@ class PlayerCards(SetOfCards):
             _name = 'High card'
         # Extending _bestCards with sorted _kickers
         self._bestCards = self.kickers() + self._bestCards
+        _numBestCards = len(self._bestCards)
         # Taking just the last 5 cards
-        self._bestCards = self._bestCards[(5-len(self._bestCards)):len(self._bestCards)]
+        if _numBestCards > 5:
+            self._bestCards = self._bestCards[(_numBestCards-5):_numBestCards]
         return self._conv.score.index(_name)
 
     def kickers(self):
@@ -158,12 +164,18 @@ class PlayerCards(SetOfCards):
         return _kickers
 
     def kindScoreName(self):
-        _name = self._conv.score[self.kindScore()]
+        _suitScore = self.suitScore()
+        _kindScore = self.kindScore()
+        if _suitScore > _kindScore:
+            _name = self._conv.score[_suitScore]
+            self._bestCards = self._suitCards
+        else:
+            _name = self._conv.score[_kindScore]
+        #_name = self._conv.score[self.kindScore()]
         _name = _name + ': '
         for _card in self._bestCards:
             _name = _name + ' ' + _card.name
         return _name
-
 
     # typePoint()
     # change()

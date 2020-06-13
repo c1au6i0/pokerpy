@@ -20,7 +20,7 @@ def tEST1():
     Players[1].readMatchInfo(conv)
     # create the players cards obj
     Players[0].takeCards(deck.giveCards(5))
-    Players[1].takeCards(deck.giveCards(10))
+    Players[1].takeCards(deck.giveCards(9))
     #Players[0].playerCards.sameSuitList(0)
     # print('Deck')
     # deck.showOnConsole()
