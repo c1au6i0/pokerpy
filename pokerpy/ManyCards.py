@@ -69,6 +69,7 @@ class PlayerCards(SetOfCards):
 
     def __init__(self, conv: CardRankConverter):
         super().__init__(conv)
+        self._straightCards = []
         self._bestCards = []
         self._suitCards = []
 
@@ -163,45 +164,54 @@ class PlayerCards(SetOfCards):
         _kickers.sort()
         return _kickers
 
-    def kindScoreName(self):
+    def straightScore(self):
+        _straightCounter = 1
+        _cardDifference = 0
+        _name = 'High card'
+        _sortedCards = []
+        _sortedCards.extend(self.cards)
+        _sortedCards.sort()
+        _sortedCards.reverse()
+        # Looping all cards, starting from the second
+        for n in range(0, len(_sortedCards)-1):
+            _cardDifference = _sortedCards[n].rankOfKind - _sortedCards[n+1].rankOfKind
+            if _cardDifference == 0:
+                pass
+            elif _cardDifference == 1:
+                _straightCounter += 1
+                self._straightCards.append(_sortedCards[n])
+            elif _cardDifference > 1:
+                _straightCounter = 1
+                self._straightCards.clear()
+            if _straightCounter == 5:
+                _name = 'Straight'
+                self._straightCards.append(_sortedCards[n+1])
+                self._straightCards.reverse()
+                break
+        return self._conv.score.index(_name)
+
+    def Score(self):
         _suitScore = self.suitScore()
         _kindScore = self.kindScore()
         _straightScore = self.straightScore()
-        print(self._conv.score[_straightScore])
         if _suitScore > _kindScore:
-            _name = self._conv.score[_suitScore]
-            self._bestCards = self._suitCards
+            if _suitScore > _straightScore:
+                _name = self._conv.score[_suitScore]
+                self._bestCards = self._suitCards
+            else:
+                _name = self._conv.score[_straightScore]
+                self._bestCards = self._straightCards
         else:
-            _name = self._conv.score[_kindScore]
-        #_name = self._conv.score[self.kindScore()]
+            if _straightScore > _kindScore:
+                _name = self._conv.score[_straightScore]
+                self._bestCards = self._straightCards
+            else:
+                _name = self._conv.score[_kindScore]
+
         _name = _name + ': '
         for _card in self._bestCards:
             _name = _name + ' ' + _card.name
         return _name
-
-    def straightScore(self):
-        _straightCounter = 0
-        _cardDifference = 0
-        _name = 'High card'
-        _sortedCards = self.cards
-        _sortedCards.sort()
-        _straightCards = []
-        # Looping all cards, starting from the second
-        for n in range(1, len(_sortedCards)):
-            if _straightCounter >= 5:
-                _name = 'Straight'
-            _cardDifference = _sortedCards[n].rankOfKind - _sortedCards[n-1].rankOfKind
-            if _cardDifference == 0:
-                _straightCards.append(_sortedCards[n])
-            elif _cardDifference == 1:
-                _straightCounter += 1
-                _straightCards.append(_sortedCards[n])
-                if n == 1:
-                    _straightCards.append(_sortedCards[n-1])
-            else:
-                _straightCounter = 0
-                _straightCards = []
-        return self._conv.score.index(_name)
     # typePoint()
     # change()
     # show()
