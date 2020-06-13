@@ -7,10 +7,6 @@ class Card:
     rankOfKind: rank of the kind of the card
     rankOfSuit: rank of the suit of the card    """
 
-    selected = False
-    facedDown = True
-    placeOnPlayingBoard = 0
-
     def __init__(self, conv: CardRankConverter, rankTuple: tuple):
         if rankTuple[0] in range(len(conv.kind)) and rankTuple[1] in range(4):
             self.rankOfKind, self.rankOfSuit = rankTuple
@@ -18,9 +14,9 @@ class Card:
             self._suit = conv.suit[self.rankOfSuit]
             # define the name of the Card (kind and suit)
             self.name = '{} {}'.format(self._kind, self._suit)
-            # self.selected = False
-            # self.facedDown = True
-            # self.placeOnPlayingBoard = 0
+            self.selected = False
+            self.facedDown = True
+            self.placeOnPlayingBoard = 0
         else:
             return False
 

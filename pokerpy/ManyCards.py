@@ -66,6 +66,11 @@ class SetOfCards:
 
 class PlayerCards(SetOfCards):
     """look at the class name, it's not so hard"""
+
+    def __init__(self, conv: CardRankConverter):
+        super().__init__(conv)
+        self._bestCards = []
+
     def selectCard(self, index):
         self.cards[index].selected = True
 
@@ -88,26 +93,72 @@ class PlayerCards(SetOfCards):
                 _list.append(_card)
         return _list
 
-    # TO DO: just a try
+    def suitScore(self):
+        _name = ''
+        _suitsCount = [0, 3]
+
+        for s in range(0, 4):
+            _cardList = self.__sameSuitList(s)
+            _suitsCount[s] = len(_cardList)
+
     def kindScore(self):
-        _kickers = []
         _pairs = []
         _threes = []
         _fours = []
+        _name = ''
+
         for k in range(0, len(self._conv.kind)):
             _cardList = self.__sameKindList(k)
             _numCardsInList = len(_cardList)
-            if _numCardsInList == 1:
-                _kickers.extend(_cardList)
-            elif _numCardsInList == 2:
-                _pairs.extend(_cardList)
+            if _numCardsInList == 2:
+                _pairs.append(_cardList)
             elif _numCardsInList == 3:
-                _threes.extend(_cardList)
+                _threes.append(_cardList)
             elif _numCardsInList == 4:
-                _fours.extend(_cardList)
+                _fours.append(_cardList)
 
+        if len(_fours) >= 1:
+            self._bestCards.extend(_fours[-1])
+            _name = 'Poker'
+        elif len(_threes) >= 1:
+            if len(_threes) > 1:
+                _pairFromThree = _threes[-2]
+                _pairFromThree.__delitem__(0)
+                _pairs.append(_pairFromThree)
+                _pairs.sort()
+            if len(_pairs) >= 1:
+                self._bestCards.extend(_pairs[-1])
+                self._bestCards.extend(_threes[-1])
+                _name = 'Full'
+            else:
+                self._bestCards.extend(_threes[0])
+                _name = 'Tris'
+        elif len(_pairs) > 1:
+            self._bestCards.extend(_pairs[-2])
+            self._bestCards.extend(_pairs[-1])
+            _name = 'Two pair'
+        elif len(_pairs) == 1:
+            self._bestCards.extend(_pairs[0])
+            _name = 'Pair'
+        else:
+            _name = 'High card'
+
+        # Finding the kickers
+        _kickers = []
+        _kickers.extend(self.cards)
+        _name = _name + ': '
+        # Remove _bestCards from _kickers
+        for _card in self._bestCards:
+            _kickers.remove(_card)
+        _kickers.sort()
+        # Extending _bestCards with sorted _kickers
+        self._bestCards = _kickers + self._bestCards
+        # Taking just the last 5 cards
+        self._bestCards = self._bestCards[(5-len(self._bestCards)):len(self._bestCards)]
+        for _card in self._bestCards:
+            _name = _name + ' ' + _card.name
+        return _name
     # typePoint()
-    # selectBestCollections
     # change()
     # show()
 

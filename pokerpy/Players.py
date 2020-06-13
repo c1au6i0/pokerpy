@@ -4,16 +4,16 @@ from pokerpy.Money import Cash
 
 
 class Player:
-    playerCards: SetOfCards
-    _deck: Deck
-    _conv: CardRankConverter
-    # possibleMoves: collection
-    # roleInHand: type
-    bankroll: Cash
-    seat: int
 
     def __init__(self, name: str):
         self.name = name
+        self.playerCards: PlayerCards
+        self._deck: Deck
+        self._conv: CardRankConverter
+        # possibleMoves: collection
+        # roleInHand: type
+        self.bankroll: Cash
+        self.seat: int
 
     def readMatchInfo(self, conv: CardRankConverter):
         # add role
@@ -21,7 +21,7 @@ class Player:
 
     def takeCards(self, cardsList: list):
         self._deck = Deck(self._conv)
-        self.playerCards = SetOfCards(self._conv)
+        self.playerCards = PlayerCards(self._conv)
         self.playerCards.takeCards(cardsList)
         for _card in cardsList:
             self._deck.cards.remove(_card)

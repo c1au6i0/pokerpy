@@ -2,6 +2,8 @@ from pokerpy.Converters import CardRankConverter
 from pokerpy.ManyCards import SetOfCards
 from pokerpy.Players import Player
 
+# TO DO: erase everything
+
 
 class MatchCounter:
     def __init__(self, conv: CardRankConverter):
