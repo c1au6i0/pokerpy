@@ -19,10 +19,23 @@ class Deck:
              2 and up.
      """
 
-    def create_deck(self, numCards=13):
+    def __init__(self, numCards=13):
         start = 15 - numCards
         cardNumber = np.arange(start, 15, 1).repeat(4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
-        df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
-        df['fullCard'] = df.cardNumber.astype(str) + df.suits.astype(str).replace({'1': "♣", '2': "♢", '3': "♠", '4': "♡"})
-        return df
+        self.df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
+        self.df['fullCard'] = self.df.cardNumber.astype(str).replace({'1': "A", '14': "K", '13': "Q", '12': "J"}) + self.df.suits.astype(str).replace({'1': "♣", '2': "♢", '3': "♠", '4': "♡"})
+        # return self.df
+
+    # df.head(5), df.tail(5), df.sample(5, replace = false)
+    # import pandas as pd
+    # import numpy as np
+    # np.random.seed(10)
+    #
+    # remove_n = 1
+    # df = pd.DataFrame({"a":[1,2,3,4], "b":[5,6,7,8]})
+    # drop_indices = np.random.choice(df.index, remove_n, replace=False)
+    # df_subset = df.drop(drop_indices)
+    #
+    #
+    #
