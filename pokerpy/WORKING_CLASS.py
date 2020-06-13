@@ -20,6 +20,7 @@ def tEST1():
     # create the players cards obj
     Players[0].takeCards(deck.giveCards(5))
     Players[1].takeCards(deck.giveCards(5))
+    Players[0].playerCards.sameSuitList(0)
     # print('Deck')
     # deck.showOnConsole()
     # print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))

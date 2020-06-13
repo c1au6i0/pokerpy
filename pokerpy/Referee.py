@@ -8,11 +8,11 @@ class MatchCounter:
         self._conv = conv
 
     def scoreTester(self, setOfCards: SetOfCards):
-        setOfCards.sort()
+        setOfCards.sortByKind()
         return self.__sameSuitList(setOfCards), self.__sameKindList(setOfCards)
 
     def playerScore(self, player: Player):
-        player.playerCards.sort()
+        player.playerCards.sortByKind()
         return self.__sameSuitList(player.playerCards), self.__sameKindList(player.playerCards)
 
     # next methods could be part of Class SetOfCards
@@ -99,11 +99,20 @@ class Counter:
         return _totText
 
 
-class Score:
-    point1 = None
-    point2 = None
-    kindScores = []
+# WIP
+# move next class in SetOfCards?
+class KindScoreReader:
+    kindScores = {}
     kickers = []
-    kicker1 = None
-    kicker2 = None
-    kicker3 = None
+
+    def read(self, setOfCards: SetOfCards):
+        setOfCards.sortByKind()
+        lenght = len(setOfCards.cards)
+        for n in range(1, lenght):
+            if setOfCards.cards[n].kind == setOfCards.cards[n-1].kind:
+                # ugly code :(
+                self.kindScores.append(setOfCards.cards[n])
+                self.kindScores.append(setOfCards.cards[n-1])
+        for _card in setOfCards:
+            if not (_card in self.kindScores):
+                self.kickers.append(_card)

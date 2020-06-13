@@ -12,6 +12,7 @@ class SetOfCards:
     def __init__(self, conv: CardRankConverter):
         # create the empty list of cards
         self.cards = []
+        self._conv = conv
 
     def __len__(self):
         return len(self.cards)
@@ -52,8 +53,11 @@ class SetOfCards:
                     _text = _text + card.name + ' | '
         print(_text)
 
-    def sort(self):
+    def sortByKind(self):
         self.cards.sort()
+
+    def sortBySuit(self):
+        pass
     # faceDownCards: int(?)
     # faceUpCards: int(?)
     # selectedCards
@@ -67,6 +71,40 @@ class PlayerCards(SetOfCards):
 
     def unselectCard(self, index: int):
         self.cards[index].selected = False
+
+    def __sameKindList(self, rank: int):
+        _list = []
+        # can you use a Comprehension?
+        for _card in self.cards:
+            if _card.rankOfKind == rank:
+                _list.append(_card)
+        return _list
+
+    def __sameSuitList(self, rank: int):
+        _list = []
+        # can you use a Comprehension?
+        for _card in self.cards:
+            if _card.rankOfSuit == rank:
+                _list.append(_card)
+        return _list
+
+    # TO DO: just a try
+    def kindScore(self):
+        _kickers = []
+        _pairs = []
+        _threes = []
+        _fours = []
+        for k in range(0, len(self._conv.kind)):
+            _cardList = self.__sameKindList(k)
+            _numCardsInList = len(_cardList)
+            if _numCardsInList == 1:
+                _kickers.extend(_cardList)
+            elif _numCardsInList == 2:
+                _pairs.extend(_cardList)
+            elif _numCardsInList == 3:
+                _threes.extend(_cardList)
+            elif _numCardsInList == 4:
+                _fours.extend(_cardList)
 
     # typePoint()
     # selectBestCollections
@@ -84,10 +122,10 @@ class Deck(SetOfCards):
         # decks=2 => classic Scala40 deck
         super().__init__(conv)
         # fulfill the cards list
-        for k in range(len(conv.kind)):
+        for k in range(len(self._conv.kind)):
             for s in range(4):
                 for d in range(decks):
-                    singleCard = Card(conv, (k, s))
+                    singleCard = Card(self._conv, (k, s))
                     self.cards.append(singleCard)
         # create the rejects list (empty at start)
         self.rejects = []
