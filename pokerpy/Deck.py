@@ -25,17 +25,17 @@ class Deck:
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         self.df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
         self.df['fullCard'] = self.df.cardNumber.astype(str).replace({'1': "A", '14': "K", '13': "Q", '12': "J"}) + self.df.suits.astype(str).replace({'1': "♣", '2': "♢", '3': "♠", '4': "♡"})
-        # return self.df
 
-    # df.head(5), df.tail(5), df.sample(5, replace = false)
-    # import pandas as pd
-    # import numpy as np
-    # np.random.seed(10)
-    #
-    # remove_n = 1
-    # df = pd.DataFrame({"a":[1,2,3,4], "b":[5,6,7,8]})
-    # drop_indices = np.random.choice(df.index, remove_n, replace=False)
-    # df_subset = df.drop(drop_indices)
-    #
-    #
-    #
+    def extract_cards(numExtract, fromPos='top'):
+        # if not integer
+        #raise ValueError("s")
+        pass
+        # np.random.seed(15)
+        # if fromPos == 'top':
+        #     toExtract = np.arange(0, numExtract, 1)
+        # elif fromPos == 'bottom':
+        #     toExtract = np.arange(df.shape[0] - numExtract, df.shape[0], 1)
+        # elif fromPos == 'random':
+        #    toExtract = np.random.choice(df.index, numExtract, replace=False)
+        # extractedCards df.loc[toExtract]
+        # self.df = df.drop[toExtract, axis = 0]
