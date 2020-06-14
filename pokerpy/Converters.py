@@ -1,8 +1,11 @@
+# move to ScoreRules?
 class CardRankConverter:
 
     suit = chr(9824), chr(9827), chr(9830), chr(9829)
     _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
     _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
+    kind = []
+    score = ()
 
     # why don't you use a __new__stetement?
     def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
