@@ -7,21 +7,21 @@ class Player:
 
     def __init__(self, name: str):
         self.name = name
-        self.playerCards: PlayerCards
-        self._deck: Deck
-        self._conv: CardRankConverter
+        self.playerCards: PlayerCards = None
+        self._deck: Deck = None
+        self._conv: CardRankConverter = None
         # possibleMoves: collection
         # roleInHand: type
-        self.bankroll: Cash
-        self.seat: int
+        self.bankroll: Cash = None
+        self.seat: int = None
 
-    def readMatchInfo(self, conv: CardRankConverter):
+    def startHand(self, conv: CardRankConverter):
         # add role
         self._conv = conv
-
-    def takeCards(self, cardsList: list):
         self._deck = Deck(self._conv)
         self.playerCards = PlayerCards(self._conv)
+
+    def takeCards(self, cardsList: list):
         self.playerCards.takeCards(cardsList)
         for _card in cardsList:
             self._deck.cards.remove(_card)
