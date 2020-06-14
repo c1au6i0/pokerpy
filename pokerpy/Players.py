@@ -19,6 +19,9 @@ class Player:
         self.bankroll: Cash = None
         self.seat: int = None
 
+    def __repr__(self):
+        return self.name
+
     def startHand(self, conv: CardRankConverter):
         # add role
         self._conv = conv

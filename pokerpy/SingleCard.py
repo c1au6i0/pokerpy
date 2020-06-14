@@ -21,7 +21,7 @@ class Card:
         else:
             return False
 
-    # just a try: __repr__ insted of __str__
+    #  __repr__ insted of __str__
     def __repr__(self):
         return self.name
         # return self.rankTuple

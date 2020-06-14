@@ -11,7 +11,6 @@ class SetOfCards:
     def __init__(self, conv: CardRankConverter):
         # create the empty list of cards
         self.cards = []
-        self.score = 0
         self._conv = conv
 
     def __len__(self):
@@ -65,10 +64,12 @@ class SetOfCards:
 
 
 class PlayerCards(SetOfCards):
-    """look at the class name, it's not so hard"""
+    """The group of cards owned by the player
+        plus the optional common cards"""
 
     def __init__(self, conv: CardRankConverter):
         super().__init__(conv)
+        self.score = 0
         self.bestCards = []
         self._kindCards = []
         self._straightCards = []
@@ -97,6 +98,7 @@ class PlayerCards(SetOfCards):
         return _list
 
     def __suitScore(self):
+        self._suitCards = []
         _name = 'High card'
 
         for s in range(0, 4):
@@ -108,6 +110,7 @@ class PlayerCards(SetOfCards):
         return self._conv.score.index(_name)
 
     def __kindScore(self):
+        self._kindCards = []
         _name = ''
         _pairs = []
         _threes = []
@@ -175,6 +178,7 @@ class PlayerCards(SetOfCards):
         return _kickers
 
     def __straightScore(self):
+        self._straightCards = []
         # _reversedCards is the list of the reversed Cars with no pair
         _reversedCards = []
         _reversedCards.extend(self.cards)
@@ -227,22 +231,15 @@ class PlayerCards(SetOfCards):
         for _card in self.bestCards:
             _name = _name + ' ' + _card.name
         return _name
-    # typePoint()
     # change()
-    # show()
 
 
 class CommonCards(SetOfCards):
     """This is the group of card that could be used by every active players
     This class is used just in Texas hold 'em and Telesina
     """
-    def __init__(self, conv: CardRankConverter, *number):
+    def __init__(self, conv: CardRankConverter):
         super().__init__(conv)
-        # flop, river and turn. Add "name" attribute?
-        # number[0] = 3
-        # number[1] = 1
-        # number[2] = 1
-        # what about Elevator?
 
 
 # class Deck(SetOfCards, pd.DataFrame):
@@ -282,13 +279,3 @@ class Deck(SetOfCards):
 
     def takeRejects(self, cardsList: list):
         self.rejects.extend(cardsList)
-
-
-class OrderRules:
-    # random
-    # insert
-    # primaGliScarti
-    # Sort()
-    pass
-
-
