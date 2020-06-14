@@ -2,6 +2,7 @@ class HandRules:
 
     def __init__(self):
         # default options is for American Draw Game
+        # maybe is better to move _lowestCard to ScoreRules
         self._lowestCard = 2
         self._tradableCards = 4
         self._minPlayers = 3
@@ -10,7 +11,7 @@ class HandRules:
         self._facedUpCards = 0
         self._playerFacedDownCards = 5
         self._playerFacedUpCards = 0
-        # the List is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
+        # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
         # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
 
     # the lowest number of a card in the deck
