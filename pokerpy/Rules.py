@@ -154,6 +154,7 @@ class MoneyRules:
         # dealerBet
         # incrementType
         # incrementTime
+        # modalitaIncremento=(nullo,a tempo,giri,eliminazioneGiocatore)
         # setBlind: [notAllowed, due, allowed]
         # small  blind, big blind, over
         # minBetType: [check, blind]

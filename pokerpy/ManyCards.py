@@ -63,6 +63,53 @@ class SetOfCards:
     # show()
 
 
+class CommonCards(SetOfCards):
+    """This is the group of card that could be used by every active players
+    This class is used just in Texas hold 'em and Telesina
+    """
+    def __init__(self, conv: CardRankConverter):
+        super().__init__(conv)
+
+
+# class Deck(SetOfCards, pd.DataFrame):
+# I remove DataFrame due to problems with import abc
+class Deck(SetOfCards):
+    """Deck is Deck"""
+    # This is the constructor
+    def __init__(self, conv: CardRankConverter, decks=1):
+        # decks=0 => empty deck
+        # decks=2 => classic Scala40 deck
+        super().__init__(conv)
+        # fulfill the cards list
+        for k in range(len(self._conv.kind)):
+            for s in range(4):
+                for d in range(decks):
+                    singleCard = Card(self._conv, (k, s))
+                    self.cards.append(singleCard)
+        # create the rejects list (empty at start)
+        self.rejects = []
+
+    def shuffle(self):
+        shuffle(self.cards)
+
+    def remainingSuit(self, rankOfSuit: int):
+        _count = 0
+        for _card in self.cards:
+            if _card.rankOfSuit == rankOfSuit:
+                _count += 1
+        return _count
+
+    def remainingKind(self, rankOfKind: int):
+        _count = 0
+        for _card in self.cards:
+            if _card.rankOfKind == rankOfKind:
+                _count += 1
+        return _count
+
+    def takeRejects(self, cardsList: list):
+        self.rejects.extend(cardsList)
+
+
 class PlayerCards(SetOfCards):
     """The group of cards owned by the player
         plus the optional common cards"""
@@ -83,7 +130,6 @@ class PlayerCards(SetOfCards):
 
     def __sameKindList(self, rank: int):
         _list = []
-        # can you use a Comprehension?
         for _card in self.cards:
             if _card.rankOfKind == rank:
                 _list.append(_card)
@@ -91,7 +137,6 @@ class PlayerCards(SetOfCards):
 
     def __sameSuitList(self, rank: int):
         _list = []
-        # can you use a Comprehension?
         for _card in self.cards:
             if _card.rankOfSuit == rank:
                 _list.append(_card)
@@ -115,8 +160,6 @@ class PlayerCards(SetOfCards):
         _pairs = []
         _threes = []
         _fours = []
-        # this is just to substite the previous lists
-        _subgroup = [0, 0, list(), list(), list()]
 
         for k in range(0, len(self._conv.kind)):
             _cardList = self.__sameKindList(k)
@@ -131,6 +174,7 @@ class PlayerCards(SetOfCards):
         if len(_fours) >= 1:
             self._kindCards.extend(_fours[-1])
             _name = 'Four of a kind'
+        # There could be more than one three, if player's got more than five cards
         elif len(_threes) >= 1:
             if len(_threes) > 1:
                 _pairFromThree = _threes[-2]
@@ -154,9 +198,7 @@ class PlayerCards(SetOfCards):
         else:
             _name = 'High card'
         # Cleaning
-        del _pairs
-        del _threes
-        del _fours
+        del _pairs, _threes, _fours
         # Extending _kindCards with sorted _kickers
         self._kindCards = self.__kickers() + self._kindCards
         _numKindCards = len(self._kindCards)
@@ -232,50 +274,3 @@ class PlayerCards(SetOfCards):
             _name = _name + ' ' + _card.name
         return _name
     # change()
-
-
-class CommonCards(SetOfCards):
-    """This is the group of card that could be used by every active players
-    This class is used just in Texas hold 'em and Telesina
-    """
-    def __init__(self, conv: CardRankConverter):
-        super().__init__(conv)
-
-
-# class Deck(SetOfCards, pd.DataFrame):
-# I remove DataFrame due to problems with import abc
-class Deck(SetOfCards):
-    """Deck is Deck"""
-    # This is the constructor
-    def __init__(self, conv: CardRankConverter, decks=1):
-        # decks=0 => empty deck
-        # decks=2 => classic Scala40 deck
-        super().__init__(conv)
-        # fulfill the cards list
-        for k in range(len(self._conv.kind)):
-            for s in range(4):
-                for d in range(decks):
-                    singleCard = Card(self._conv, (k, s))
-                    self.cards.append(singleCard)
-        # create the rejects list (empty at start)
-        self.rejects = []
-
-    def shuffle(self):
-        shuffle(self.cards)
-
-    def remainingSuit(self, rankOfSuit: int):
-        _count = 0
-        for _card in self.cards:
-            if _card.rankOfSuit == rankOfSuit:
-                _count += 1
-        return _count
-
-    def remainingKind(self, rankOfKind: int):
-        _count = 0
-        for _card in self.cards:
-            if _card.rankOfKind == rankOfKind:
-                _count += 1
-        return _count
-
-    def takeRejects(self, cardsList: list):
-        self.rejects.extend(cardsList)

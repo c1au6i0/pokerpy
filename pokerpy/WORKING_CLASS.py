@@ -14,9 +14,11 @@ def testPot():
     pot.addPlayers(Players[0], Players[1])
     pot.showPlayers()
     pot.takeMoney(1000)
+    pot.showOnConsole()
     pot.removePlayer(Players[1])
     pot.showPlayers()
     print(pot.giveEverything())
+    pot.showOnConsole()
 
 
 def testTeresa():

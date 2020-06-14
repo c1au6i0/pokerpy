@@ -9,13 +9,6 @@ class PlayingBoard:
     pass
 
 
-class Place:
-    # X
-    # Y
-    # card / player
-    pass
-
-
 class Director:
     # def assignHandRoles:
     # numberPlayers: int
@@ -30,8 +23,24 @@ class Director:
     pass
 
 
-class Hand:
-    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato, resti)
-    # modalitaIncremento=(nullo,a tempo,giri,eliminazioneGiocatore)
+class HandPhase:
+    # assign roles
+    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato,resti)
     # tipoApertura=(normale,di parola,nessuno aprì)
+    # puntataIniziale e buio
+    # distribuzioneCarte
+    # puntata
+    # cambioCarte
+    # scopriCartaComune
+    # mostraPunti
+    # proclamaVincitore
+    pass
+
+
+class MatchPhase:
+    # choose players
+    # assign seats
+    # Hands()
+    # giri
+    # ultima mano prima dei giri
     pass

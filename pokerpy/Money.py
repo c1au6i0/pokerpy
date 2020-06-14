@@ -5,7 +5,7 @@ class Cash:
         self._currency = currency
 
     def showOnConsole(self):
-        return '{} {}'.format(self.currency, self.amount)
+        return '{} {}'.format(self._currency, self._amount)
 
 
 # you need a list of Pot for limit game
@@ -16,8 +16,7 @@ class Pot(Cash):
         self._playersList = []
 
     def addPlayers(self, *players):
-        self._playersList.append([p for p in players])
-        print(self._playersList[0])
+        self._playersList.extend([p for p in players])
 
     def removePlayer(self, player):
         self._playersList.remove(player)
