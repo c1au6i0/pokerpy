@@ -1,34 +1,22 @@
 class HandRules:
 
     def __init__(self):
-        # default options is for American Draw Game
-        # maybe is better to move _lowestCard to ScoreRules
-        self._lowestCard = 2
-        self._tradableCards = 4
+        self.activePlayers = []
         self._minPlayers = 3
         self._maxPlayers = 6
+        # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
+        # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
+
+
+# move to CommonCards: SetOfCards?
+class CardsRules:
+
+    def __init__(self):
+        self._tradableCards = 4
         self._facedDownCards = 0
         self._facedUpCards = 0
         self._playerFacedDownCards = 5
         self._playerFacedUpCards = 0
-        # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
-        # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
-
-    # the lowest number of a card in the deck
-    # generally from 5 to 8 in italian draw game
-    # 2 in american game
-    @property
-    def lowestCard(self):
-        return self._lowestCard
-
-    @lowestCard.setter
-    def lowestCard(self, value):
-        self._lowestCard = value
-
-    # numberOfCardsForSuit * 4 = number of cards in the deck
-    @property
-    def numberOfCardsForSuit(self):
-        return 15 - self._lowestCard
 
     # how many cards can trade a player? (default = 4 in draw game)
     @property
@@ -103,28 +91,72 @@ class HandRules:
         self._maxPlayers = value
 
 
-class MoneyRules:
-    # minBet:
-    # maxBet: minBet * n
-    # maxRise:
-    # richiestaPoste
-    # dealerBet
-    # incrementType
-    # incrementTime
-    # setBlind: [notAllowed, due, allowed]
-    # small  blind, big blind, over
-    # minBetType: [check, blind]
-    # resti / no limits
-    # obbligo di prendere posta
-    # allowLowerBets
-    pass
-
-
 class ScoreRules:
+
     # name?
+
+    def __init__(self):
+        # default values (American Draw Game)
+        self._lowestCard = 2
+        self._ignoreSuit = True
+        self._minRoyalBeatsMaxRoyal = False
+        self._suitPriorityInFlush = False
+        # Why property and not just variables?
+
+    # the lowest number of a card in the deck
+    # generally from 5 to 8 in italian draw game, 2 in american game
+    @property
+    def lowestCard(self):
+        return self._lowestCard
+
+    @lowestCard.setter
+    def lowestCard(self, value):
+        self._lowestCard = value
+
+    # numberOfCardsForSuit * 4 = number of cards in the deck
+    @property
+    def numberOfCardsForSuit(self):
+        return 15 - self._lowestCard
+
+    @property
+    def ignoreSuit(self):
+        return self._ignoreSuit
+
+    @ignoreSuit.setter
+    def ignoreSuit(self, value):
+        self._ignoreSuit = value
+
+    @property
+    def suitPriorityInFlush(self):
+        return self._suitPriorityInFlush
+
+    @suitPriorityInFlush.setter
+    def suitPriorityInFlush(self, value):
+        self._suitPriorityInFlush = value
+
+    @property
+    def minRoyalBeatsMaxRoyal(self):
+        return self._minRoyalBeatsMaxRoyal
+
+    @minRoyalBeatsMaxRoyal.setter
+    def minRoyalBeatsMaxRoyal(self, value):
+        self._minRoyalBeatsMaxRoyal = value
+
     # fullVsFlush: bool (useless?)
-    # straightFlushVsStraightFlush:
-    # ruleNextCard
-    # ruleSuit
-    # fullVsSelf (useless?)
-    pass
+
+
+class MoneyRules:
+        # minBet:
+        # maxBet: minBet * n
+        # maxRise:
+        # richiestaPoste
+        # dealerBet
+        # incrementType
+        # incrementTime
+        # setBlind: [notAllowed, due, allowed]
+        # small  blind, big blind, over
+        # minBetType: [check, blind]
+        # resti / no limits
+        # obbligo di prendere posta
+        # allowLowerBets
+        pass

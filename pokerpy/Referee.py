@@ -4,7 +4,7 @@ from pokerpy.Players import Player
 
 
 class Evaluator:
-    def __init__(self, conv:CardRankConverter):
+    def __init__(self, conv: CardRankConverter):
         self._conv = conv
 
     def winner(self, *player):

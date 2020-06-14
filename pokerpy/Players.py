@@ -5,6 +5,10 @@ from pokerpy.Money import Cash
 
 class Player:
 
+    # conv is the same for every Player, so why don't you use a class attribute?
+    # you can do the same with Rules and other stuff
+    conv: CardRankConverter
+
     def __init__(self, name: str):
         self.name = name
         self.playerCards: PlayerCards = None

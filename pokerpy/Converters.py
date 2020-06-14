@@ -4,6 +4,7 @@ class CardRankConverter:
     _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
     _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
 
+    # why don't you use a __new__stetement?
     def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
