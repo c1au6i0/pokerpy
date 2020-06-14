@@ -3,8 +3,6 @@ from pokerpy.SingleCard import Card
 from random import shuffle
 from pokerpy.Converters import CardRankConverter
 
-__all__ = ['SetOfCards', 'Deck', 'PlayerCards']
-
 
 class SetOfCards:
     """This is a group of cards
@@ -98,7 +96,7 @@ class PlayerCards(SetOfCards):
                 _list.append(_card)
         return _list
 
-    def suitScore(self):
+    def __suitScore(self):
         _name = 'High card'
 
         for s in range(0, 4):
@@ -109,7 +107,7 @@ class PlayerCards(SetOfCards):
                 _name = 'Flush'
         return self._conv.score.index(_name)
 
-    def kindScore(self):
+    def __kindScore(self):
         _name = ''
         _pairs = []
         _threes = []
@@ -157,14 +155,14 @@ class PlayerCards(SetOfCards):
         del _threes
         del _fours
         # Extending _kindCards with sorted _kickers
-        self._kindCards = self.kickers() + self._kindCards
-        _numBestCards = len(self._kindCards)
+        self._kindCards = self.__kickers() + self._kindCards
+        _numKindCards = len(self._kindCards)
         # Taking just the last 5 cards
-        if _numBestCards > 5:
-            self._kindCards = self._kindCards[(_numBestCards-5):_numBestCards]
+        if _numKindCards > 5:
+            self._kindCards = self._kindCards[(_numKindCards-5):_numKindCards]
         return self._conv.score.index(_name)
 
-    def kickers(self):
+    def __kickers(self):
         _kickers = []
         _kickers.extend(self.cards)
         # Remove bestCards from _kickers
@@ -176,7 +174,7 @@ class PlayerCards(SetOfCards):
         _kickers.sort()
         return _kickers
 
-    def straightScore(self):
+    def __straightScore(self):
         # _reversedCards is the list of the reversed Cars with no pair
         _reversedCards = []
         _reversedCards.extend(self.cards)
@@ -211,7 +209,7 @@ class PlayerCards(SetOfCards):
         return self._conv.score.index(_name)
 
     def calculateScore(self):
-        self.score = max(self.suitScore(), self.kindScore(), self.straightScore())
+        self.score = max(self.__suitScore(), self.__kindScore(), self.__straightScore())
         if self.score == self._conv.score.index('Straight'):
             self.bestCards = self._straightCards
         elif self.score == self._conv.score.index('Flush'):
@@ -232,6 +230,19 @@ class PlayerCards(SetOfCards):
     # typePoint()
     # change()
     # show()
+
+
+class CommonCards(SetOfCards):
+    """This is the group of card that could be used by every active players
+    This class is used just in Texas hold 'em and Telesina
+    """
+    def __init__(self, conv: CardRankConverter, *number):
+        super().__init__(conv)
+        # flop, river and turn. Add "name" attribute?
+        # number[0] = 3
+        # number[1] = 1
+        # number[2] = 1
+        # what about Elevator?
 
 
 # class Deck(SetOfCards, pd.DataFrame):

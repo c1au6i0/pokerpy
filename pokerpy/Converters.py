@@ -1,7 +1,7 @@
 # move to ScoreRules?
 class CardRankConverter:
 
-    suit = chr(9824), chr(9827), chr(9830), chr(9829)
+    suit = (chr(9824), chr(9827), chr(9830), chr(9829))
     _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
     _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
     kind = []
@@ -11,6 +11,7 @@ class CardRankConverter:
     def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
+        self.kind = tuple(self.kind)
         if lowestKind == 2:
             self.score = self._lowestScores + ('Flush', 'Full house')
         else:
@@ -28,20 +29,13 @@ class CardRankConverter:
     pass
 
 
-# CardRankConverterWithTranslator have to substite CardRankConverter. In alternative add translator
-class CardRankConverterWithTranslator:
-    def __init__(self, lowestKindInt=2, kindLanguage='', suitLanguage=''):
-        self.kind = self.__lowestKindList(lowestKindInt) + self.__highestKindList(kindLanguage)
-        self.suit = self.__suitList(suitLanguage)
+# WIP
+class Translator:
 
-    def __len__(self):
-        return len(self.kind)
+    def __init__(self, kindLanguage='', suitLanguage=''):
+        self._kindLanguage = kindLanguage
 
-    def __lowestKindList(self, lowestKind: int):
-        _lowestCard = [str(k) for k in range(lowestKind, 11)]
-        return tuple(_lowestCard)
-
-    def __highestKindList(self, language: str):
+    def __highestKindList(language: str):
         if language == '':
             _highestCards = ('J', 'Q', 'K', 'A')
         elif language == 'eng':

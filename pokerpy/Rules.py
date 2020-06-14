@@ -1,8 +1,9 @@
 class HandRules:
 
     def __init__(self):
+        # move next attribute to MatchRules?
         self.activePlayers = []
-        self._minPlayers = 3
+        self._minPlayers = 2
         self._maxPlayers = 6
         # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
         # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
