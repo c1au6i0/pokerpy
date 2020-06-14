@@ -26,6 +26,15 @@ class Player:
         for _card in cardsList:
             self._deck.cards.remove(_card)
 
+    @property
+    def score(self):
+        return self.playerCards.score
+
+    @property
+    def highestCard(self):
+        return self.playerCards.bestCards[4]
+
+
 
 class Talker:
     # check()

@@ -3,7 +3,7 @@
 # import array as arr
 from pokerpy.Converters import CardRankConverter
 from pokerpy.Players import Human
-from pokerpy.Referee import MatchCounter
+from pokerpy.Referee import Evaluator
 from pokerpy.ManyCards import *
 
 
@@ -15,24 +15,19 @@ def tEST1():
     Players = [Human("Dave"), Human("Claude")]
     deck = Deck(conv)
     deck.shuffle()
-    referee = MatchCounter(conv)
+    referee = Evaluator(conv)
     Players[0].readMatchInfo(conv)
     Players[1].readMatchInfo(conv)
     # create the players cards obj
-    Players[0].takeCards(deck.giveCards(5))
+    Players[0].takeCards(deck.giveCards(8))
+    Players[0].playerCards.calculateScore()
     Players[1].takeCards(deck.giveCards(9))
-    #Players[0].playerCards.sameSuitList(0)
-    # print('Deck')
-    # deck.showOnConsole()
-    # print('Cuori rimanenti: {}'.format(deck.remainingSuit(3)))
-    # print('Assi rimanenti: {}'.format(deck.remainingKind(7)))
-    # print()
-    print(Players[0].name, "'s score is", Players[0].playerCards.Score())
-    # Players[0].playerCards.sortByKind()
+    Players[1].playerCards.calculateScore()
+    print(Players[0].name, "'s score is", Players[0].playerCards.scoreName)
     Players[0].playerCards.showOnConsole()
-    # print(referee.scoreTester(Players[0].playerCards))
+    #
     print()
-    print(Players[1].name, "'s score is", Players[1].playerCards.Score())
-    # Players[1].playerCards.sortByKind()
+    print(Players[1].name, "'s score is", Players[1].playerCards.scoreName)
     Players[1].playerCards.showOnConsole()
-    # print(referee.playerScore(Players[1]))
+    print()
+    print(referee.headToheadWinner(Players[0], Players[1]))
