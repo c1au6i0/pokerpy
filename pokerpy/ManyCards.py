@@ -165,29 +165,33 @@ class PlayerCards(SetOfCards):
         return _kickers
 
     def straightScore(self):
-        _straightCounter = 1
-        _cardDifference = 0
         _name = 'High card'
         _sortedCards = []
         _sortedCards.extend(self.cards)
         _sortedCards.sort()
+        _eraseList = []
+        for n in range(0, len(_sortedCards)-1):
+            if _sortedCards[n].rankOfKind == _sortedCards[n+1].rankOfKind:
+                _eraseList.append(n)
+        _eraseList.reverse()
+        for n in _eraseList:
+            _sortedCards.remove(_sortedCards[n])
         _sortedCards.reverse()
+
         # Looping all cards, starting from the second
         for n in range(0, len(_sortedCards)-1):
+            # I could create a list of indexes, THEN O create the _straightCards
             _cardDifference = _sortedCards[n].rankOfKind - _sortedCards[n+1].rankOfKind
-            if _cardDifference == 0:
-                pass
-            elif _cardDifference == 1:
-                _straightCounter += 1
+            if _cardDifference == 1:
                 self._straightCards.append(_sortedCards[n])
             elif _cardDifference > 1:
-                _straightCounter = 1
                 self._straightCards.clear()
-            if _straightCounter == 5:
+            if len(self._straightCards) == 4:
                 _name = 'Straight'
                 self._straightCards.append(_sortedCards[n+1])
                 self._straightCards.reverse()
                 break
+        del _sortedCards
         return self._conv.score.index(_name)
 
     def Score(self):
