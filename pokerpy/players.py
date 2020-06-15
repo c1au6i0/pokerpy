@@ -1,6 +1,6 @@
-from pokerpy.ManyCards import *
-from pokerpy.Converters import *
-from pokerpy.Money import Cash
+from pokerpy.cards_many import *
+from pokerpy.converters import *
+from pokerpy.money import Cash
 
 
 class Player:

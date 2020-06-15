@@ -1,11 +1,23 @@
 # Temporary class and methods to help test, debug, etc.
 # erase it at the end of the Project
 # import array as arr
-from pokerpy.Converters import CardRankConverter
-from pokerpy.Players import Human
-from pokerpy.Referee import Evaluator
-from pokerpy.ManyCards import *
-from pokerpy.Money import Pot
+from pokerpy.converters import CardRankConverter
+from pokerpy.players import Human
+from pokerpy.referee import Evaluator
+from pokerpy.cards_many import *
+from pokerpy.money import Pot
+from pokerpy.card_single import Card
+
+
+def testCardList():
+    conv = CardRankConverter(7)
+    c1 = Card(conv, (1, 1))
+    c2 = Card(conv, (0, 1))
+    CardList.importConverter(conv)
+    deck = CardList()
+    print(deck)
+    deck.extend((c1, c2))
+    print(deck)
 
 
 def testPot():

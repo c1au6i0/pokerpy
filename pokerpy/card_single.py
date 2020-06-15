@@ -1,5 +1,5 @@
-from pokerpy.Converters import *
-from pokerpy.Rules import *
+from pokerpy.converters import *
+from pokerpy.rules import *
 
 
 class Card:

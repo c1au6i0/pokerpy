@@ -1,6 +1,6 @@
-from pokerpy.Converters import CardRankConverter
-from pokerpy.ManyCards import SetOfCards
-from pokerpy.Players import Player
+from pokerpy.converters import CardRankConverter
+from pokerpy.cards_many import SetOfCards
+from pokerpy.players import Player
 
 
 class Evaluator:
