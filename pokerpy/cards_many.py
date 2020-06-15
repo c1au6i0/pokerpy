@@ -4,29 +4,39 @@ from random import shuffle
 from pokerpy.converters import CardRankConverter
 
 
-class CardList(list):
+class Cardlist(list):
     # def give
-    conv: CardRankConverter
+    _conv: CardRankConverter
 
 #    def __new__(cls, *args):
 #        super().__new__(cls, *args)
 #        cls.conv: CardRankConverter
 
     def importConverter(conv: CardRankConverter):
-        CardList.conv = conv
+        Cardlist._conv = conv
 
     def __str__(self):
         if not self:
             return 'No card in this group'
         else:
-            _text =''
+            _text = ''
             for _card in self:
                 _text = _text + _card.name + ' '
             return _text
 
+    # useless?
+    def selected(self):
+        _list = Cardlist()
+        for _card in self:
+            if _card.selected:
+                _list.append(_card)
+        return _list
+
 # Kind part
+    # Return a list of all the cards with the same kind
     def kindList(self, kind: int):
-        _list = CardList()
+        _list = Cardlist()
+        _list.sort()
         for _card in self:
             if _card.rankOfKind == kind:
                 _list.append(_card)
@@ -35,9 +45,20 @@ class CardList(list):
     def kindCount(self, kind: int):
         return len(self.kindList(kind))
 
+    # Return a list of list of 'num' cards with same kind
+    def groupOf(self, num: int):
+        _list = []
+        _list.sort()
+        for k in range(0, len(Cardlist._conv.kind)):
+            if self.kindCount(k) == num:
+                _list.append(self.kindList(k))
+        return _list
+
 # Suit part
+    # Return a list of all the cards with the same suit
     def suitList(self, suit: int):
-        _list = CardList()
+        _list = Cardlist()
+        _list.sort()
         for _card in self:
             if _card.rankOfSuit == suit:
                 _list.append(_card)
@@ -45,6 +66,35 @@ class CardList(list):
 
     def suitCount(self, suit: int):
         return len(self.suitList(suit))
+
+# TO DO, IT'S AT DICK
+    def suitScore(self):
+        _suitCards = Cardlist()
+        _name = 'High card'
+        for s in range(0, 4):
+            _count = self.suitCount(s)
+            if _count >= 5:
+                # Taking just the last 5 cards
+                _suitCards = self.suitList(s)
+                _suitCards = _suitCards[(_count-5):_count]
+                _name = 'Flush'
+        return Cardlist._conv.score.index(_name)
+
+    # useless?
+    def sortBySuit(self):
+        _list = Cardlist()
+        for s in range(0, 4):
+            _list.extend(self.suitList(s))
+        return _list
+
+# TO DO
+# Straight part
+    def straightList(self, minLenght: int):
+        _list = Cardlist()
+        for _card in self:
+            if _card.rankOfKind == minLenght:
+                _list.append(_card)
+        return _list
 
 
 class SetOfCards:
@@ -98,8 +148,6 @@ class SetOfCards:
     def sortByKind(self):
         self.cards.sort()
 
-    def sortBySuit(self):
-        pass
     # faceDownCards: int(?)
     # faceUpCards: int(?)
     # selectedCards
@@ -266,12 +314,6 @@ class PlayerCards(SetOfCards):
         return self._conv.score.index(_name)
 
 # StraightFinder part
-    def __straightList(self, cards: list, minLenght: int):
-        _list = []
-        for _card in cards:
-            if _card.rankOfKind == minLenght:
-                _list.append(_card)
-        return _list
 
     def __straightScore(self):
         self._straightCards = []

@@ -8,6 +8,13 @@ class Card:
     rankOfKind: rank of the kind of the card
     rankOfSuit: rank of the suit of the card    """
 
+    # a try with _conv class method
+    _conv: CardRankConverter
+
+    def importConverter(conv: CardRankConverter):
+        Card._conv = conv
+
+    # Why tuple as input and not a couple o var?
     def __init__(self, conv: CardRankConverter, rankTuple: tuple):
         if rankTuple[0] in range(len(conv.kind)) and rankTuple[1] in range(4):
             self.rankOfKind, self.rankOfSuit = rankTuple

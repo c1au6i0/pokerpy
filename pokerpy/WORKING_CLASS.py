@@ -15,7 +15,6 @@ def testCardList():
     c2 = Card(conv, (0, 1))
     CardList.importConverter(conv)
     deck = CardList()
-    print(deck)
     deck.extend((c1, c2))
     print(deck)
 
