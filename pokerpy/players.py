@@ -10,10 +10,10 @@ class Player:
     # useless?
     conv: CardRankConverter
 
-    def __init__(self, name: str, deck: Cardlist):
+    def __init__(self, name: str):
         self.name = name
-        self.playerCards = PlayerCards()
-        self._deck = deck
+        self.cards = PlayerCards()
+        self._deck = Cardlist()
         # possibleMoves: collection
         # roleInHand: type
         self.bankroll: Cash = None
@@ -23,17 +23,20 @@ class Player:
         return self.name
 
     def takeCards(self, cardsList: Cardlist):
-        self.playerCards.takeCards(cardsList)
+        self.cards.extend(cardsList)
         for _card in cardsList:
             self._deck.remove(_card)
 
+    def importDeck(self, deck: Cardlist):
+        self._deck.extend(deck)
+
     @property
     def score(self):
-        return self.playerCards.score
+        return self.cards.score
 
     @property
     def highestCard(self):
-        return self.playerCards.bestCards[4]
+        return self.cards.bestCards[4]
 
 
 

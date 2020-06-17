@@ -1,8 +1,15 @@
+from pokerpy.cards_many import Cardlist
+
+
+class Croupier:
+    deck = Cardlist()
+    rejects = Cardlist()
+
+
 class PlayingBoard:
     # placeCard
-    # sharedCards: setOfCards
+    # sharedCards: Cardlist()
     # pot(0, 1, 2....): pot
-    # deck: deck
     # seat: place
     # setSharedCards()
     # showSharedCard()
@@ -12,7 +19,6 @@ class PlayingBoard:
 class Director:
     # def assignHandRoles:
     # numberPlayers: int
-    # deck: setOfCards
     # turnsLeft
     # setDealer()
     # setTalk()

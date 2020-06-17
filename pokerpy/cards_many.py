@@ -6,7 +6,7 @@ from pokerpy.converters import CardRankConverter
 
 class Cardlist(list):
 
-    """This is a group of cards
+    """This is a group of cards.
         PlayerCards, Deck and Flop are Cardlist"""
 
     _conv: CardRankConverter
@@ -26,8 +26,8 @@ class Cardlist(list):
         for k in range(len(Cardlist._conv.kind)):
             for s in range(4):
                 for d in range(decks):
-                    singleCard = Card(k, s)
-                    self.append(singleCard)
+                    _singleCard = Card(k, s)
+                    self.append(_singleCard)
 
     def shuffle(self):
         shuffle(self)
@@ -71,9 +71,6 @@ class Cardlist(list):
                 _list.append(_card)
         return _list
 
-    def takeCards(self, cardlist: list):
-        self.extend(cardlist)
-
 # Kind part
     # Return a list of all the cards with the same kind
     def kindList(self, kind: int):
@@ -101,6 +98,7 @@ class Cardlist(list):
         for _card in self:
             if _card.rankOfSuit == suit:
                 _list.append(_card)
+        _list.sort()
         return _list
 
     def suitCount(self, suit: int):
@@ -196,14 +194,14 @@ class PlayerCards(Cardlist):
 
 # TO DO, IT'S AT DICK
     def __suitScore(self):
-        _suitCards = Cardlist()
+        self._suitCards = Cardlist()
         _name = 'High card'
         for s in range(0, 4):
             _count = self.suitCount(s)
             if _count >= 5:
                 # Taking just the last 5 cards
-                _suitCards = self.suitList(s)
-                _suitCards = _suitCards[(_count-5):_count]
+                self._suitCards = self.suitList(s)
+                self._suitCards = self._suitCards[(_count-5):_count]
                 _name = 'Flush'
         return Cardlist._conv.score.index(_name)
 
