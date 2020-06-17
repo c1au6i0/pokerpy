@@ -1,1 +1,2 @@
-__all__ = ['Deck.py']
+__all__ = ['deck.py']
+from pokerpy.deck import *
