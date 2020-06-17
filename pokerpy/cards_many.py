@@ -22,7 +22,7 @@ class Cardlist(list):
 
     def createDeck(self, lowestKind=2, decks=1):
         Cardlist._conv = CardRankConverter(lowestKind)
-        Card.initialize(Cardlist._conv)
+        Card.importConverter(Cardlist._conv)
         for k in range(len(Cardlist._conv.kind)):
             for s in range(4):
                 for d in range(decks):

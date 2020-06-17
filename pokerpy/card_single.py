@@ -23,7 +23,7 @@ class Card:
         else:
             return False
 
-    def initialize(conv: CardRankConverter):
+    def importConverter(conv: CardRankConverter):
         Card._conv = conv
 
     #  __repr__ insted of __str__
