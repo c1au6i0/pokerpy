@@ -5,15 +5,11 @@ from pokerpy.converters import CardRankConverter
 
 
 class Cardlist(list):
-    # def give
+
+    """This is a group of cards
+        PlayerCards, Deck and Flop are Cardlist"""
+
     _conv: CardRankConverter
-
-#    def __new__(cls, *args):
-#        super().__new__(cls, *args)
-#        cls.conv: CardRankConverter
-
-    def importConverter(conv: CardRankConverter):
-        Cardlist._conv = conv
 
     def __str__(self):
         if not self:
@@ -24,6 +20,18 @@ class Cardlist(list):
                 _text = _text + _card.name + ' '
             return _text
 
+    def createDeck(self, lowestKind=2, decks=1):
+        Cardlist._conv = CardRankConverter(lowestKind)
+        Card.initialize(Cardlist._conv)
+        for k in range(len(Cardlist._conv.kind)):
+            for s in range(4):
+                for d in range(decks):
+                    singleCard = Card(k, s)
+                    self.append(singleCard)
+
+    def shuffle(self):
+        shuffle(self)
+
     # useless?
     def selected(self):
         _list = Cardlist()
@@ -32,11 +40,44 @@ class Cardlist(list):
                 _list.append(_card)
         return _list
 
+    def selectCard(self, index):
+        self[index].selected = True
+
+    def unselectCard(self, index: int):
+        self[index].selected = False
+
+# Take and give methods
+    def giveOne(self, index=0):
+        if index in range(0, len(self)):
+            _card = self[index]
+            self.remove(self[index])
+        return _card
+
+    def giveMany(self, number=5):
+        # remove the first 'number' cards from this SetOfCards and return these Cards objects
+        _list = Cardlist()
+        # number cannot be lower than zero, nor higher than cards
+        number = max(0, number)
+        number = min(number, len(self))
+        for i in range(number):
+            _list.append(self.giveOne(0))
+        return _list
+
+    # useless?
+    def giveSelected(self):
+        _list = Cardlist()
+        for _card in self:
+            if _card.selected:
+                _list.append(_card)
+        return _list
+
+    def takeCards(self, cardlist: list):
+        self.extend(cardlist)
+
 # Kind part
     # Return a list of all the cards with the same kind
     def kindList(self, kind: int):
         _list = Cardlist()
-        _list.sort()
         for _card in self:
             if _card.rankOfKind == kind:
                 _list.append(_card)
@@ -46,9 +87,8 @@ class Cardlist(list):
         return len(self.kindList(kind))
 
     # Return a list of list of 'num' cards with same kind
-    def groupOf(self, num: int):
-        _list = []
-        _list.sort()
+    def kindGroupOf(self, num: int):
+        _list = Cardlist()
         for k in range(0, len(Cardlist._conv.kind)):
             if self.kindCount(k) == num:
                 _list.append(self.kindList(k))
@@ -58,7 +98,6 @@ class Cardlist(list):
     # Return a list of all the cards with the same suit
     def suitList(self, suit: int):
         _list = Cardlist()
-        _list.sort()
         for _card in self:
             if _card.rankOfSuit == suit:
                 _list.append(_card)
@@ -66,19 +105,6 @@ class Cardlist(list):
 
     def suitCount(self, suit: int):
         return len(self.suitList(suit))
-
-# TO DO, IT'S AT DICK
-    def suitScore(self):
-        _suitCards = Cardlist()
-        _name = 'High card'
-        for s in range(0, 4):
-            _count = self.suitCount(s)
-            if _count >= 5:
-                # Taking just the last 5 cards
-                _suitCards = self.suitList(s)
-                _suitCards = _suitCards[(_count-5):_count]
-                _name = 'Flush'
-        return Cardlist._conv.score.index(_name)
 
     # useless?
     def sortBySuit(self):
@@ -97,152 +123,26 @@ class Cardlist(list):
         return _list
 
 
-class SetOfCards:
-    """This is a group of cards
-        PlayerCards, Deck and Flop are SetOfCards"""
-    
-    def __init__(self, conv: CardRankConverter):
-        # create the empty list of cards
-        self.cards = []
-        self._conv = conv
-
-    def __len__(self):
-        return len(self.cards)
-
-    def giveSingleCard(self, index=0):
-        if index in range(0, len(self.cards)):
-            singleCard = self.cards[index]
-            self.cards.remove(self.cards[index])
-        return singleCard
-
-    def giveCards(self, number=5):
-        # remove the first 'number' cards from this SetOfCards and return these Cards objects
-        givenCards = []
-        # number cannot be lower than zero, nor higher than cards
-        number = max(0, number)
-        number = min(number, len(self.cards))
-        for i in range(number):
-            givenCards.append(self.giveSingleCard(0))
-        return givenCards
-
-    def giveSelectedCards(self):
-        givenCards = []
-        for card in self.cards:
-            if card.selected:
-                givenCards.append(card)
-        return givenCards
-
-    def takeCards(self, cardsList: list):
-        self.cards.extend(cardsList)
-
-    def showOnConsole(self, justSelectedCards=False):
-        _text = ' | '
-        if not self.cards:
-            print('No card in this group')
-        else:
-            for card in self.cards:
-                if not justSelectedCards or card.selected:
-                    _text = _text + card.name + ' | '
-        print(_text)
-
-    def sortByKind(self):
-        self.cards.sort()
-
-    # faceDownCards: int(?)
-    # faceUpCards: int(?)
-    # selectedCards
-    # show()
-
-
-class CommonCards(SetOfCards):
-    """This is the group of card that could be used by every active players
-    This class is used just in Texas hold 'em and Telesina
-    """
-    def __init__(self, conv: CardRankConverter):
-        super().__init__(conv)
-
-
-# class Deck(SetOfCards, pd.DataFrame):
-# I remove DataFrame due to problems with import abc
-class Deck(SetOfCards):
-    """Deck is Deck"""
-    # This is the constructor
-    def __init__(self, conv: CardRankConverter, decks=1):
-        # decks=0 => empty deck
-        # decks=2 => classic Scala40 deck
-        super().__init__(conv)
-        # fulfill the cards list
-        for k in range(len(self._conv.kind)):
-            for s in range(4):
-                for d in range(decks):
-                    singleCard = Card(self._conv, (k, s))
-                    self.cards.append(singleCard)
-        # create the rejects list (empty at start)
-        self.rejects = []
-
-    def shuffle(self):
-        shuffle(self.cards)
-
-    def remainingSuit(self, rankOfSuit: int):
-        _count = 0
-        for _card in self.cards:
-            if _card.rankOfSuit == rankOfSuit:
-                _count += 1
-        return _count
-
-    def remainingKind(self, rankOfKind: int):
-        _count = 0
-        for _card in self.cards:
-            if _card.rankOfKind == rankOfKind:
-                _count += 1
-        return _count
-
-    def takeRejects(self, cardsList: list):
-        self.rejects.extend(cardsList)
-
-
-class PlayerCards(SetOfCards):
+class PlayerCards(Cardlist):
     """The group of cards owned by the player
-        plus the optional common cards"""
+        plus the optional common cards
+        Mainly, it's a Cardlist with score evalutator and bestaCards list"""
 
-    def __init__(self, conv: CardRankConverter):
-        super().__init__(conv)
+    def __init__(self, *args):
+        super().__init__(*args)
         self.score = 0
         self.bestCards = []
         self._kindCards = []
         self._straightCards = []
         self._suitCards = []
 
-    def selectCard(self, index):
-        self.cards[index].selected = True
-
-    def unselectCard(self, index: int):
-        self.cards[index].selected = False
-
 # KindFinder part
-    def __sameKindList(self, cards: list, rankOfKind: int):
-        _list = []
-        for _card in cards:
-            if _card.rankOfKind == rankOfKind:
-                _list.append(_card)
-        return _list
-
     def __kindScore(self):
         self._kindCards = []
         _name = ''
-        _pairs = []
-        _threes = []
-        _fours = []
-
-        for k in range(0, len(self._conv.kind)):
-            _cardList = self.__sameKindList(self.cards, k)
-            _numCardsInList = len(_cardList)
-            if _numCardsInList == 2:
-                _pairs.append(_cardList)
-            elif _numCardsInList == 3:
-                _threes.append(_cardList)
-            elif _numCardsInList == 4:
-                _fours.append(_cardList)
+        _pairs = self.kindGroupOf(2)
+        _threes = self.kindGroupOf(3)
+        _fours = self.kindGroupOf(4)
 
         if len(_fours) >= 1:
             self._kindCards.extend(_fours[-1])
@@ -282,7 +182,7 @@ class PlayerCards(SetOfCards):
 
     def __kickers(self):
         _kickers = []
-        _kickers.extend(self.cards)
+        _kickers.extend(self)
         # Remove bestCards from _kickers
         for _card in self._kindCards:
             if _card in _kickers:
@@ -293,33 +193,26 @@ class PlayerCards(SetOfCards):
         return _kickers
 
 # SuitFinder part
-    def __sameSuitList(self, cards: list, rankOfKind: int):
-        _list = []
-        for _card in cards:
-            if _card.rankOfSuit == rankOfKind:
-                _list.append(_card)
-        return _list
 
+# TO DO, IT'S AT DICK
     def __suitScore(self):
-        self._suitCards = []
+        _suitCards = Cardlist()
         _name = 'High card'
-
         for s in range(0, 4):
-            _cardList = self.__sameSuitList(self.cards, s)
-            _lenList = len(_cardList)
-            if _lenList >= 5:
+            _count = self.suitCount(s)
+            if _count >= 5:
                 # Taking just the last 5 cards
-                self._suitCards = _cardList[(_lenList-5):_lenList]
+                _suitCards = self.suitList(s)
+                _suitCards = _suitCards[(_count-5):_count]
                 _name = 'Flush'
-        return self._conv.score.index(_name)
+        return Cardlist._conv.score.index(_name)
 
 # StraightFinder part
-
     def __straightScore(self):
         self._straightCards = []
         # _reversedCards is the list of the reversed Cars with no pair
         _reversedCards = []
-        _reversedCards.extend(self.cards)
+        _reversedCards.extend(self)
         _reversedCards.sort()
         _eraseList = []
         for n in range(0, len(_reversedCards)-1):

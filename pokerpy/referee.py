@@ -1,5 +1,5 @@
 from pokerpy.converters import CardRankConverter
-from pokerpy.cards_many import SetOfCards
+from pokerpy.cards_many import *
 from pokerpy.players import Player
 
 

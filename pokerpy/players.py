@@ -5,15 +5,15 @@ from pokerpy.money import Cash
 
 class Player:
 
-    # conv is the same for every Player, so why don't you use a class attribute?
+    # conv is the same for every Player
     # you can do the same with Rules and other stuff
+    # useless?
     conv: CardRankConverter
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, deck: Cardlist):
         self.name = name
-        self.playerCards: PlayerCards = None
-        self._deck: Deck = None
-        self._conv: CardRankConverter = None
+        self.playerCards = PlayerCards()
+        self._deck = deck
         # possibleMoves: collection
         # roleInHand: type
         self.bankroll: Cash = None
@@ -22,16 +22,10 @@ class Player:
     def __repr__(self):
         return self.name
 
-    def startHand(self, conv: CardRankConverter):
-        # add role
-        self._conv = conv
-        self._deck = Deck(self._conv)
-        self.playerCards = PlayerCards(self._conv)
-
-    def takeCards(self, cardsList: list):
+    def takeCards(self, cardsList: Cardlist):
         self.playerCards.takeCards(cardsList)
         for _card in cardsList:
-            self._deck.cards.remove(_card)
+            self._deck.remove(_card)
 
     @property
     def score(self):
