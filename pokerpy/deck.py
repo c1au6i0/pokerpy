@@ -16,23 +16,28 @@ class Deck:
     as a symbol. Finally, it since you don't work with 3 separate arrays, it is less prone to errors.
 
     Parameters:
-        numCards : number of cards for each suit (default is 13). If less than for 13, cards will be removed starting from
-             2 and up.
+        numCards : number of cards for each suit (default is 14). If less than for 14.
      """
 
     def __init__(self, numCards=13):
-        start = 14 - numCards
+        start = 15 - numCards
         cardNumber = np.tile(np.arange(start, 15, 1), 4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         self.df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
         self.df['fullCard'] = self.df.cardNumber.astype(str).replace(
-            {'1': "A", '14': "K", '13': "Q", '12': "J"}) + self.df.suits.astype(str).replace(
+            {'15': "A", '14': "K", '13': "Q", '12': "J"}) + self.df.suits.astype(str).replace(
             {'1': "♠", '2': "♢", '3': "♣", '4': "♡"})
 
     def extract_cards(self, numExtract, fromPos='top'):
+        """
+        Extract cars from the deck.df
+        :param numExtract: number of cards to extract
+        :param fromPos: position one of ['top', 'bottom', 'random']
+        :return: a slice of the deck
+        """
 
-        #assert type(numExtract) != int, "id is not an integer: %r" % numExtract
-        #assert fromPos not in ['top', 'bottom', 'random'], "fromPos is ['top', 'bottom', 'random']: %r" % numExtract
+        # assert type(numExtract) != int, "id is not an integer: %r" % numExtract
+        # assert fromPos not in ['top', 'bottom', 'random'], "fromPos is ['top', 'bottom', 'random']: %r" % numExtract
 
         if fromPos == 'top':
             to_extract = np.arange(self.df.index[0], self.df.index[0] + numExtract, 1)
@@ -44,3 +49,11 @@ class Deck:
         extracted_cards = self.df.loc[to_extract]
         self.df = self.df.drop(to_extract, axis=0)
         return extracted_cards
+
+    def shuffle(self):
+        """
+        Shuffle the deck.df
+        :return: deck.df
+        """
+        self.df = self.df.sample(frac=1).reset_index(drop=True)
+        print("Deck shuffled, Amigo!")
