@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from types import *
 
 
 class Deck:
@@ -13,41 +12,62 @@ class Deck:
                    {"Hearts":"♡", "Spades":"♠", "Diamonds":"♢", "Clubs":"♣"}
 
     Why 3 columns? so it is easier to sort order cards, and easier to check suits, but still you can report the card
-    as a symbol. Finally, it since you don't work with 3 separate arrays, it is less prone to errors.
+    as a symbol. Finally, since you don't work with 3 separate arrays, it is less prone to errors.
+
 
     Parameters:
-        numCards : number of cards for each suit (default is 14). If less than for 14.
+        numCards : number of cards for each suit (default is 13).
      """
 
     def __init__(self, numCards=13):
         start = 15 - numCards
         cardNumber = np.tile(np.arange(start, 15, 1), 4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
-        self.df = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
-        self.df['fullCard'] = self.df.cardNumber.astype(str).replace(
-            {'15': "A", '14': "K", '13': "Q", '12': "J"}) + self.df.suits.astype(str).replace(
+        self.cards = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
+        self.cards['fullCard'] = self.cards.cardNumber.astype(str).replace(
+            {'15': "A", '14': "K", '13': "Q", '12': "J"}) + self.cards.suits.astype(str).replace(
             {'1': "♠", '2': "♢", '3': "♣", '4': "♡"})
+
+    def take_cards(self, index_card):
+        """
+        Extract one or multiple card from a particular position
+        this is used internally by extract_cards
+
+        :param index: a single list with on of more int
+        :return: subset of the deck
+        """
+
+        # check if there position is within df.shape
+        assert np.array([index_card]).max() <= len(my_deck.cards.index), print("One or more cards not present!")
+
+        # check if there are duplicate indexes
+        assert pd.Series(index_card).duplicated().sum() == 0, print("You can't use duplicate indexes")
+
+        extracted_cards = self.cards.loc[index_card]
+        self.cards = self.cards.drop(index_card, axis=0).reset_index(drop=True)
+        return extracted_cards
 
     def extract_cards(self, numExtract, fromPos='top'):
         """
-        Extract cars from the deck.df
+        Extract cars from the deck.df. it uses take_cards.
         :param numExtract: number of cards to extract
         :param fromPos: position one of ['top', 'bottom', 'random']
         :return: a slice of the deck
         """
+        # import pdb
+        # pdb.set_trace()
 
-        # assert type(numExtract) != int, "id is not an integer: %r" % numExtract
-        # assert fromPos not in ['top', 'bottom', 'random'], "fromPos is ['top', 'bottom', 'random']: %r" % numExtract
+        assert type(numExtract) == int, print(f"id is not an integer the type is : {type(numExtract)}")
+        assert fromPos in ['top', 'bottom', 'random'], print(f"fromPos is not one of ['top', 'bottom', 'random'] !")
 
         if fromPos == 'top':
-            to_extract = np.arange(self.df.index[0], self.df.index[0] + numExtract, 1)
+            to_extract = np.arange(self.cards.index[0], self.cards.index[0] + numExtract, 1)
         elif fromPos == 'bottom':
-            to_extract = np.arange(self.df.shape[0] - numExtract, self.df.shape[0], 1)
+            to_extract = np.arange(self.cards.shape[0] - numExtract, self.cards.shape[0], 1)
         elif fromPos == 'random':
-            to_extract = np.random.choice(self.df.index, numExtract, replace=False)
+            to_extract = np.random.choice(self.cards.index, numExtract, replace=False)
 
-        extracted_cards = self.df.loc[to_extract]
-        self.df = self.df.drop(to_extract, axis=0)
+        extracted_cards = self.take_cards(to_extract)
         return extracted_cards
 
     def shuffle(self):
@@ -55,5 +75,35 @@ class Deck:
         Shuffle the deck.df
         :return: deck.df
         """
-        self.df = self.df.sample(frac=1).reset_index(drop=True)
-        print("Deck shuffled, Amigo!")
+        self.cards = self.cards.sample(frac=1).reset_index(drop=True)
+        print("Deck shuffled, Gringo!")
+
+
+if __name__ == '__main__':
+    my_deck = Deck()
+
+# import pdb
+# pdb.set_trace()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

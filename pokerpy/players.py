@@ -1,11 +1,12 @@
 import pandas as pd
+from pokerpy.deck import Deck
 
 
 class Player:
     """"
      """
 
-    def __init__(self, name, role, possible_moves, seat, player_cards=pd.DataFrame()):
+    def __init__(self, name):
         """
 
         :param name:
@@ -15,10 +16,18 @@ class Player:
         :param player_cards:
         """
         self.name = name
-        self.role = role
-        self.possible_moves = possible_moves
-        self.seat = seat
-        self.player_cards = player_cards
+        # self.role = role
+        # self.possible_moves = possible_moves
+        # self.seat = seat
+        # self.player_cards = player_cards
+
+
+class PlayerCards(Deck):
+
+    def __init__(self):
+        self.cards = pd.DataFrame()
 
 
 
+if __name__ == '__main__':
+    dave = PlayerCards()
