@@ -2,8 +2,11 @@ import pandas as pd
 from pokerpy.deck import Deck
 
 
+
 class Player:
     """"
+    Player. So far someone with a name and hands.
+
      """
 
     def __init__(self, name):
@@ -19,10 +22,13 @@ class Player:
         # self.role = role
         # self.possible_moves = possible_moves
         # self.seat = seat
-        # self.player_cards = player_cards
+        self.hands = PlayerCards()
 
 
 class PlayerCards(Deck):
+    """
+      Player cards are just a particular Deck, and we always start empty handed
+    """
 
     def __init__(self):
         self.cards = pd.DataFrame()
@@ -30,4 +36,9 @@ class PlayerCards(Deck):
 
 
 if __name__ == '__main__':
-    dave = PlayerCards()
+    dave = Player(name='Dave')
+
+
+# from pokerpy.deck import Deck
+# my_deck = Deck()
+# dave.hands.cards = my_deck.extract_cards(5)

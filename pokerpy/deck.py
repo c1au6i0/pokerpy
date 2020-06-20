@@ -38,7 +38,7 @@ class Deck:
         """
 
         # check if there position is within df.shape
-        assert np.array([index_card]).max() <= len(my_deck.cards.index), print("One or more cards not present!")
+        assert np.array([index_card]).max() <= len(self.cards.index), print("One or more cards not present!")
 
         # check if there are duplicate indexes
         assert pd.Series(index_card).duplicated().sum() == 0, print("You can't use duplicate indexes")
