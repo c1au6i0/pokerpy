@@ -2,11 +2,11 @@
 # erase it at the end of the Project
 # import array as arr
 from pokerpy.converters import CardConverter
-from pokerpy.players import Human
+from pokerpy.players import *
 from pokerpy.referee import Evaluator
 from pokerpy.cards_many import *
 from pokerpy.money import Pot
-from pokerpy.card_single import Card
+from pokerpy.dealer import Croupier
 
 
 def testPot():
@@ -26,28 +26,16 @@ def testTeresa():
     # create the deck and shuffle it
     print()
     print('- - - TERESA TEST - - -')
-    deck = Cardlist()
-    deck.createDeck(7)
-    deck.shuffle()
+    print()
+    croupier = Croupier(lowestKind=7, numShared=3)
     Players = [Human("Dave"), Human("Claude")]
     for _player in Players:
-        _player.importDeck(deck)
-    #referee = Evaluator(conv)
-    # create the players cards obj
-    sharedCards = Cardlist()
-    sharedCards.extend(deck.give(3))
-    Players[0].takeCards(deck.give(5))
-    Players[1].takeCards(deck.give(5))
-    Players[0].takeCards(sharedCards)
-    Players[1].takeCards(sharedCards)
-    Players[0].cards.calculateScore()
-    Players[1].cards.calculateScore()
-    print('{}{} {}'.format(Players[0].name, "'s score is", Players[0].cards.scoreName))
-    print(' from: {}'.format(Players[0].cards))
-    #
+        croupier.addPlayer(_player)
+    croupier.startDeck()
+    croupier.giveStartingCards()
+    print('Shared cards:', croupier.sharedCards)
     print()
-    print('{}{} {}'.format(Players[1].name, "'s score is", Players[1].cards.scoreName))
-    Players[1].cards.sort()
-    print(' from: {}'.format(Players[1].cards))
-    print()
+    croupier.showSharedCards(3)
+    for _player in Players:
+        _player.slowdown()
     #print(referee.headToheadWinner(Players[0], Players[1]))

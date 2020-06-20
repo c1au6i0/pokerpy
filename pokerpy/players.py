@@ -39,6 +39,11 @@ class Player:
     def highestCard(self):
         return self.cards.bestCards[4]
 
+    def slowdown(self):
+        self.cards.calculateScore()
+        print('{}{} {}'.format(self.name, "'s score is", self.cards.scoreName))
+        print(' from: {}'.format(self.cards))
+        print()
 
 
 class Talker:

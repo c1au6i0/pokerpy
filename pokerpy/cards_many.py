@@ -85,7 +85,8 @@ class PlayerCards(Cardlist):
 
     def __init__(self, *args):
         super().__init__(*args)
-        self.score = self.cscore.HighCard
+        #self.score = self.cscore.HighCard
+        self.score = 0
         self.bestFiveCards = []
         self._kindCards = []
         self.straightCards = []
