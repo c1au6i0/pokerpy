@@ -32,92 +32,34 @@ class Cardlist(list):
     def shuffle(self):
         shuffle(self)
 
-    # useless?
-    def selected(self):
-        _list = Cardlist()
-        for _card in self:
-            if _card.selected:
-                _list.append(_card)
-        return _list
-
+# Take, Give and Select methods
     def selectCard(self, index):
         self[index].selected = True
 
     def unselectCard(self, index: int):
         self[index].selected = False
 
-# Take and give methods
-    def giveOne(self, index=0):
-        if index in range(0, len(self)):
-            _card = self[index]
-            self.remove(self[index])
-        return _card
-
-    def giveMany(self, number=5):
+    def give(self, number=5):
         # remove the first 'number' cards from this SetOfCards and return these Cards objects
-        _list = Cardlist()
-        # number cannot be lower than zero, nor higher than cards
+        # number cannot be lower than zero
         number = max(0, number)
+        # number cannot be higher than cards
         number = min(number, len(self))
-        for i in range(number):
-            _list.append(self.giveOne(0))
-        return _list
+        for i in range(0, number):
+            self[i].selected = True
+        return self.giveSelected()
 
     # useless?
     def giveSelected(self):
         _list = Cardlist()
-        for _card in self:
+        _listForLoop = []
+        _listForLoop.extend(self)
+        for _card in _listForLoop:
             if _card.selected:
+                _card.selected = False
                 _list.append(_card)
-        return _list
-
-# Kind part
-    # Return a list of all the cards with the same kind
-    def kindList(self, kind: int):
-        _list = Cardlist()
-        for _card in self:
-            if _card.rankOfKind == kind:
-                _list.append(_card)
-        return _list
-
-    def kindCount(self, kind: int):
-        return len(self.kindList(kind))
-
-    # Return a list of list of 'num' cards with same kind
-    def kindGroupOf(self, num: int):
-        _list = Cardlist()
-        for k in range(0, len(Cardlist._conv.kind)):
-            if self.kindCount(k) == num:
-                _list.append(self.kindList(k))
-        return _list
-
-# Suit part
-    # Return a list of all the cards with the same suit
-    def suitList(self, suit: int):
-        _list = Cardlist()
-        for _card in self:
-            if _card.rankOfSuit == suit:
-                _list.append(_card)
-        _list.sort()
-        return _list
-
-    def suitCount(self, suit: int):
-        return len(self.suitList(suit))
-
-    # useless?
-    def sortBySuit(self):
-        _list = Cardlist()
-        for s in range(0, 4):
-            _list.extend(self.suitList(s))
-        return _list
-
-# TO DO
-# Straight part
-    def straightList(self, minLenght: int):
-        _list = Cardlist()
-        for _card in self:
-            if _card.rankOfKind == minLenght:
-                _list.append(_card)
+                self.remove(_card)
+        del _listForLoop
         return _list
 
 
@@ -131,16 +73,35 @@ class PlayerCards(Cardlist):
         self.score = 0
         self.bestCards = []
         self._kindCards = []
-        self._straightCards = []
+        self.straightCards = []
         self._suitCards = []
 
-# KindFinder part
+# Kind part
+    # Return a list of all the cards with the same kind
+    def __kindList(self, kind: int):
+        _list = PlayerCards()
+        for _card in self:
+            if _card.rankOfKind == kind:
+                _list.append(_card)
+        return _list
+
+    def __kindCount(self, kind: int):
+        return len(self.__kindList(kind))
+
+    # Return a list of list of 'num' cards with same kind
+    def __kindGroupOf(self, num: int):
+        _list = PlayerCards()
+        for k in range(0, len(Cardlist._conv.kind)):
+            if self.__kindCount(k) == num:
+                _list.append(self.__kindList(k))
+        return _list
+
     def __kindScore(self):
-        self._kindCards = []
+        self._kindCards = PlayerCards()
         _name = ''
-        _pairs = self.kindGroupOf(2)
-        _threes = self.kindGroupOf(3)
-        _fours = self.kindGroupOf(4)
+        _pairs = self.__kindGroupOf(2)
+        _threes = self.__kindGroupOf(3)
+        _fours = self.__kindGroupOf(4)
 
         if len(_fours) >= 1:
             self._kindCards.extend(_fours[-1])
@@ -190,26 +151,66 @@ class PlayerCards(Cardlist):
         _kickers.sort()
         return _kickers
 
-# SuitFinder part
+# Suit part
+    # Return a list of all the cards with the same suit
+    def __suitList(self, suit: int):
+        _list = PlayerCards()
+        for _card in self:
+            if _card.rankOfSuit == suit:
+                _list.append(_card)
+        _list.sort()
+        return _list
 
-# TO DO, IT'S AT DICK
+    def __suitCount(self, suit: int):
+        return len(self.__suitList(suit))
+
+    # useless?
+    def __sortBySuit(self):
+        _list = PlayerCards()
+        for s in range(0, 4):
+            _list.extend(self.__suitList(s))
+        return _list
+
     def __suitScore(self):
-        self._suitCards = Cardlist()
+        #self._suitCards = PlayerCards()
         _name = 'High card'
         for s in range(0, 4):
-            _count = self.suitCount(s)
+            _count = self.__suitCount(s)
             if _count >= 5:
-                # Taking just the last 5 cards
-                self._suitCards = self.suitList(s)
-                self._suitCards = self._suitCards[(_count-5):_count]
-                _name = 'Flush'
+                self._suitCards = self.__suitList(s)
+                _straightScore = self._suitCards.__straightScore()
+                if _straightScore == self._conv.score.index('Straight'):
+                    self._suitCards = self._suitCards.straightCards
+                    _name = 'Royal flush'
+                else:
+                    # Taking just the last 5 cards
+                    self._suitCards = self._suitCards[(_count-5):_count]
+                    _name = 'Flush'
         return Cardlist._conv.score.index(_name)
 
-# StraightFinder part
+# TO DO
+# Straight part
+    def __straightList(self, lenght: int):
+        _list = PlayerCards()
+        _sorted = PlayerCards()
+        _sorted.sort()
+        for n in range(0, len(_sorted)):
+            _cardDifference = _sorted[n].rankOfKind - _sorted[n+1].rankOfKind
+            if _cardDifference == -1 or _cardDifference == Cardlist._conv.aceRank:
+                _list.append(_sorted[n])
+            elif _cardDifference < -1:
+                _list.clear()
+            # Lenght is 4 because we didn't add the last card
+            if len(_list) == 4:
+                _name = 'Straight'
+                break
+        del _sorted
+        return _list
+
     def __straightScore(self):
-        self._straightCards = []
+        self.straightCards = PlayerCards()
         # _reversedCards is the list of the reversed Cars with no pair
-        _reversedCards = []
+        _reversedCards = PlayerCards()
         _reversedCards.extend(self)
         _reversedCards.sort()
         _eraseList = []
@@ -227,31 +228,32 @@ class PlayerCards(Cardlist):
         # Looping all cards, starting from the highest
         _name = 'High card'
         for n in range(0, len(_reversedCards)-1):
-            # I could create a list of indexes, THEN O create the _straightCards
+            # I could create a list of indexes, THEN O create the straightCards
             _cardDifference = _reversedCards[n].rankOfKind - _reversedCards[n+1].rankOfKind
             if _cardDifference == 1 or _cardDifference == -self._conv.aceRank:
-                self._straightCards.append(_reversedCards[n])
+                self.straightCards.append(_reversedCards[n])
             elif _cardDifference > 1:
-                self._straightCards.clear()
+                self.straightCards.clear()
             # Lenght is 4 because we didn't add the last card
-            if len(self._straightCards) == 4:
+            if len(self.straightCards) == 4:
                 _name = 'Straight'
-                self._straightCards.append(_reversedCards[n+1])
-                self._straightCards.reverse()
+                self.straightCards.append(_reversedCards[n+1])
+                self.straightCards.reverse()
                 break
         del _reversedCards
         return self._conv.score.index(_name)
 
 # ScoreFinder part
     def calculateScore(self):
-        self.score = max(self.__suitScore(), self.__kindScore(), self.__straightScore())
+        self.score = max(self.__kindScore(), self.__suitScore(), self.__straightScore())
         if self.score == self._conv.score.index('Straight'):
-            self.bestCards = self._straightCards
-        elif self.score == self._conv.score.index('Flush'):
+            self.bestCards = self.straightCards
+        elif self.score == self._conv.score.index('Flush') or self.score == self._conv.score.index('Royal flush'):
             self.bestCards = self._suitCards
         else:
             self.bestCards = self._kindCards
-        del self._straightCards
+
+        # del self.straightCards
         del self._suitCards
         del self._kindCards
 

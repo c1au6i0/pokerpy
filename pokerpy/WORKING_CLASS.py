@@ -29,16 +29,15 @@ def testTeresa():
     deck = Cardlist()
     deck.createDeck(7)
     deck.shuffle()
-    deck.remove(Card(0, 0))
     Players = [Human("Dave"), Human("Claude")]
     for _player in Players:
         _player.importDeck(deck)
     #referee = Evaluator(conv)
     # create the players cards obj
     sharedCards = Cardlist()
-    sharedCards.extend(deck.giveMany(3))
-    Players[0].takeCards(deck.giveMany(5))
-    Players[1].takeCards(deck.giveMany(5))
+    sharedCards.extend(deck.give(3))
+    Players[0].takeCards(deck.give(5))
+    Players[1].takeCards(deck.give(5))
     Players[0].takeCards(sharedCards)
     Players[1].takeCards(sharedCards)
     Players[0].cards.calculateScore()

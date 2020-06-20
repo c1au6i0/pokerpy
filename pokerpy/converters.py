@@ -26,7 +26,6 @@ class CardRankConverter:
         return len(self.kind) - 1
 
     # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
-    pass
 
 
 # WIP

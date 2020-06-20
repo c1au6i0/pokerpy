@@ -29,6 +29,7 @@ class Player:
 
     def importDeck(self, deck: Cardlist):
         self._deck.extend(deck)
+        self._deck.sort()
 
     @property
     def score(self):
