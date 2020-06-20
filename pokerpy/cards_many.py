@@ -1,7 +1,7 @@
 import pandas as pd
 from pokerpy.card_single import Card
-from random import shuffle
-from pokerpy.converters import CardRankConverter
+from random import shuffle, randint
+from pokerpy.converters import *
 
 
 class Cardlist(list):
@@ -32,10 +32,19 @@ class Cardlist(list):
     def shuffle(self):
         shuffle(self)
 
-# Take, Give and Select methods
+    def cut(self):
+        _numCards = randint(2, (len(self)-1))
+        _cuttedCards = self[0:_numCards]
+        for _card in _cuttedCards:
+            self.remove(_card)
+        self.extend(_cuttedCards)
+
+# Give and Select methods
+    # useless?
     def selectCard(self, index):
         self[index].selected = True
 
+    # useless?
     def unselectCard(self, index: int):
         self[index].selected = False
 
@@ -105,6 +114,7 @@ class PlayerCards(Cardlist):
 
         if len(_fours) >= 1:
             self._kindCards.extend(_fours[-1])
+
             _name = 'Four of a kind'
         # There could be more than one three, if player's got more than five cards
         elif len(_threes) >= 1:
@@ -172,7 +182,6 @@ class PlayerCards(Cardlist):
         return _list
 
     def __suitScore(self):
-        #self._suitCards = PlayerCards()
         _name = 'High card'
         for s in range(0, 4):
             _count = self.__suitCount(s)

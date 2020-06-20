@@ -28,25 +28,49 @@ class CardRankConverter:
     # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
 
 
-# WIP
-class Translator:
+class Score:
 
-    def __init__(self, kindLanguage='', suitLanguage=''):
-        self._kindLanguage = kindLanguage
+    def __init__(self, lowestKind=2):
+        if lowestKind == 2:
+            self._Flush = 5
+            self._FullHouse = 6
+        else:
+            self._FullHouse = 5
+            self._Flush = 6
 
-    def __highestKindList(language: str):
-        if language == '':
-            _highestCards = ('J', 'Q', 'K', 'A')
-        elif language == 'eng':
-            _highestCards = ('Jack', 'Queen', 'King', 'Ace')
-        elif language == 'ita':
-            _highestCards = ('Jack', 'Donna', 'Cappa', 'Asso')
-        return _highestCards
+    @property
+    def HighCard(self):
+        return 0
 
-    def __suitList(self, language: str):
-        if language == '':
-            return chr(9824), chr(9827), chr(9830), chr(9829)
-        elif language == 'eng':
-            return 'Spades', 'Clubs', 'Diamonds', 'Hearts'
-        elif language == 'ita':
-            return 'Picche', 'Fiori', 'Quadri', 'Cuori'
+    @property
+    def Pair(self):
+        return 1
+
+    @property
+    def TwoPair(self):
+        return 2
+
+    @property
+    def ThreeKind(self):
+        return 3
+
+    @property
+    def Straight(self):
+        return 4
+
+    @property
+    def Flush(self):
+        return self._Flush
+
+    @property
+    def FullHouse(self):
+        return self._FullHouse
+
+    @property
+    def FourKind(self):
+        return 7
+
+    @property
+    def RoyalFlush(self):
+        return 8
+
