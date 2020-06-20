@@ -8,7 +8,7 @@ class CardRankConverter:
     score = ()
 
     # why don't you use a __new__stetement?
-    def __init__(self, lowestKind=2, kindLanguage='', suitLanguage=''):
+    def __init__(self, lowestKind=2):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
         self.kind = tuple(self.kind)
@@ -30,13 +30,16 @@ class CardRankConverter:
 
 class Score:
 
+    _Flush: int
+    _FullHouse: int
+
     def __init__(self, lowestKind=2):
         if lowestKind == 2:
-            self._Flush = 5
-            self._FullHouse = 6
+            Score._Flush = 5
+            Score._FullHouse = 6
         else:
-            self._FullHouse = 5
-            self._Flush = 6
+            Score._FullHouse = 5
+            Score._Flush = 6
 
     @property
     def HighCard(self):
@@ -60,11 +63,11 @@ class Score:
 
     @property
     def Flush(self):
-        return self._Flush
+        return Score._Flush
 
     @property
     def FullHouse(self):
-        return self._FullHouse
+        return Score._FullHouse
 
     @property
     def FourKind(self):

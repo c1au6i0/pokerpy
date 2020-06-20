@@ -47,6 +47,7 @@ def testTeresa():
     #
     print()
     print(Players[1].name, "'s score is", Players[1].cards.scoreName)
+    Players[1].cards.sort()
     print(Players[1].cards)
     print()
     #print(referee.headToheadWinner(Players[0], Players[1]))

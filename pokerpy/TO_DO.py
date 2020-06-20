@@ -1,14 +1,6 @@
 ########################################################################################
 # abc (rules, score, ecc.)
-# NEWscore
-# Conv invece di Card._conv ? (erase importConverter)
-# _straightList
-# deck.cut ?
-# royal flush: no more reverse
-# suitCards and straightCards => functions
-# rename straightCards _straightCards?
-# Card: rename rankOfSuit => suit ???
-# flushDraw & straightLevel (complete, insideStraightDraw, outsideStraightDraw
+# flushDraw & straightLevel (complete, insideStraightDraw, outsideStraightDraw). Use _straightList?
 # config files (ini?)
 # PyQt5
 ########################################################################################
