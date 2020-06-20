@@ -277,7 +277,7 @@ class PlayerCards(Cardlist):
     @property
     def scoreName(self):
         _name = self.cscore.rank[self.score]
-        _name = _name + ': '
+        _name = _name + ':'
         for _card in self.bestFiveCards:
             _name = _name + ' ' + _card.name
         return _name

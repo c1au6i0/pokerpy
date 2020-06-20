@@ -1,4 +1,3 @@
-# move to ScoreRules?
 class CardConverter:
 
     suit = (chr(9824), chr(9827), chr(9830), chr(9829))
@@ -17,10 +16,10 @@ class CardConverter:
     def aceRank(self):
         return len(self.kind) - 1
 
-    # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
-
-
+# move to ScoreRules?
 class ScoreConverter:
+
+    # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
 
     _Flush: int
     _FullHouse: int
