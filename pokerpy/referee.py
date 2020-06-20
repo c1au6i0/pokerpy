@@ -1,10 +1,10 @@
-from pokerpy.converters import CardRankConverter
+from pokerpy.converters import *
 from pokerpy.cards_many import *
 from pokerpy.players import Player
 
 
 class Evaluator:
-    def __init__(self, conv: CardRankConverter):
+    def __init__(self, conv: CardConverter):
         self._conv = conv
 
     def winner(self, *player):

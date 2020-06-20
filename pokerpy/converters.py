@@ -1,22 +1,14 @@
 # move to ScoreRules?
-class CardRankConverter:
+class CardConverter:
 
     suit = (chr(9824), chr(9827), chr(9830), chr(9829))
-    _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
-    _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
     kind = []
-    score = ()
 
     # why don't you use a __new__stetement?
     def __init__(self, lowestKind=2):
         self.kind = [str(k) for k in range(lowestKind, 11)]
         self.kind.extend(('J', 'Q', 'K', 'A'))
         self.kind = tuple(self.kind)
-        if lowestKind == 2:
-            self.score = self._lowestScores + ('Flush', 'Full house')
-        else:
-            self.score = self._lowestScores + ('Full house', 'Flush')
-        self.score = self.score + self._highestScores
 
     def __len__(self):
         return len(self.kind)
@@ -28,18 +20,23 @@ class CardRankConverter:
     # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
 
 
-class Score:
+class ScoreConverter:
 
     _Flush: int
     _FullHouse: int
 
     def __init__(self, lowestKind=2):
+        _lowestScores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
+        _highestScores = ('Four of a kind', 'Straight flush', 'Royal flush')
         if lowestKind == 2:
-            Score._Flush = 5
-            Score._FullHouse = 6
+            ScoreConverter._Flush = 5
+            ScoreConverter._FullHouse = 6
+            ScoreConverter.rank = _lowestScores + ('Flush', 'Full house')
         else:
-            Score._FullHouse = 5
-            Score._Flush = 6
+            ScoreConverter._FullHouse = 5
+            ScoreConverter._Flush = 6
+            ScoreConverter.rank = _lowestScores + ('Full house', 'Flush')
+        ScoreConverter.rank = ScoreConverter.rank + _highestScores
 
     @property
     def HighCard(self):
@@ -63,11 +60,11 @@ class Score:
 
     @property
     def Flush(self):
-        return Score._Flush
+        return ScoreConverter._Flush
 
     @property
     def FullHouse(self):
-        return Score._FullHouse
+        return ScoreConverter._FullHouse
 
     @property
     def FourKind(self):

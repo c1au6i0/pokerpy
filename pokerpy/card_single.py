@@ -8,7 +8,7 @@ class Card:
     kind: rank of the kind of the card
     suit: rank of the suit of the card    """
 
-    conv: CardRankConverter
+    conv: CardConverter
 
     # Why tuple as input and not a couple o var?
     def __init__(self, kind, suit):

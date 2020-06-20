@@ -9,8 +9,8 @@ class Cardlist(list):
     """This is a group of cards.
         PlayerCards, Deck and Flop are Cardlist"""
 
-    conv: CardRankConverter
-    _scoreIndex: Score
+    conv: CardConverter
+    cscore: ScoreConverter
 
     def __str__(self):
         if not self:
@@ -28,10 +28,9 @@ class Cardlist(list):
         return _sorted[len(self)-1]
 
     def createDeck(self, lowestKind=2, decks=1):
-        Cardlist._scoreIndex = Score(lowestKind)
-        Cardlist.conv = CardRankConverter(lowestKind)
+        Cardlist.cscore = ScoreConverter(lowestKind)
+        Cardlist.conv = CardConverter(lowestKind)
         Card.conv = Cardlist.conv
-        #Card.importConverter(Cardlist.conv)
         for k in range(len(Cardlist.conv.kind)):
             for s in range(4):
                 for d in range(decks):
@@ -86,7 +85,7 @@ class PlayerCards(Cardlist):
 
     def __init__(self, *args):
         super().__init__(*args)
-        self.score = Score.HighCard
+        self.score = self.cscore.HighCard
         self.bestFiveCards = []
         self._kindCards = []
         self.straightCards = []
@@ -114,13 +113,13 @@ class PlayerCards(Cardlist):
 
     # return score index (HighCard/Pair/TwoPair/ThreeKind/FullHouse/FourKind)
     def __createKindCards(self):
-        _score = Score.HighCard
+        _score = self.cscore.HighCard
         self._kindCards = []
         _fours = self.__kindGroupOf(4)
 
         if len(_fours) >= 1:
             self._kindCards.extend(_fours[-1])
-            _score = PlayerCards._scoreIndex.FourKind
+            _score = PlayerCards.cscore.FourKind
         else:
             _pairs = self.__kindGroupOf(2)
             _threes = self.__kindGroupOf(3)
@@ -134,19 +133,19 @@ class PlayerCards(Cardlist):
                 if len(_pairs) >= 1:
                     self._kindCards.extend(_pairs[-1])
                     self._kindCards.extend(_threes[-1])
-                    _score = PlayerCards._scoreIndex.FullHouse
+                    _score = PlayerCards.cscore.FullHouse
                 else:
                     self._kindCards.extend(_threes[0])
-                    _score = PlayerCards._scoreIndex.ThreeKind
+                    _score = PlayerCards.cscore.ThreeKind
             elif len(_pairs) > 1:
                 self._kindCards.extend(_pairs[-2])
                 self._kindCards.extend(_pairs[-1])
-                _score = PlayerCards._scoreIndex.TwoPair
+                _score = PlayerCards.cscore.TwoPair
             elif len(_pairs) == 1:
                 self._kindCards.extend(_pairs[0])
-                _score = PlayerCards._scoreIndex.Pair
+                _score = PlayerCards.cscore.Pair
             else:
-                _score = PlayerCards._scoreIndex.HighCard
+                _score = PlayerCards.cscore.HighCard
         # Extending _kindCards with sorted _kickers
         self._kindCards = self.__kickers() + self._kindCards
         _numKindCards = len(self._kindCards)
@@ -188,19 +187,19 @@ class PlayerCards(Cardlist):
 
     # return index score (HighCard/Flush/RoyalFlush)
     def __createSuitCards(self, preferHighestSuit=False):
-        _score = PlayerCards._scoreIndex.HighCard
+        _score = PlayerCards.cscore.HighCard
         _highestCard = Card(0, 0)
         for s in range(4):
             _count = self.__suitCount(s)
             if _count >= 5:
                 _tempList = self.__suitList(s)
                 # Royal flush
-                if _tempList.__createStraightCards() == PlayerCards._scoreIndex.Straight:
+                if _tempList.__createStraightCards() == PlayerCards.cscore.Straight:
                     # Different rules: sometimes _highestSuit is better than _highestCard
                     if _tempList.highestCard >= _highestCard or preferHighestSuit:
                         _highestCard = _tempList.highestCard
                         self._suitCards = _tempList.straightCards
-                        _score = PlayerCards._scoreIndex.RoyalFlush
+                        _score = PlayerCards.cscore.RoyalFlush
                 else:
                     # Flush
                     # Different rules: sometimes _highestSuit is better than _highestCard
@@ -208,7 +207,7 @@ class PlayerCards(Cardlist):
                         _highestCard = _tempList.highestCard
                         # Taking just the last 5 cards
                         self._suitCards = _tempList[(_count-5):_count]
-                        _score = PlayerCards._scoreIndex.Flush
+                        _score = PlayerCards.cscore.Flush
         return _score
 
 # TO DO
@@ -242,7 +241,7 @@ class PlayerCards(Cardlist):
 
     # return index score (HighCard or Straight)
     def __createStraightCards(self):
-        _score = PlayerCards._scoreIndex.HighCard
+        _score = PlayerCards.cscore.HighCard
         self.straightCards = []
         # _reversedCards is the list of the reversed Cards with no pair
         _reversedCards = self.noDuplicatesList()
@@ -261,23 +260,23 @@ class PlayerCards(Cardlist):
             if len(self.straightCards) == 4:
                 self.straightCards.append(_reversedCards[n+1])
                 self.straightCards.reverse()
-                _score = PlayerCards._scoreIndex.Straight
+                _score = PlayerCards.cscore.Straight
                 break
         return _score
 
 # ScoreFinder part
     def calculateScore(self):
         self.score = max(self.__createKindCards(), self.__createSuitCards(), self.__createStraightCards())
-        if self.score == self.conv.score.index('Straight'):
+        if self.score == self.cscore.Straight:
             self.bestFiveCards = self.straightCards
-        elif self.score == self.conv.score.index('Flush') or self.score == self.conv.score.index('Royal flush'):
+        elif self.score == self.cscore.Flush or self.score == self.cscore.RoyalFlush:
             self.bestFiveCards = self._suitCards
         else:
             self.bestFiveCards = self._kindCards
 
     @property
     def scoreName(self):
-        _name = self.conv.score[self.score]
+        _name = self.cscore.rank[self.score]
         _name = _name + ': '
         for _card in self.bestFiveCards:
             _name = _name + ' ' + _card.name
