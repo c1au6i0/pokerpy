@@ -3,8 +3,6 @@ from pokerpy.players import Player
 
 
 class Evaluator:
-    def __init__(self, conv: CardConverter):
-        self._conv = conv
 
     def winner(self, *player):
         #player.index(0)

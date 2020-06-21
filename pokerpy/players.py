@@ -5,11 +5,6 @@ from pokerpy.money import Cash
 
 class Player:
 
-    # conv is the same for every Player
-    # you can do the same with Rules and other stuff
-    # useless?
-    conv: CardConverter
-
     def __init__(self, name: str):
         self.name = name
         self.cards = PlayerCards()

@@ -1,7 +1,4 @@
-# Temporary class and methods to help test, debug, etc.
-# erase it at the end of the Project
 # import array as arr
-from pokerpy.converters import CardConverter
 from pokerpy.players import *
 from pokerpy.referee import *
 from pokerpy.cards_many import *

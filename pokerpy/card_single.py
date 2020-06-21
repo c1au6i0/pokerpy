@@ -10,14 +10,17 @@ class Card:
     name: card name in symbolic format
     """
 
-    conv: CardConverter
+    _symbol_of_suit = ("♠", "♣", "♢", "♡")
+    #_symbol_of_suit = (chr(9824), chr(9827), chr(9830), chr(9829))
+    # "0" and "1" are useless, but usefull to recognize fast the correct symbol
+    symbol_of_kind = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
 
     # Why tuple as input and not a couple o var?
     def __init__(self, kind, suit):
-        if kind in range(len(Card.conv.kind)) and suit in range(4):
+        if kind in range(2, 15) and suit in range(4):
             self.kind = kind
             self.suit = suit
-            self.name = '{} {}'.format(Card.conv.kind[kind], Card.conv.suit[suit])
+            self.name = '{} {}'.format(self.symbol_of_kind[kind], self._symbol_of_suit[suit])
             self.selected = False
             self.faced_down = True
             self.place = 0

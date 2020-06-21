@@ -1,5 +1,5 @@
 from pokerpy.card_single import Card
-from pokerpy.converters import *
+from pokerpy.converters import ScoreConverter
 from random import shuffle, randint
 
 
@@ -9,8 +9,8 @@ class ListOfCards(list):
         Inheriting from list class
         PlayerCards, Deck and Flop are ListOfCards"""
 
-    conv: CardConverter
     score_converter: ScoreConverter
+    lowest_kind: int
 
     def __str__(self):
         """Return all the cards name in the list"""
@@ -32,9 +32,8 @@ class ListOfCards(list):
     def create_deck(self, lowest_kind=2, decks=1):
         """Create the deck, starting with choosed lowest_kind to Ace"""
         ListOfCards.score_converter = ScoreConverter(lowest_kind)
-        ListOfCards.conv = CardConverter(lowest_kind)
-        Card.conv = ListOfCards.conv
-        for k in range(len(ListOfCards.conv.kind)):
+        ListOfCards.lowest_kind = lowest_kind
+        for k in range(lowest_kind, 15):
             for s in range(4):
                 for d in range(decks):
                     _card = Card(k, s)
@@ -111,7 +110,7 @@ class PlayerCards(ListOfCards):
     def _kind_group(self, number: int):
         """Return the list of the groups of 'number' cards with same kind"""
         _list = []
-        for k in range(len(ListOfCards.conv.kind)):
+        for k in range(self.lowest_kind, 15):
             _kind_list = [_card for _card in self.sorted() if _card.kind == k]
             if len(_kind_list) == number:
                 _list.append(_kind_list)
@@ -176,7 +175,8 @@ class PlayerCards(ListOfCards):
     def _create_suit_cards(self, prefer_highest_suit=False):
         """Return the Suit score index (HighCard/Flush/RoyalFlush)"""
         _score = PlayerCards.score_converter.HighCard
-        _highest_card = Card(0, 0)
+        # Starting with the lowest card
+        _highest_card = Card(self.lowest_kind, 0)
         for s in range(4):
             _suit_list = PlayerCards([_card for _card in self.sorted() if _card.suit == s])
             _count = len(_suit_list)
@@ -188,7 +188,7 @@ class PlayerCards(ListOfCards):
                     if _list.highest_card >= _highest_card or prefer_highest_suit:
                         _highest_card = _list.highest_card
                         self._suit_cards = _list.straight_cards
-                        if self._suit_cards[-1].kind == PlayerCards.conv.ace_rank:
+                        if self._suit_cards[-1].kind == 15:
                             _score = PlayerCards.score_converter.RoyalFlush
                         else:
                             _score = PlayerCards.score_converter.StraightFlush
@@ -208,7 +208,7 @@ class PlayerCards(ListOfCards):
         _list_of_lists = []
         # _no_duplicates_list is the list of the Cards with no pair
         _no_duplicates_list = self.no_duplicates_list()
-        if _no_duplicates_list[-1].kind == self.conv.ace_rank:
+        if _no_duplicates_list[-1].kind == 15:
             _list = [_no_duplicates_list[-1]]
             _no_duplicates_list = _list + _no_duplicates_list
         _list = [_no_duplicates_list[0]]
@@ -216,8 +216,8 @@ class PlayerCards(ListOfCards):
         for n in range(1, len(_no_duplicates_list)):
             _cardDifference = _no_duplicates_list[n].kind - _no_duplicates_list[n-1].kind
             # cardDifference == 1 means than the cards are 'near'
-            # cardDifference == self.conv.ace_rank means that the cards are the lowest and an ace
-            if _cardDifference == 1 or _cardDifference == -self.conv.ace_rank:
+            # cardDifference == 15 means that the cards are the lowest and an ace
+            if _cardDifference == 1 or _no_duplicates_list[n-1].kind == 15:
                 _list.append(_no_duplicates_list[n])
             else:
                 # Cards are not near so I have to close the _list
@@ -288,7 +288,7 @@ class PlayerCards(ListOfCards):
                 _count = len(_list[n])
                 if _count == 4:
                     # Choosing between inside/outside StraightDraw
-                    if _list[n][0].kind != self.conv.ace_rank and _list[n][-1].kind != self.conv.ace_rank:
+                    if _list[n][0].kind != 15 and _list[n][-1].kind != 15:
                         _score = self.score_converter.partial_straight.OutsideStraightDraw
                         break
                     else:

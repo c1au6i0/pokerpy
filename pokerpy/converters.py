@@ -1,22 +1,3 @@
-class CardConverter:
-
-    suit = (chr(9824), chr(9827), chr(9830), chr(9829))
-    kind = []
-
-    # why don't you use a __new__stetement?
-    def __init__(self, lowest_kind=2):
-        self.kind = [str(k) for k in range(lowest_kind, 11)]
-        self.kind.extend(('J', 'Q', 'K', 'A'))
-        self.kind = tuple(self.kind)
-
-    def __len__(self):
-        return len(self.kind)
-
-    @property
-    def ace_rank(self):
-        return len(self.kind) - 1
-
-
 # move to ScoreRules?
 class ScoreConverter:
 
