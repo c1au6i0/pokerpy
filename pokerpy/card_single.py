@@ -6,7 +6,9 @@ class Card:
     """This class represents a single playing card
 
     kind: rank of the kind of the card
-    suit: rank of the suit of the card    """
+    suit: rank of the suit of the card
+    name: card name in symbolic format
+    """
 
     conv: CardConverter
 
