@@ -27,7 +27,7 @@ def testTeresa():
     print()
     print('- - - TERESA TEST - - -')
     print()
-    croupier = Croupier(lowestKind=7, numShared=3, numForPlayer=12)
+    croupier = Croupier(lowestKind=7, numShared=3)
     Players = [Human("Dave"), Human("Claude")]
     croupier.addPlayers(Players[0], Players[1])
     croupier.startDeck()
@@ -37,6 +37,5 @@ def testTeresa():
     croupier.showSharedCards(3)
     for _player in Players:
         _player.slowdown()
-    Players[1].cards.showStraightList()
-    #print(Evaluator.headToheadWinner(Players[0], Players[1]))
+    print(Evaluator.headToheadWinner(Players[0], Players[1]))
 
