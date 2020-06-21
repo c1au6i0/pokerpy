@@ -21,11 +21,11 @@ class Deck:
 
     def __init__(self, numCards=13):
         start = 15 - numCards
-        cardNumber = np.tile(np.arange(start, 16, 1), 4)
+        cardNumber = np.tile(np.arange(start, 15, 1), 4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         self.cards = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
         self.cards['fullCard'] = self.cards.cardNumber.astype(str).replace(
-            {'15': "A", '14': "K", '13': "Q", '12': "J"}) + self.cards.suits.astype(str).replace(
+            {'14': "A", '13': "K", '12': "Q", '11': "J"}) + self.cards.suits.astype(str).replace(
             {'1': "♠", '2': "♢", '3': "♣", '4': "♡"})
 
     def take_cards(self, index_card):
