@@ -4,48 +4,45 @@ from pokerpy.players import *
 
 class Croupier:
 
-    def __init__(self, lowestKind=2, numForPlayer=5, numShared=0):
-        self.lowestKind = lowestKind
+    def __init__(self, lowest_kind=2, number_cards_for_player=5, number_cards_shared=0):
+        self.lowest_kind = lowest_kind
         self.players = []
-        self.deck = Cardlist()
-        self.rejects = Cardlist()
-        self.sharedCards = Cardlist()
-        self._numShared = numShared
-        self._numForPlayer = numForPlayer
+        self.deck = ListOfCards()
+        self.rejects = ListOfCards()
+        self.shared_cards = ListOfCards()
+        self._number_cards_shared = number_cards_shared
+        self._number_cards_for_player = number_cards_for_player
 
-    def startDeck(self):
+    def start_deck(self):
         if len(self.players) == 0:
             return False
         else:
-            self.deck.createDeck(self.lowestKind)
+            self.deck.create_deck(self.lowest_kind)
             self.deck.shuffle()
             for _player in self.players:
-                _player.importDeck(self.deck)
+                _player.import_deck(self.deck)
             return True
 
-    def giveStartingCards(self):
+    def give_starting_cards(self):
         for _player in self.players:
-            _player.takeCards(self.deck.give(self._numForPlayer))
-        self.sharedCards.extend(self.deck.give(self._numShared))
+            _player.take_cards(self.deck.give(self._number_cards_for_player))
+        self.shared_cards.extend(self.deck.give(self._number_cards_shared))
 
-    def addPlayer(self, player: Player):
-        self.players.append(player)
-
-    def addPlayers(self, *players):
+    def add_players(self, *players):
         self.players.extend(players)
 
-    def showSharedCards(self, num=1):
-        _sharedCards = self.sharedCards.give(num)
+    def show_shared_cards(self, num=1):
+        _shared_cards = self.shared_cards.give(num)
         for _player in self.players:
-            _player.takeCards(_sharedCards)
+            _player.take_cards(_shared_cards)
 
 
 class PlayingBoard:
-    # placeCard
-    # sharedCards: Cardlist()
+    # place_card
+    # shared_cards: ListOfCards()
     # pot(0, 1, 2....): pot
     # seat: place
-    # setSharedCards()
+    # setshared_cards()
     # showSharedCard()
     pass
 
@@ -57,7 +54,7 @@ class Director:
     # setDealer()
     # setTalk()
     # setPhase()
-    # addPlayer()
+    # add_player()
     # removePlayer()
     # setTurns()
     pass

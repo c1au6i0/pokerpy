@@ -17,8 +17,8 @@ class Card:
             self.suit = suit
             self.name = '{} {}'.format(Card.conv.kind[kind], Card.conv.suit[suit])
             self.selected = False
-            self.facedDown = True
-            self.placeOnPlayingBoard = 0
+            self.faced_down = True
+            self.place = 0
         else:
             return False
 

@@ -3,19 +3,19 @@
 # WIP
 class Translator:
 
-    def __init__(self, kindLanguage='', suitLanguage=''):
-        self._kindLanguage = kindLanguage
+    def __init__(self, _language=''):
+        self._language = _language
 
-    def __highestKindList(language: str):
+    def _highest_kind_list(self, language: str):
         if language == '':
-            _highestCards = ('J', 'Q', 'K', 'A')
+            _highest_cards = ('J', 'Q', 'K', 'A')
         elif language == 'eng':
-            _highestCards = ('Jack', 'Queen', 'King', 'Ace')
+            _highest_cards = ('Jack', 'Queen', 'King', 'Ace')
         elif language == 'ita':
-            _highestCards = ('Jack', 'Donna', 'Cappa', 'Asso')
-        return _highestCards
+            _highest_cards = ('Jack', 'Donna', 'Cappa', 'Asso')
+        return _highest_cards
 
-    def __suitList(self, language: str):
+    def _suit_list(self, language: str):
         if language == '':
             return chr(9824), chr(9827), chr(9830), chr(9829)
         elif language == 'eng':

@@ -4,13 +4,14 @@ from random import shuffle, randint
 from pokerpy.converters import *
 
 
-class Cardlist(list):
+class ListOfCards(list):
 
     """This is a group of cards.
-        PlayerCards, Deck and Flop are Cardlist"""
+        Inheriting from list class
+        PlayerCards, Deck and Flop are ListOfCards"""
 
     conv: CardConverter
-    cscore: ScoreConverter
+    score_converter: ScoreConverter
 
     def __str__(self):
         if not self:
@@ -22,55 +23,55 @@ class Cardlist(list):
             return _text
 
     @property
-    def highestCard(self):
+    def highest_card(self):
         _sorted = self
         _sorted.sort()
         return _sorted[len(self)-1]
 
-    def createDeck(self, lowestKind=2, decks=1):
-        Cardlist.cscore = ScoreConverter(lowestKind)
-        Cardlist.conv = CardConverter(lowestKind)
-        Card.conv = Cardlist.conv
-        for k in range(len(Cardlist.conv.kind)):
+    def create_deck(self, lowest_kind=2, decks=1):
+        ListOfCards.score_converter = ScoreConverter(lowest_kind)
+        ListOfCards.conv = CardConverter(lowest_kind)
+        Card.conv = ListOfCards.conv
+        for k in range(len(ListOfCards.conv.kind)):
             for s in range(4):
                 for d in range(decks):
-                    _singleCard = Card(k, s)
-                    self.append(_singleCard)
+                    _card = Card(k, s)
+                    self.append(_card)
 
     def shuffle(self):
         shuffle(self)
 
     def cut(self):
-        _numCards = randint(2, (len(self)-1))
-        _cuttedCards = self[0:_numCards]
-        for _card in _cuttedCards:
+        _number_of_cards = randint(2, (len(self)-1))
+        _cutted_cards = self[0:_number_of_cards]
+        for _card in _cutted_cards:
             self.remove(_card)
-        self.extend(_cuttedCards)
+        self.extend(_cutted_cards)
 
 # Give and Select methods
     # useless?
-    def selectCard(self, index):
+    def select_card(self, index):
         self[index].selected = True
 
     # useless?
-    def unselectCard(self, index: int):
+    def unselect_card(self, index: int):
         self[index].selected = False
 
     def give(self, number=5):
-        # remove the first 'number' cards from this Cardlist and return these Cards objects
+        # remove the first 'number' cards from this ListOfCards and return these Cards objects
         # number cannot be lower than zero
         number = max(0, number)
         # number cannot be higher than cards
         number = min(number, len(self))
         for i in range(number):
             self[i].selected = True
-        return self.giveSelected()
+        return self.give_selected()
 
     # return selected cards list (and unselect them)
-    def giveSelected(self):
+    def give_selected(self):
         _list = []
-        _listForLoop = list(self)
-        for _card in _listForLoop:
+        _temp_list = list(self)
+        for _card in _temp_list:
             if _card.selected:
                 _card.selected = False
                 _list.append(_card)
@@ -78,19 +79,21 @@ class Cardlist(list):
         return _list
 
 
-class PlayerCards(Cardlist):
+class PlayerCards(ListOfCards):
     """The group of cards owned by the player
         plus the optional common cards
-        Mainly, it's a Cardlist with score evalutator and bestaCards list"""
+        Mainly, it's a ListOfCards with score evalutator and bestaCards list"""
 
     def __init__(self, *args):
         super().__init__(*args)
-        #self.score = self.cscore.HighCard
+        #self.score = ListOfCards.score_converter.HighCard
+        #self._partial_straight = ListOfCards.score_converter.partial_straight.Nothing
         self.score = 0
-        self.bestFiveCards = []
-        self._kindCards = []
-        self.straightCards = []
-        self._suitCards = []
+        self._partial_straight = 0
+        self.best_five = []
+        self.kind_cards = []
+        self.straight_cards = []
+        self._suit_cards = []
 
     def sorted(self):
         _list = self
@@ -99,180 +102,180 @@ class PlayerCards(Cardlist):
 
 # Kind part
     # Return a list of list of 'num' cards with same kind
-    def __kindGroupOf(self, num: int):
+    def _kind_group(self, num: int):
         _list = []
-        for k in range(len(Cardlist.conv.kind)):
-            _kindList = [_card for _card in self.sorted() if _card.kind == k]
-            if len(_kindList) == num:
-                _list.append(_kindList)
+        for k in range(len(ListOfCards.conv.kind)):
+            _kind_list = [_card for _card in self.sorted() if _card.kind == k]
+            if len(_kind_list) == num:
+                _list.append(_kind_list)
         return _list
 
-    # return score index (HighCard/Pair/TwoPair/ThreeKind/FullHouse/FourKind)
-    def __createKindCards(self):
-        _score = self.cscore.HighCard
-        self._kindCards = []
-        _fours = self.__kindGroupOf(4)
+    # return score index (HighCard/Pair/TwoPair/ThreeOfKind/FullHouse/FourOfKind)
+    def _create_kind_cards(self):
+        _score = self.score_converter.HighCard
+        self.kind_cards = []
+        _fours = self._kind_group(4)
 
         if len(_fours) >= 1:
-            self._kindCards.extend(_fours[-1])
-            _score = PlayerCards.cscore.FourKind
+            self.kind_cards.extend(_fours[-1])
+            _score = PlayerCards.score_converter.FourOfKind
         else:
-            _pairs = self.__kindGroupOf(2)
-            _threes = self.__kindGroupOf(3)
+            _pairs = self._kind_group(2)
+            _threes = self._kind_group(3)
             # There could be more than one three, if player's got more than five cards
             if len(_threes) >= 1:
                 if len(_threes) > 1:
-                    _pairFromThree = _threes[-2]
-                    _pairFromThree.__delitem__(0)
-                    _pairs.append(_pairFromThree)
+                    _pair_from_three = _threes[-2]
+                    _pair_from_three.__delitem__(0)
+                    _pairs.append(_pair_from_three)
                     _pairs.sort()
                 if len(_pairs) >= 1:
-                    self._kindCards.extend(_pairs[-1])
-                    self._kindCards.extend(_threes[-1])
-                    _score = PlayerCards.cscore.FullHouse
+                    self.kind_cards.extend(_pairs[-1])
+                    self.kind_cards.extend(_threes[-1])
+                    _score = PlayerCards.score_converter.FullHouse
                 else:
-                    self._kindCards.extend(_threes[0])
-                    _score = PlayerCards.cscore.ThreeKind
+                    self.kind_cards.extend(_threes[0])
+                    _score = PlayerCards.score_converter.ThreeOfKind
             elif len(_pairs) > 1:
-                self._kindCards.extend(_pairs[-2])
-                self._kindCards.extend(_pairs[-1])
-                _score = PlayerCards.cscore.TwoPair
+                self.kind_cards.extend(_pairs[-2])
+                self.kind_cards.extend(_pairs[-1])
+                _score = PlayerCards.score_converter.TwoPair
             elif len(_pairs) == 1:
-                self._kindCards.extend(_pairs[0])
-                _score = PlayerCards.cscore.Pair
+                self.kind_cards.extend(_pairs[0])
+                _score = PlayerCards.score_converter.Pair
             else:
-                _score = PlayerCards.cscore.HighCard
-        # Extending _kindCards with sorted _kickers
-        self._kindCards = self.__kickers() + self._kindCards
-        _numKindCards = len(self._kindCards)
+                _score = PlayerCards.score_converter.HighCard
+        # Extending kind_cards with sorted _kickers
+        self.kind_cards = self._kickers() + self.kind_cards
+        _number_of_kind_cards = len(self.kind_cards)
         # Taking just the last 5 cards
-        if _numKindCards > 5:
-            self._kindCards = self._kindCards[(_numKindCards-5):_numKindCards]
+        if _number_of_kind_cards > 5:
+            self.kind_cards = self.kind_cards[(_number_of_kind_cards-5):_number_of_kind_cards]
         return _score
 
-    def __kickers(self):
-        _kickers = list(self)
-        # Remove _kindCards from _kickers
-        for _card in self._kindCards:
-            if _card in _kickers:
-                _kickers.remove(_card)
+    def _kickers(self):
+        _list = list(self)
+        # Remove kind_cards from _kickers
+        for _card in self.kind_cards:
+            if _card in _list:
+                _list.remove(_card)
             else:
                 print(_card, ' is not in list')
-        _kickers.sort()
-        return _kickers
+        _list.sort()
+        return _list
 
 # Suit part
     # return index score (HighCard/Flush/RoyalFlush)
-    def __createSuitCards(self, preferHighestSuit=False):
-        _score = PlayerCards.cscore.HighCard
-        _highestCard = Card(0, 0)
+    def _create_suit_cards(self, prefer_highest_suit=False):
+        _score = PlayerCards.score_converter.HighCard
+        _highest_card = Card(0, 0)
         for s in range(4):
-            _suitList = PlayerCards([_card for _card in self.sorted() if _card.suit == s])
-            _count = len(_suitList)
+            _suit_list = PlayerCards([_card for _card in self.sorted() if _card.suit == s])
+            _count = len(_suit_list)
             if _count >= 5:
-                _tempList = _suitList
+                _list = _suit_list
                 # Straight and Royal flush
-                if _tempList.__createStraightCards() == PlayerCards.cscore.Straight:
-                    # Different rules: sometimes _highestSuit is better than _highestCard
-                    if _tempList.highestCard >= _highestCard or preferHighestSuit:
-                        _highestCard = _tempList.highestCard
-                        self._suitCards = _tempList.straightCards
-                        if self._suitCards[-1].kind == PlayerCards.conv.aceRank:
-                            _score = PlayerCards.cscore.RoyalFlush
+                if _list._create_straight_cards() == PlayerCards.score_converter.Straight:
+                    # Different rules: sometimes _highestSuit is better than _highest_card
+                    if _list.highest_card >= _highest_card or prefer_highest_suit:
+                        _highest_card = _list.highest_card
+                        self._suit_cards = _list.straight_cards
+                        if self._suit_cards[-1].kind == PlayerCards.conv.ace_rank:
+                            _score = PlayerCards.score_converter.RoyalFlush
                         else:
-                            _score = PlayerCards.cscore.StraightFlush
+                            _score = PlayerCards.score_converter.StraightFlush
+                    # TO DO: use self._partial_straight to recognize partial straight
                 else:
                     # Flush
-                    # Different rules: sometimes _highestSuit is better than _highestCard
-                    if _tempList.highestCard >= _highestCard or preferHighestSuit:
-                        _highestCard = _tempList.highestCard
+                    # Different rules: sometimes _highestSuit is better than _highest_card
+                    if _list.highest_card >= _highest_card or prefer_highest_suit:
+                        _highest_card = _list.highest_card
                         # Taking just the last 5 cards
-                        self._suitCards = _tempList[(_count-5):_count]
-                        _score = PlayerCards.cscore.Flush
+                        self._suit_cards = _list[(_count-5):_count]
+                        _score = PlayerCards.score_converter.Flush
         return _score
 
 # Straight part
     # Return a list of list of 'partial' straight
-    def _straightList(self):
-        _listOfList = []
-        # _noDuplicates is the list of the reversed Cards with no pair
-        _noDuplicates = self.noDuplicatesList()
-        if _noDuplicates[-1].kind == self.conv.aceRank:
-            _tempList = [_noDuplicates[-1]]
-            _noDuplicates = _tempList + _noDuplicates
-        _tempList = [_noDuplicates[0]]
+    def _straight_list(self):
+        _list_of_lists = []
+        # _no_duplicates_list is the list of the reversed Cards with no pair
+        _no_duplicates_list = self.no_duplicates_list()
+        if _no_duplicates_list[-1].kind == self.conv.ace_rank:
+            _list = [_no_duplicates_list[-1]]
+            _no_duplicates_list = _list + _no_duplicates_list
+        _list = [_no_duplicates_list[0]]
         # Looping all cards, starting from the second
-        for n in range(1, len(_noDuplicates)):
-            _cardDifference = _noDuplicates[n].kind - _noDuplicates[n-1].kind
-            if _cardDifference == 1 or _cardDifference == -self.conv.aceRank:
-                _tempList.append(_noDuplicates[n])
+        for n in range(1, len(_no_duplicates_list)):
+            _cardDifference = _no_duplicates_list[n].kind - _no_duplicates_list[n-1].kind
+            if _cardDifference == 1 or _cardDifference == -self.conv.ace_rank:
+                _list.append(_no_duplicates_list[n])
             else:
-                _listOfList.append(_tempList)
-                _tempList = [_noDuplicates[n]]
-            if n == len(_noDuplicates)-1:
-                _listOfList.append(_tempList)
-        return _listOfList
+                _list_of_lists.append(_list)
+                _list = [_no_duplicates_list[n]]
+            if n == len(_no_duplicates_list)-1:
+                _list_of_lists.append(_list)
+        return _list_of_lists
 
-    def noDuplicatesList(self):
+    def no_duplicates_list(self):
         _list = PlayerCards(self)
         _list.sort()
-        _eraseList = []
+        _erase_list = []
         for n in range(len(_list)-1):
             if _list[n].kind == _list[n+1].kind:
-                _eraseList.append(n)
-        _eraseList.reverse()
-        for n in _eraseList:
+                _erase_list.append(n)
+        _erase_list.reverse()
+        for n in _erase_list:
             _list.remove(_list[n])
         return _list
 
     # return index score (HighCard or Straight)
-    def __createStraightCards(self):
-        _score = PlayerCards.cscore.HighCard
-        _partialStraight = ''
-        self.straightCards = []
-        _straightList = self._straightList()
-        _reversedIndex = list(range(len(_straightList)))
-        _reversedIndex.reverse()
+    def _create_straight_cards(self):
+        _score = PlayerCards.score_converter.HighCard
+        self._partial_straight = self.score_converter.partial_straight.Nothing
+        self.straight_cards = []
+        _straight_list = self._straight_list()
+        _reversed_index = list(range(len(_straight_list)))
+        _reversed_index.reverse()
         # Looping all cards, starting from the highest
-        for n in _reversedIndex:
-            _count = len(_straightList[n])
+        for n in _reversed_index:
+            _count = len(_straight_list[n])
             if _count >= 5:
                 # Complete straight finded
-                self.straightCards.extend(_straightList[n])
-                self.straightCards = self.straightCards[(_count-5):_count]
-                _score = PlayerCards.cscore.Straight
+                self.straight_cards.extend(_straight_list[n])
+                self.straight_cards = self.straight_cards[(_count-5):_count]
+                _score = PlayerCards.score_converter.Straight
                 break
             elif _count == 4:
                 # Looking for inside/outside StraightDraw
-                if _straightList[n][0].kind != self.conv.aceRank and _straightList[n][-1].kind != self.conv.aceRank:
-                    _partialStraight = 'bilaterale'
+                if _straight_list[n][0].kind != self.conv.ace_rank and _straight_list[n][-1].kind != self.conv.ace_rank:
+                    self._partial_straight = self.score_converter.partial_straight.OutsideStraightDraw
                 else:
-                    _partialStraight = 'ad incastro'
-                print(_partialStraight)
+                    self._partial_straight = self.score_converter.partial_straight.InsideStraightDraw
             else:
                 #
-                if _partialStraight == '':
-                    if n < len(_straightList)-1:
-                        _partialCount = _count + len(_straightList[n+1])
+                if self._partial_straight == self.score_converter.partial_straight.Nothing:
+                    if n < len(_straight_list)-1:
+                        _partialCount = _count + len(_straight_list[n+1])
                         if _partialCount >= 4:
-                            print('Partial straight count: ', _partialCount)
+                            self._partial_straight = self.score_converter.partial_straight.InsideStraightDraw
         return _score
 
 # ScoreFinder part
-    def calculateScore(self):
-        self.score = max(self.__createKindCards(), self.__createSuitCards(), self.__createStraightCards())
-        if self.score == self.cscore.Straight:
-            self.bestFiveCards = self.straightCards
-        elif self.score == self.cscore.Flush or self.score == self.cscore.StraightFlush or self.score == self.cscore.RoyalFlush:
-            self.bestFiveCards = self._suitCards
+    def calculate_score(self):
+        self.score = max(self._create_kind_cards(), self._create_suit_cards(), self._create_straight_cards())
+        if self.score == self.score_converter.Straight:
+            self.best_five = self.straight_cards
+        elif self.score == self.score_converter.Flush or self.score == self.score_converter.StraightFlush or self.score == self.score_converter.RoyalFlush:
+            self.best_five = self._suit_cards
         else:
-            self.bestFiveCards = self._kindCards
+            self.best_five = self.kind_cards
 
     @property
-    def scoreName(self):
-        _name = self.cscore.rank[self.score]
+    def score_name(self):
+        _name = self.score_converter.rank[self.score]
         _name = _name + ':'
-        for _card in self.bestFiveCards:
+        for _card in self.best_five:
             _name = _name + ' ' + _card.name
         return _name
     # change()

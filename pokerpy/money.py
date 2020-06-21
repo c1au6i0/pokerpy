@@ -4,7 +4,7 @@ class Cash:
         self._amount = amount
         self._currency = currency
 
-    def showOnConsole(self):
+    def show_on_console(self):
         return '{} {}'.format(self._currency, self._amount)
 
 
@@ -13,19 +13,19 @@ class Pot(Cash):
 
     def __init__(self):
         super().__init__()
-        self._playersList = []
+        self._players_list = []
 
-    def addPlayers(self, *players):
-        self._playersList.extend([p for p in players])
+    def add_players(self, *players):
+        self._players_list.extend([p for p in players])
 
-    def removePlayer(self, player):
-        self._playersList.remove(player)
+    def remove_player(self, player):
+        self._players_list.remove(player)
 
-    def takeMoney(self, bet):
+    def take_money(self, bet):
         self._amount = self._amount + bet
 
-    def giveEverything(self):
+    def give_everything(self):
         return self._amount
 
-    def showPlayers(self):
-        print([p for p in self._playersList])
+    def show_players(self):
+        print([p for p in self._players_list])

@@ -13,7 +13,7 @@ class Player:
     def __init__(self, name: str):
         self.name = name
         self.cards = PlayerCards()
-        self._deck = Cardlist()
+        self._deck = ListOfCards()
         # possibleMoves: collection
         # roleInHand: type
         self.bankroll: Cash = None
@@ -22,13 +22,13 @@ class Player:
     def __str__(self):
         return self.name
 
-    def takeCards(self, cardsList: Cardlist):
-        self.cards.extend(cardsList)
-        for _card in cardsList:
+    def take_cards(self, list_of_cards: ListOfCards):
+        self.cards.extend(list_of_cards)
+        for _card in list_of_cards:
             self._deck.remove(_card)
 
-    def importDeck(self, deck: Cardlist):
-        self._deck = Cardlist()
+    def import_deck(self, deck: ListOfCards):
+        self._deck = ListOfCards()
         self._deck.extend(deck)
         self._deck.sort()
 
@@ -37,12 +37,12 @@ class Player:
         return self.cards.score
 
     @property
-    def highestCard(self):
-        return self.cards.bestCards[4]
+    def highest_card(self):
+        return self.cards.best_five[4]
 
-    def slowdown(self):
-        self.cards.calculateScore()
-        print('{}{} {}'.format(self.name, "'s score is", self.cards.scoreName))
+    def showdown(self):
+        self.cards.calculate_score()
+        print('{}{} {}'.format(self.name, "'s score is", self.cards.score_name))
         print(' from: {}'.format(self.cards))
         print()
 

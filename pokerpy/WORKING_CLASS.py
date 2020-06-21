@@ -12,14 +12,14 @@ from pokerpy.dealer import Croupier
 def testPot():
     Players = [Human("Dave"), Human("Claude")]
     pot = Pot()
-    pot.addPlayers(Players[0], Players[1])
+    pot.add_players(Players[0], Players[1])
     pot.showPlayers()
-    pot.takeMoney(1000)
-    pot.showOnConsole()
+    pot.take_money(1000)
+    pot.show_on_console()
     pot.removePlayer(Players[1])
     pot.showPlayers()
     print(pot.giveEverything())
-    pot.showOnConsole()
+    pot.show_on_console()
 
 
 def testTeresa():
@@ -27,17 +27,17 @@ def testTeresa():
     print()
     print('- - - TERESA TEST - - -')
     print()
-    croupier = Croupier(lowestKind=7, numShared=3)
+    croupier = Croupier(lowest_kind=7, number_cards_shared=3)
     Players = [Human("Dave"), Human("Claude")]
-    croupier.addPlayers(Players[0], Players[1])
-    croupier.startDeck()
-    croupier.giveStartingCards()
-    print('Shared cards:', croupier.sharedCards)
+    croupier.add_players(Players[0], Players[1])
+    croupier.start_deck()
+    croupier.give_starting_cards()
+    print('Shared cards:', croupier.shared_cards)
     print()
-    croupier.showSharedCards(3)
+    croupier.show_shared_cards(3)
     for _player in Players:
-        _player.slowdown()
-    _winner = Evaluator.headToheadWinner(Players[0], Players[1])
+        _player.showdown()
+    _winner = Evaluator.head_to_head_winner(Players[0], Players[1])
     _winnerNames = ''
     for _player in _winner:
         _winnerNames = _winnerNames + _player.name + ' '

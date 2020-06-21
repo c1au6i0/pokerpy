@@ -1,7 +1,7 @@
 ########################################################################################
-# abc (rules, score, ecc.)
-# partialScore (complete, insideStraightDraw, outsideStraightDraw). Use _straightList?
-# config files (ini?)
+# static (rules, score, ecc.)
+# partialScore (complete, insideStraightDraw, outsideStraightDraw). Use _straight_list?
+# documentation
 # PyQt5
 ########################################################################################
 # stats()
@@ -9,6 +9,7 @@
 
 # readGUI() 
 # writeGUI()
+# config files (ini?)
 # readFile()
 # writeFile()
 # loadFile()

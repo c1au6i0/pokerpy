@@ -2,9 +2,9 @@ class HandRules:
 
     def __init__(self):
         # move next attribute to MatchRules?
-        self.activePlayers = []
-        self._minPlayers = 2
-        self._maxPlayers = 6
+        self.active_players = []
+        self._min_players = 2
+        self._max_players = 6
         # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
         # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
 
@@ -13,83 +13,83 @@ class HandRules:
 class CardsRules:
 
     def __init__(self):
-        self._tradableCards = 4
-        self._facedDownCards = 0
-        self._facedUpCards = 0
-        self._playerFacedDownCards = 5
-        self._playerFacedUpCards = 0
+        self._tradable_cards = 4
+        self._faced_down_cards = 0
+        self._faced_up_cards = 0
+        self._player_faced_down_cards = 5
+        self._player_faced_up_cards = 0
 
     # how many cards can trade a player? (default = 4 in draw game)
     @property
-    def tradableCards(self):
-        return self._tradableCards
+    def tradable_cards(self):
+        return self._tradable_cards
 
-    @tradableCards.setter
-    def tradableCards(self, value):
-        self._tradableCards = value
+    @tradable_cards.setter
+    def tradable_cards(self, value):
+        self._tradable_cards = value
 
     # for no-draw games
     # 5 in starting phase of Texas hold 'em
     @property
-    def facedDownCards(self):
-        return self.FacedDownCards
+    def faced_down_cards(self):
+        return self.faced_down_cards
 
-    @facedDownCards.setter
-    def facedDownCards(self, value):
-        self.facedDownCards = value
+    @faced_down_cards.setter
+    def faced_down_cards(self, value):
+        self.faced_down_cards = value
 
     # 5 in ending phase of Texas hold 'em
     @property
-    def facedUpCards(self):
-        return self.facedUpCards
+    def faced_up_cards(self):
+        return self.faced_up_cards
 
-    @facedUpCards.setter
-    def facedUpCards(self, value):
-        self.facedUpCards = value
-
-    @property
-    def boardCards(self):
-        return self.facedDownCards # self.FacedUpCards
+    @faced_up_cards.setter
+    def faced_up_cards(self, value):
+        self.faced_up_cards = value
 
     @property
-    def playerFacedDownCards(self):
-        return self._playerFacedDownCards
-
-    @playerFacedDownCards.setter
-    def playerFacedDownCards(self, value):
-        self._playerFacedDownCards = value
+    def board_cards(self):
+        return self.faced_down_cards # self.faced_up_cards
 
     @property
-    def playerFacedUpCards(self):
-        return self._playerFacedUpCards
+    def player_faced_down_cards(self):
+        return self._player_faced_down_cards
 
-    @playerFacedUpCards.setter
-    def playerFacedUpCards(self, value):
-        self._playerFacedUpCards = value
+    @player_faced_down_cards.setter
+    def player_faced_down_cards(self, value):
+        self._player_faced_down_cards = value
 
     @property
-    def boardCards(self):
-        return self.FacedDownCards + self.FacedUpCards
+    def player_faced_up_cards(self):
+        return self._player_faced_up_cards
+
+    @player_faced_up_cards.setter
+    def player_faced_up_cards(self, value):
+        self._player_faced_up_cards = value
+
+    @property
+    def board_cards(self):
+        return self.faced_down_cards + self.faced_up_cards
 
     # just the minimum number of players
     # draw game = 3, texas and others = 2
     @property
-    def minPlayers(self):
-        return self._minPlayers
+    def min_players(self):
+        return self._min_players
 
-    @minPlayers.setter
-    def minPlayers(self, value):
-        self._minPlayers = value
+    @min_players.setter
+    def min_players(self, value):
+        self._min_players = value
 
     # just the maximum number of players
     # draw game = 6, texas and others = 10 ?
     @property
-    def maxPlayers(self):
-        return self._maxPlayers
+    def max_players(self):
+        return self._max_players
 
-    @maxPlayers.setter
+    @max_players.setter
     def maxPlayers(self, value):
-        self._maxPlayers = value
+        self.max_players = value
 
 
 class ScoreRules:
@@ -98,50 +98,50 @@ class ScoreRules:
 
     def __init__(self):
         # default values (American Draw Game)
-        self._lowestCard = 2
-        self._ignoreSuit = True
-        self._minRoyalBeatsMaxRoyal = False
-        self._suitPriorityInFlush = False
+        self._lowest_card = 2
+        self._ignore_suit = True
+        self._min_royal_beats_max_royal = False
+        self._suit_priority_in_flush = False
         # Why property and not just variables?
 
     # the lowest number of a card in the deck
     # generally from 5 to 8 in italian draw game, 2 in american game
     @property
-    def lowestCard(self):
-        return self._lowestCard
+    def lowest_card(self):
+        return self._lowest_card
 
-    @lowestCard.setter
-    def lowestCard(self, value):
-        self._lowestCard = value
+    @lowest_card.setter
+    def lowest_card(self, value):
+        self._lowest_card = value
 
-    # numberOfCardsForSuit * 4 = number of cards in the deck
+    # number_of_cards_for_suit * 4 = number of cards in the deck
     @property
-    def numberOfCardsForSuit(self):
-        return 15 - self._lowestCard
-
-    @property
-    def ignoreSuit(self):
-        return self._ignoreSuit
-
-    @ignoreSuit.setter
-    def ignoreSuit(self, value):
-        self._ignoreSuit = value
+    def number_of_cards_for_suit(self):
+        return 15 - self._lowest_card
 
     @property
-    def suitPriorityInFlush(self):
-        return self._suitPriorityInFlush
+    def ignore_suit(self):
+        return self._ignore_suit
 
-    @suitPriorityInFlush.setter
-    def suitPriorityInFlush(self, value):
-        self._suitPriorityInFlush = value
+    @ignore_suit.setter
+    def ignore_suit(self, value):
+        self._ignore_suit = value
 
     @property
-    def minRoyalBeatsMaxRoyal(self):
-        return self._minRoyalBeatsMaxRoyal
+    def suit_priority_in_flush(self):
+        return self._suit_priority_in_flush
 
-    @minRoyalBeatsMaxRoyal.setter
-    def minRoyalBeatsMaxRoyal(self, value):
-        self._minRoyalBeatsMaxRoyal = value
+    @suit_priority_in_flush.setter
+    def suit_priority_in_flush(self, value):
+        self._suit_priority_in_flush = value
+
+    @property
+    def min_royal_beats_max_royal(self):
+        return self._min_royal_beats_max_royal
+
+    @min_royal_beats_max_royal.setter
+    def min_royal_beats_max_royal(self, value):
+        self._min_royal_beats_max_royal = value
 
     # fullVsFlush: bool (useless?)
 
