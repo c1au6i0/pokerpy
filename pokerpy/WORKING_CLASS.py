@@ -37,5 +37,9 @@ def testTeresa():
     croupier.showSharedCards(3)
     for _player in Players:
         _player.slowdown()
-    print(Evaluator.headToheadWinner(Players[0], Players[1]))
+    _winner = Evaluator.headToheadWinner(Players[0], Players[1])
+    _winnerNames = ''
+    for _player in _winner:
+        _winnerNames = _winnerNames + _player.name + ' '
+    print('{}{}'.format(_winnerNames, 'wins'))
 
