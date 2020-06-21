@@ -30,6 +30,8 @@ class PlayerCards(Deck):
       Player cards are just a particular Deck, and we always start empty handed
     """
 
+    # cards = pd.DataFrame()
+
     def __init__(self):
         self.cards = pd.DataFrame()
 
@@ -37,6 +39,17 @@ class PlayerCards(Deck):
 
 if __name__ == '__main__':
     dave = Player(name='Dave')
+    my_deck = Deck()
+    print("my_deck and dave created!\n\nWe start shuffling the deck!\n\n")
+    my_deck.shuffle()
+    print("\n\nNow we take 5 cards from the deck and we give them to dave\n\n")
+    extracted = my_deck.extract_cards(5)
+    print(extracted)
+    dave.hands.cards = extracted
+    print("\n\nNow look in dave hands!")
+
+
+
 
 
 # from pokerpy.deck import Deck
