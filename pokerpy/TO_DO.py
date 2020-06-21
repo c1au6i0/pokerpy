@@ -1,7 +1,8 @@
 ########################################################################################
-# static (rules, score, ecc.)
+# CardConverter is a fucking bullshit. Move to dictionary for kind and suit
 # partialScore (complete, insideStraightDraw, outsideStraightDraw). Use _straight_list?
-# documentation
+# static (rules, score, ecc.)
+# more documentation
 ########################################################################################
 # PyQt5
 

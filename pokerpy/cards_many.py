@@ -1,6 +1,6 @@
 from pokerpy.card_single import Card
-from random import shuffle, randint
 from pokerpy.converters import *
+from random import shuffle, randint
 
 
 class ListOfCards(list):
