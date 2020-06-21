@@ -16,6 +16,7 @@ class CardConverter:
     def aceRank(self):
         return len(self.kind) - 1
 
+
 # move to ScoreRules?
 class ScoreConverter:
 
@@ -70,6 +71,10 @@ class ScoreConverter:
         return 7
 
     @property
-    def RoyalFlush(self):
+    def StraightFlush(self):
         return 8
+
+    @property
+    def RoyalFlush(self):
+        return 9
 

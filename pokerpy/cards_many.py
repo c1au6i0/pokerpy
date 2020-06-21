@@ -194,13 +194,16 @@ class PlayerCards(Cardlist):
             _count = self.__suitCount(s)
             if _count >= 5:
                 _tempList = self.__suitList(s)
-                # Royal flush
+                # Straight and Royal flush
                 if _tempList.__createStraightCards() == PlayerCards.cscore.Straight:
                     # Different rules: sometimes _highestSuit is better than _highestCard
                     if _tempList.highestCard >= _highestCard or preferHighestSuit:
                         _highestCard = _tempList.highestCard
                         self._suitCards = _tempList.straightCards
-                        _score = PlayerCards.cscore.RoyalFlush
+                        if self._suitCards[-1].kind == PlayerCards.conv.aceRank:
+                            _score = PlayerCards.cscore.RoyalFlush
+                        else:
+                            _score = PlayerCards.cscore.StraightFlush
                 else:
                     # Flush
                     # Different rules: sometimes _highestSuit is better than _highestCard
@@ -253,6 +256,23 @@ class PlayerCards(Cardlist):
     def __createStraightCards(self):
         _score = PlayerCards.cscore.HighCard
         self.straightCards = []
+        _straightList = self._straightList()
+        _reversedIndex = list(range(len(_straightList)))
+        _reversedIndex.reverse()
+        # Looping all cards, starting from the highest
+        for n in _reversedIndex:
+            _count = len(_straightList[n])
+            if _count >= 5:
+                self.straightCards.extend(_straightList[n])
+                self.straightCards = self.straightCards[(_count-5):_count]
+                _score = PlayerCards.cscore.Straight
+                break
+        return _score
+
+    # return index score (HighCard or Straight)
+    def __createStraightCards_OLD(self):
+        _score = PlayerCards.cscore.HighCard
+        self.straightCards = []
         # _reversedCards is the list of the reversed Cards with no pair
         _reversedCards = self.noDuplicatesList()
         _reversedCards.reverse()
@@ -279,7 +299,7 @@ class PlayerCards(Cardlist):
         self.score = max(self.__createKindCards(), self.__createSuitCards(), self.__createStraightCards())
         if self.score == self.cscore.Straight:
             self.bestFiveCards = self.straightCards
-        elif self.score == self.cscore.Flush or self.score == self.cscore.RoyalFlush:
+        elif self.score == self.cscore.Flush or self.score == self.cscore.StraightFlush or self.score == self.cscore.RoyalFlush:
             self.bestFiveCards = self._suitCards
         else:
             self.bestFiveCards = self._kindCards

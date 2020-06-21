@@ -27,7 +27,7 @@ def testTeresa():
     print()
     print('- - - TERESA TEST - - -')
     print()
-    croupier = Croupier(lowestKind=7, numShared=3)
+    croupier = Croupier(lowestKind=7, numShared=3, numForPlayer=12)
     Players = [Human("Dave"), Human("Claude")]
     croupier.addPlayers(Players[0], Players[1])
     croupier.startDeck()
