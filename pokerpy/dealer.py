@@ -13,20 +13,25 @@ class Croupier:
         self._number_cards_shared = number_cards_shared
         self._number_cards_for_player = number_cards_for_player
 
-    def start_deck(self):
+    def _prepare_deck(self):
         if len(self.players) == 0:
             return False
         else:
             self.deck.create_deck(self.lowest_kind)
             self.deck.shuffle()
             for _player in self.players:
+                _player.cards = PlayerCards()
                 _player.import_deck(self.deck)
             return True
 
-    def give_starting_cards(self):
+    def _give_starting_cards(self):
         for _player in self.players:
             _player.take_cards(self.deck.give(self._number_cards_for_player))
         self.shared_cards.extend(self.deck.give(self._number_cards_shared))
+
+    def start_hand(self):
+        self._prepare_deck()
+        self._give_starting_cards()
 
     def add_players(self, *players):
         self.players.extend(players)

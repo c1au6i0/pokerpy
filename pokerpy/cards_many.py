@@ -1,4 +1,3 @@
-import pandas as pd
 from pokerpy.card_single import Card
 from random import shuffle, randint
 from pokerpy.converters import *

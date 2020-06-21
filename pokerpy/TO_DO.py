@@ -2,8 +2,9 @@
 # static (rules, score, ecc.)
 # partialScore (complete, insideStraightDraw, outsideStraightDraw). Use _straight_list?
 # documentation
-# PyQt5
 ########################################################################################
+# PyQt5
+
 # stats()
 # logs()
 
@@ -15,7 +16,7 @@
 # loadFile()
 # saveFile()
 ########################################################################################
-# barare=(spiare carte,specchio,occhiali raggi x,passare una carta,fare segni,non tagliare,prendere da sotto)
-# sbagliare=(parlare prima del turno, sbagliare)
-# reactions(smoke cigarette, etc.)
+# cheating = (spiare carte,specchio,occhiali raggi x,passare una carta,fare segni,non tagliare,prendere da sotto)
+# errors = (parlare prima del turno, sbagliare)
+# reactions = (smoke cigarette, etc.)
 ########################################################################################

@@ -18,6 +18,7 @@ class Player:
         # roleInHand: type
         self.bankroll: Cash = None
         self.seat: int = None
+        self.role = None
 
     def __str__(self):
         return self.name
