@@ -19,7 +19,7 @@ class Player:
         self.bankroll: Cash = None
         self.seat: int = None
 
-    def __repr__(self):
+    def __str__(self):
         return self.name
 
     def takeCards(self, cardsList: Cardlist):
@@ -28,6 +28,7 @@ class Player:
             self._deck.remove(_card)
 
     def importDeck(self, deck: Cardlist):
+        self._deck = Cardlist()
         self._deck.extend(deck)
         self._deck.sort()
 

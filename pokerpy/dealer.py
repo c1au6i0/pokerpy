@@ -31,9 +31,8 @@ class Croupier:
     def addPlayer(self, player: Player):
         self.players.append(player)
 
-    # TO DO: fix it
     def addPlayers(self, *players):
-        self.addPlayer(*players)
+        self.players.extend(players)
 
     def showSharedCards(self, num=1):
         _sharedCards = self.sharedCards.give(num)

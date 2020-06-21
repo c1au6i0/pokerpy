@@ -3,7 +3,7 @@
 # import array as arr
 from pokerpy.converters import CardConverter
 from pokerpy.players import *
-from pokerpy.referee import Evaluator
+from pokerpy.referee import *
 from pokerpy.cards_many import *
 from pokerpy.money import Pot
 from pokerpy.dealer import Croupier
@@ -29,8 +29,7 @@ def testTeresa():
     print()
     croupier = Croupier(lowestKind=7, numShared=3)
     Players = [Human("Dave"), Human("Claude")]
-    for _player in Players:
-        croupier.addPlayer(_player)
+    croupier.addPlayers(Players[0], Players[1])
     croupier.startDeck()
     croupier.giveStartingCards()
     print('Shared cards:', croupier.sharedCards)
@@ -38,4 +37,6 @@ def testTeresa():
     croupier.showSharedCards(3)
     for _player in Players:
         _player.slowdown()
-    #print(referee.headToheadWinner(Players[0], Players[1]))
+    Players[1].cards.showStraightList()
+    #print(Evaluator.headToheadWinner(Players[0], Players[1]))
+

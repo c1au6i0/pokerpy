@@ -211,22 +211,43 @@ class PlayerCards(Cardlist):
                         _score = PlayerCards.cscore.Flush
         return _score
 
-# TO DO
 # Straight part
-    def __straightList(self, lenght: int):
-        _list = []
-        _sorted = []
-        _sorted.sort()
-        for n in range(len(_sorted)):
-            _cardDifference = _sorted[n].kind - _sorted[n+1].kind
-            if _cardDifference == -1 or _cardDifference == Cardlist.conv.aceRank:
-                _list.append(_sorted[n])
-            elif _cardDifference < -1:
-                _list.clear()
-            # Lenght is 4 because we didn't add the last card
-            if len(_list) == 4:
-                break
-        return _list
+    # Return a list of list of 'num' cards with same kind
+    def _straightList(self):
+        _listOfList = []
+        _tempList = []
+        # _noDuplicates is the list of the reversed Cards with no pair
+        _noDuplicates = self.noDuplicatesList()
+        if _noDuplicates[-1].kind == self.conv.aceRank:
+            _tempList.append(_noDuplicates[-1])
+            _noDuplicates = _tempList + _noDuplicates
+        _tempList = []
+        _last = False
+        # Looping all cards, starting from the lowest
+        for n in range(len(_noDuplicates)-1):
+            # I could create a list of indexes, THEN O create the straightCards
+            if n + 1 == len(_noDuplicates) - 1:
+                _last = True
+                print('Last')
+            else:
+                _cardDifference = _noDuplicates[n].kind - _noDuplicates[n+1].kind
+                _inStraight = _cardDifference == -1 or _cardDifference == self.conv.aceRank
+            if _inStraight:
+                if _last:
+                    _tempList.append(_noDuplicates[n+1])
+            else:
+                if len(_tempList) > 0:
+                    _listOfList.append(_tempList)
+                    if _last:
+                        _tempList.append(_noDuplicates[n+1])
+                    _tempList = []
+            _tempList.append(_noDuplicates[n])
+            #print(_listOfList)
+        return _listOfList
+
+    # TO DO: del it, it's just for debug
+    def showStraightList(self):
+        print(self._straightList())
 
     def noDuplicatesList(self):
         _list = PlayerCards(self)
