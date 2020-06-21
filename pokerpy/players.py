@@ -30,8 +30,6 @@ class PlayerCards(Deck):
       Player cards are just a particular Deck, and we always start empty handed
     """
 
-    # cards = pd.DataFrame()
-
     def __init__(self):
         self.cards = pd.DataFrame()
 

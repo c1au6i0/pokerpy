@@ -21,7 +21,7 @@ class Deck:
 
     def __init__(self, numCards=13):
         start = 15 - numCards
-        cardNumber = np.tile(np.arange(start, 15, 1), 4)
+        cardNumber = np.tile(np.arange(start, 16, 1), 4)
         suits = np.arange(1, 5, 1).repeat(cardNumber.size / 4)
         self.cards = pd.DataFrame({'cardNumber': cardNumber, 'suits': suits})
         self.cards['fullCard'] = self.cards.cardNumber.astype(str).replace(
