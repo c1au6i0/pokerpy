@@ -47,25 +47,25 @@ class Deck:
         self.cards = self.cards.drop(index_card, axis=0).reset_index(drop=True)
         return extracted_cards
 
-    def extract_cards(self, numExtract, fromPos='top'):
+    def extract_cards(self, num_extract, from_pos='top'):
         """
         Extract cars from the deck.df. it uses take_cards.
-        :param numExtract: number of cards to extract
-        :param fromPos: position one of ['top', 'bottom', 'random']
+        :param num_extract: number of cards to extract
+        :param from_pos: position one of ['top', 'bottom', 'random']
         :return: a slice of the deck
         """
         # import pdb
         # pdb.set_trace()
 
-        assert type(numExtract) == int, print(f"id is not an integer the type is : {type(numExtract)}")
-        assert fromPos in ['top', 'bottom', 'random'], print(f"fromPos is not one of ['top', 'bottom', 'random'] !")
+        assert type(num_extract) == int, print(f"id is not an integer the type is : {type(num_extract)}")
+        assert from_pos in ['top', 'bottom', 'random'], print(f"fromPos is not one of ['top', 'bottom', 'random'] !")
 
-        if fromPos == 'top':
-            to_extract = np.arange(self.cards.index[0], self.cards.index[0] + numExtract, 1)
-        elif fromPos == 'bottom':
-            to_extract = np.arange(self.cards.shape[0] - numExtract, self.cards.shape[0], 1)
-        elif fromPos == 'random':
-            to_extract = np.random.choice(self.cards.index, numExtract, replace=False)
+        if from_pos == 'top':
+            to_extract = np.arange(self.cards.index[0], self.cards.index[0] + num_extract, 1)
+        elif from_pos == 'bottom':
+            to_extract = np.arange(self.cards.shape[0] - num_extract, self.cards.shape[0], 1)
+        elif from_pos == 'random':
+            to_extract = np.random.choice(self.cards.index, num_extract, replace=False)
 
         extracted_cards = self.take_cards(to_extract)
         return extracted_cards
