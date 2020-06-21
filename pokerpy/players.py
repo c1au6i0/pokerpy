@@ -2,7 +2,6 @@ import pandas as pd
 from pokerpy.deck import Deck
 
 
-
 class Player:
     """"
     Player. So far someone with a name and hands.
@@ -32,7 +31,6 @@ class PlayerCards(Deck):
 
     def __init__(self):
         self.cards = pd.DataFrame()
-
 
 
 if __name__ == '__main__':
