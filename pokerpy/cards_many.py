@@ -228,6 +228,7 @@ class PlayerCards(Cardlist):
     # return index score (HighCard or Straight)
     def __createStraightCards(self):
         _score = PlayerCards.cscore.HighCard
+        _partialStraight = ''
         self.straightCards = []
         _straightList = self._straightList()
         _reversedIndex = list(range(len(_straightList)))
@@ -236,10 +237,25 @@ class PlayerCards(Cardlist):
         for n in _reversedIndex:
             _count = len(_straightList[n])
             if _count >= 5:
+                # Complete straight finded
                 self.straightCards.extend(_straightList[n])
                 self.straightCards = self.straightCards[(_count-5):_count]
                 _score = PlayerCards.cscore.Straight
                 break
+            elif _count == 4:
+                # Looking for inside/outside StraightDraw
+                if _straightList[n][0].kind != self.conv.aceRank and _straightList[n][-1].kind != self.conv.aceRank:
+                    _partialStraight = 'bilaterale'
+                else:
+                    _partialStraight = 'ad incastro'
+                print(_partialStraight)
+            else:
+                #
+                if _partialStraight == '':
+                    if n < len(_straightList)-1:
+                        _partialCount = _count + len(_straightList[n+1])
+                        if _partialCount >= 4:
+                            print('Partial straight count: ', _partialCount)
         return _score
 
 # ScoreFinder part
