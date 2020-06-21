@@ -1,5 +1,5 @@
 ########################################################################################
-# partialScore (complete, insideStraightDraw, outsideStraightDraw). Use _straight_list?
+# partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # static (rules, score, ecc.)
 # more documentation
 ########################################################################################

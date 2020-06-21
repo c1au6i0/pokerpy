@@ -1,4 +1,3 @@
-from pokerpy.cards_many import *
 from pokerpy.players import Player
 
 

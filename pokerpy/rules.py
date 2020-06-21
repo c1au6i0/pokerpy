@@ -9,7 +9,6 @@ class HandRules:
         # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
 
 
-# move to CommonCards: SetOfCards?
 class CardsRules:
 
     def __init__(self):

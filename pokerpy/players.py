@@ -32,10 +32,6 @@ class Player:
     def score(self):
         return self.cards.score
 
-    @property
-    def highest_card(self):
-        return self.cards.best_five[4]
-
     def showdown(self):
         self.cards.calculate_score()
         print('{}{} {}'.format(self.name, "'s score is", self.cards.score_name))

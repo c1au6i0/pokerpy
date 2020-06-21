@@ -22,12 +22,11 @@ class ListOfCards(list):
                 _text = _text + _card.name + ' '
             return _text
 
-    @property
-    def highest_card(self):
-        """Return the highest card of the ListOfCards"""
-        _sorted = self
-        _sorted.sort()
-        return _sorted[len(self)-1]
+    def sorted(self):
+        """Return the Sorted PlayerCards list"""
+        _sorted_list = self
+        _sorted_list.sort()
+        return _sorted_list
 
     def create_deck(self, lowest_kind=2, decks=1):
         """Create the deck, starting with choosed lowest_kind to Ace"""
@@ -99,12 +98,6 @@ class PlayerCards(ListOfCards):
         self.kind_cards = []
         self.straight_cards = []
         self._suit_cards = []
-
-    def sorted(self):
-        """Return the Sorted PlayerCards list"""
-        _list = self
-        _list.sort()
-        return _list
 
 # Kind part
     def _kind_group(self, number: int):
@@ -185,8 +178,8 @@ class PlayerCards(ListOfCards):
                 # Straight and Royal flush
                 if _list._create_straight_cards() == PlayerCards.score_converter.Straight:
                     # Different rules: sometimes _highestSuit is better than _highest_card
-                    if _list.highest_card >= _highest_card or prefer_highest_suit:
-                        _highest_card = _list.highest_card
+                    if _list[-1] >= _highest_card or prefer_highest_suit:
+                        _highest_card = _list[-1]
                         self._suit_cards = _list.straight_cards
                         if self._suit_cards[-1].kind == 15:
                             _score = PlayerCards.score_converter.RoyalFlush
@@ -195,8 +188,8 @@ class PlayerCards(ListOfCards):
                 else:
                     # Flush
                     # Different rules: sometimes _highestSuit is better than _highest_card
-                    if _list.highest_card >= _highest_card or prefer_highest_suit:
-                        _highest_card = _list.highest_card
+                    if _list[-1] >= _highest_card or prefer_highest_suit:
+                        _highest_card = _list[-1]
                         # Taking just the last 5 cards
                         self._suit_cards = _list[(_count-5):_count]
                         _score = PlayerCards.score_converter.Flush
