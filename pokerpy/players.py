@@ -1,5 +1,6 @@
 import pandas as pd
 from pokerpy.deck import Deck
+from pokerpy.referee import Referee
 
 
 class Player:
@@ -24,7 +25,7 @@ class Player:
         self.hands = PlayerCards()
 
 
-class PlayerCards(Deck):
+class PlayerCards(Deck, Referee):
     """
       Player cards are just a particular Deck, and we always start empty handed
     """
