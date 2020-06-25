@@ -2,9 +2,9 @@ from pokerpy.players import *
 from pokerpy.consts import *
 
 
-class Croupier:
+class Dealer:
 
-    """The Croupier control the cards,
+    """The Dealer control the cards,
         giving and taking them for then deck, the shared cards and the players"""
 
     lowest_kind: int

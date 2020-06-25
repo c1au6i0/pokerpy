@@ -1,6 +1,4 @@
 ########################################################################################
-# static class... init, new or start_hand ?
-# score_convertr: static
 # partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # more documentation (args)
 ########################################################################################
