@@ -1,9 +1,9 @@
 import pandas as pd
 from pokerpy.deck import Deck
-from pokerpy.referee import Referee
+# from pokerpy.referee import Referee
 
 
-class Player:
+class Player():
     """"
     Player. So far someone with a name and hands.
 
@@ -22,16 +22,35 @@ class Player:
         # self.role = role
         # self.possible_moves = possible_moves
         # self.seat = seat
-        self.hands = PlayerCards()
+        self.hand = PlayerCards()
 
 
-class PlayerCards(Deck, Referee):
+class PlayerCards(Deck):
     """
       Player cards are just a particular Deck, and we always start empty handed
     """
 
     def __init__(self):
         self.cards = pd.DataFrame()
+
+    def count_cards(self, what):
+        """
+        Calculate the number of occurrences of a card number or of a suit
+
+        Args:
+            what: one of  ['cardNumber', 'suits']
+
+        Returns: a dataframe with  2 columns, the cardNumber or suits, and the number of occurrances.
+
+        """
+        assert what in ['cardNumber', 'suits'], print("The argument what is not one of ['cardNumber', 'suits']!")
+
+        counted_cards = self.cards.groupby(self.cards[what]).count()
+        counted_cards.rename(columns={counted_cards.columns[0]:'number_of'}, inplace=True)
+        counted_cards = counted_cards.loc[:,['number_of']]
+        return counted_cards
+
+
 
 
 if __name__ == '__main__':
@@ -42,7 +61,7 @@ if __name__ == '__main__':
     print("\n\nNow we take 5 cards from the deck and we give them to dave\n\n")
     extracted = my_deck.extract_cards(5)
     print(extracted)
-    dave.hands.cards = extracted
+    dave.hand.cards = extracted
     print("\n\nNow look in dave hands!")
 
 

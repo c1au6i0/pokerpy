@@ -58,7 +58,7 @@ class Deck:
         # pdb.set_trace()
 
         assert type(num_extract) == int, print(f"id is not an integer the type is : {type(num_extract)}")
-        assert from_pos in ['top', 'bottom', 'random'], print(f"fromPos is not one of ['top', 'bottom', 'random'] !")
+        assert from_pos in ['top', 'bottom', 'random'], print("fromPos is not one of ['top', 'bottom', 'random'] !")
 
         if from_pos == 'top':
             to_extract = np.arange(self.cards.index[0], self.cards.index[0] + num_extract, 1)
