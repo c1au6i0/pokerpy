@@ -11,12 +11,12 @@ def testPot():
     Players = [Human("Dave"), Human("Claude")]
     pot = Pot()
     pot.add_players(Players[0], Players[1])
-    pot.showPlayers()
+    pot.show_players()
     pot.take_money(1000)
     pot.show_on_console()
-    pot.removePlayer(Players[1])
-    pot.showPlayers()
-    print(pot.giveEverything())
+    pot.remove_player(Players[1])
+    pot.show_players()
+    print(pot.give_everything())
     pot.show_on_console()
 
 
@@ -31,7 +31,7 @@ def testTeresa():
     Croupier.start_hand()
     print('Shared cards:', Croupier.shared_cards)
     print()
-    Croupier.show_shared_cards(3)
+    Croupier.face_up_shared_cards(3)
     for _player in Players:
         _player.showdown()
     _winner = Evaluator.head_to_head_winner(Players[0], Players[1])

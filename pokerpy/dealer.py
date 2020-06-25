@@ -1,4 +1,3 @@
-from pokerpy.cards_many import *
 from pokerpy.players import *
 from pokerpy.consts import *
 
@@ -16,16 +15,14 @@ class Croupier:
         cls._number_cards_shared = number_cards_shared
         cls._number_cards_for_player = number_cards_for_player
         cls.players = []
-        cls.deck = ListOfCards()
-        cls.rejects = ListOfCards()
-        cls.shared_cards = ListOfCards()
 
     @classmethod
-    def _prepare_deck(cls):
+    def start_hand(cls):
 
         """ Reset all the groups of cards (player, shared, rejects)
             Create, fill and shuffle the deck
-            Give a copy of the deck to all the players """
+            Choose shared_cards
+            Give the cards and a copy of the deck to all the players """
 
         if len(cls.players) == 0:
             return False
@@ -33,29 +30,19 @@ class Croupier:
             if cls._kind_of_deck == AMERICAN_DECK:
                 cls.lowest_kind = 2
             else:
-                cls.lowest_kind = 11 -len(cls.players)
+                cls.lowest_kind = 11 - len(cls.players)
+            cls.deck = ListOfCards()
             cls.deck.create_deck(cls.lowest_kind)
             cls.deck.shuffle()
             cls.rejects = ListOfCards()
-            cls.shared_cards = ListOfCards()
             for _player in cls.players:
                 _player.cards = PlayerCards()
                 _player.import_deck(cls.deck)
+            cls.shared_cards = ListOfCards()
+            cls.shared_cards.extend(cls.deck.give(cls._number_cards_shared))
+            for _player in cls.players:
+                _player.take_cards(cls.deck.give(cls._number_cards_for_player))
             return True
-
-    @classmethod
-    def _give_starting_cards(cls):
-        """Give all the players 'number_cards_for_player' cards
-            Fill the shared_cards list too"""
-        for _player in cls.players:
-            _player.take_cards(cls.deck.give(cls._number_cards_for_player))
-        cls.shared_cards.extend(cls.deck.give(cls._number_cards_shared))
-
-    @classmethod
-    def start_hand(cls):
-        """Reset all, prepare the deck and give the starting cards to the players and to shared cards list"""
-        cls._prepare_deck()
-        cls._give_starting_cards()
 
     @classmethod
     def add_players(cls, *players):
@@ -63,7 +50,7 @@ class Croupier:
         cls.players.extend(players)
 
     @classmethod
-    def show_shared_cards(cls, num=1):
+    def face_up_shared_cards(cls, num=1):
         _shared_cards = cls.shared_cards.give(num)
         for _player in cls.players:
             _player.take_cards(_shared_cards)

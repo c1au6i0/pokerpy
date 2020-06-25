@@ -1,7 +1,8 @@
 ########################################################################################
-# static (rules, score, ecc.)
+# static class... init, new or start_hand ?
+# score_convertr: static
 # partialScore (complete, insideStraightDraw, outsideStraightDraw)
-# more documentation
+# more documentation (args)
 ########################################################################################
 # from PyQt5 import QtWidgets
 
@@ -20,3 +21,10 @@
 # errors = (parlare prima del turno, sbagliare)
 # reactions = (smoke cigarette, etc.)
 ########################################################################################
+#import pdb
+#pdb.set_trace()
+
+#assert CONDIZIONE, print
+
+#if __name__ == '__main__':
+#	mydeck = Deck()

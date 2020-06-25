@@ -21,6 +21,8 @@ class ScoreConverter:
         self.partial_straight = PartialStraight()
         self.partial_flush = PartialFlush()
 
+    #@classmethod
+
     @property
     def HighCard(self):
         return 0

@@ -15,7 +15,7 @@ class Player:
         self.seat: int = None
         self.role = None
 
-    def __str__(self):
+    def __repr__(self):
         return self.name
 
     def take_cards(self, list_of_cards: ListOfCards):

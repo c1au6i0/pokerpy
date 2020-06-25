@@ -1,22 +1,17 @@
 class HandRules:
 
+    # don't do it static: italian + telesina = 2 instance
+
     def __init__(self):
-        # move next attribute to MatchRules?
-        self.active_players = []
         self._min_players = 2
         self._max_players = 6
-        # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
-        # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
-
-
-class CardsRules:
-
-    def __init__(self):
         self._tradable_cards = 4
         self._shared_faced_down_cards = 0
         self._shared_faced_up_cards = 0
         self._player_faced_down_cards = 5
         self._player_faced_up_cards = 0
+        # the minOpen list is correct: 0 for Texas hold 'em, 1, 2 or 3 for Draw game (4 is always valid)
+        # minOpen: (None, JJ, QQ, KK, 4/5 Royal straight)
 
     # how many cards can trade a player? (default = 4 in draw game)
     @property
