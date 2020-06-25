@@ -1,5 +1,6 @@
 from pokerpy.cards_many import *
 from pokerpy.players import *
+from pokerpy.consts import *
 
 
 class Croupier:
@@ -7,53 +8,64 @@ class Croupier:
     """The Croupier control the cards,
         giving and taking them for then deck, the shared cards and the players"""
 
-    def __init__(self, lowest_kind=2, number_cards_for_player=5, number_cards_shared=0):
-        self.lowest_kind = lowest_kind
-        self.players = []
-        self.deck = ListOfCards()
-        self.rejects = ListOfCards()
-        self.shared_cards = ListOfCards()
-        self._number_cards_shared = number_cards_shared
-        self._number_cards_for_player = number_cards_for_player
+    lowest_kind: int
 
-    def _prepare_deck(self):
+    @classmethod
+    def set_rules(cls, kind_of_deck=AMERICAN_DECK, number_cards_shared=0, number_cards_for_player=5):
+        cls._kind_of_deck = kind_of_deck
+        cls._number_cards_shared = number_cards_shared
+        cls._number_cards_for_player = number_cards_for_player
+        cls.players = []
+        cls.deck = ListOfCards()
+        cls.rejects = ListOfCards()
+        cls.shared_cards = ListOfCards()
+
+    @classmethod
+    def _prepare_deck(cls):
 
         """ Reset all the groups of cards (player, shared, rejects)
             Create, fill and shuffle the deck
-            Give a copy of the deck to all the players
-            """
+            Give a copy of the deck to all the players """
 
-        if len(self.players) == 0:
+        if len(cls.players) == 0:
             return False
         else:
-            self.deck.create_deck(self.lowest_kind)
-            self.deck.shuffle()
-            self.rejects = ListOfCards()
-            self.shared_cards = ListOfCards()
-            for _player in self.players:
+            if cls._kind_of_deck == AMERICAN_DECK:
+                cls.lowest_kind = 2
+            else:
+                cls.lowest_kind = 11 -len(cls.players)
+            cls.deck.create_deck(cls.lowest_kind)
+            cls.deck.shuffle()
+            cls.rejects = ListOfCards()
+            cls.shared_cards = ListOfCards()
+            for _player in cls.players:
                 _player.cards = PlayerCards()
-                _player.import_deck(self.deck)
+                _player.import_deck(cls.deck)
             return True
 
-    def _give_starting_cards(self):
+    @classmethod
+    def _give_starting_cards(cls):
         """Give all the players 'number_cards_for_player' cards
             Fill the shared_cards list too"""
-        for _player in self.players:
-            _player.take_cards(self.deck.give(self._number_cards_for_player))
-        self.shared_cards.extend(self.deck.give(self._number_cards_shared))
+        for _player in cls.players:
+            _player.take_cards(cls.deck.give(cls._number_cards_for_player))
+        cls.shared_cards.extend(cls.deck.give(cls._number_cards_shared))
 
-    def start_hand(self):
+    @classmethod
+    def start_hand(cls):
         """Reset all, prepare the deck and give the starting cards to the players and to shared cards list"""
-        self._prepare_deck()
-        self._give_starting_cards()
+        cls._prepare_deck()
+        cls._give_starting_cards()
 
-    def add_players(self, *players):
+    @classmethod
+    def add_players(cls, *players):
         """Add the players"""
-        self.players.extend(players)
+        cls.players.extend(players)
 
-    def show_shared_cards(self, num=1):
-        _shared_cards = self.shared_cards.give(num)
-        for _player in self.players:
+    @classmethod
+    def show_shared_cards(cls, num=1):
+        _shared_cards = cls.shared_cards.give(num)
+        for _player in cls.players:
             _player.take_cards(_shared_cards)
 
 

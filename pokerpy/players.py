@@ -1,5 +1,5 @@
 from pokerpy.cards_many import *
-from pokerpy.converters import *
+from pokerpy.score_converter import *
 from pokerpy.money import Cash
 
 

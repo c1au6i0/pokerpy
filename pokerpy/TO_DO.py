@@ -1,9 +1,9 @@
 ########################################################################################
-# partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # static (rules, score, ecc.)
+# partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # more documentation
 ########################################################################################
-# PyQt5
+# from PyQt5 import QtWidgets
 
 # stats()
 # logs()

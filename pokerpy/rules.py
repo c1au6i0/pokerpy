@@ -13,8 +13,8 @@ class CardsRules:
 
     def __init__(self):
         self._tradable_cards = 4
-        self._faced_down_cards = 0
-        self._faced_up_cards = 0
+        self._shared_faced_down_cards = 0
+        self._shared_faced_up_cards = 0
         self._player_faced_down_cards = 5
         self._player_faced_up_cards = 0
 
@@ -30,21 +30,21 @@ class CardsRules:
     # for no-draw games
     # 5 in starting phase of Texas hold 'em
     @property
-    def faced_down_cards(self):
-        return self.faced_down_cards
+    def shared_faced_down_cards(self):
+        return self._shared_faced_down_cards
 
-    @faced_down_cards.setter
-    def faced_down_cards(self, value):
-        self.faced_down_cards = value
+    @shared_faced_down_cards.setter
+    def shared_faced_down_cards(self, value):
+        self._shared_faced_down_cards = value
 
     # 5 in ending phase of Texas hold 'em
     @property
-    def faced_up_cards(self):
-        return self.faced_up_cards
+    def shared_faced_up_cards(self):
+        return self._shared_faced_up_cards
 
-    @faced_up_cards.setter
-    def faced_up_cards(self, value):
-        self.faced_up_cards = value
+    @shared_faced_up_cards.setter
+    def shared_faced_up_cards(self, value):
+        self._shared_faced_up_cards = value
 
     @property
     def board_cards(self):
@@ -68,7 +68,7 @@ class CardsRules:
 
     @property
     def board_cards(self):
-        return self.faced_down_cards + self.faced_up_cards
+        return self._shared_faced_down_cards + self._shared_faced_up_cards
 
     # just the minimum number of players
     # draw game = 3, texas and others = 2
@@ -104,7 +104,7 @@ class ScoreRules:
         # Why property and not just variables?
 
     # the lowest number of a card in the deck
-    # generally from 5 to 8 in italian draw game, 2 in american game
+    # from 5 to 9 in italian draw game, 2 in american game
     @property
     def lowest_card(self):
         return self._lowest_card

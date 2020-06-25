@@ -1,5 +1,5 @@
 from pokerpy.card_single import Card
-from pokerpy.converters import ScoreConverter
+from pokerpy.score_converter import ScoreConverter
 from random import shuffle, randint
 
 
@@ -220,23 +220,6 @@ class PlayerCards(ListOfCards):
         _list_of_lists.append(_list)
         return _list_of_lists
 
-    # From the _all_straight_list I separate the straight list to the partial straight list
-    def _straight_list(self, only_draw=False):
-        """Choose between:
-            return the list of the complete straights
-            return the list of the straight draw"""
-        _complete_list = []
-        _partial_list = []
-        for _list in self._all_straight_list():
-            if len(_list) < 5:
-                _partial_list.append(_list)
-            else:
-                _complete_list.append(_list)
-        if only_draw:
-            return _partial_list
-        else:
-            return _complete_list
-
     def no_duplicates_list(self):
         """Return the PlayerCards list woth no kind duplicates"""
         _list = PlayerCards(self)
@@ -255,7 +238,8 @@ class PlayerCards(ListOfCards):
             and return index score (HighCard/Straight)
             """
         self.straight_cards = []
-        _straight_list = self._straight_list()
+        # From _all_straight_list take only the complete lists (len>=5)
+        _straight_list = [_list for _list in self._all_straight_list() if len(_list) >= 5]
         if len(_straight_list) == 0:
             _score = PlayerCards.score_converter.HighCard
         else:
@@ -270,18 +254,20 @@ class PlayerCards(ListOfCards):
         """Create the list of the straight draw's
             and return an index score
             (HighCard/OutsideStraightDraw/InsideStraightDraw)"""
-        _list = self._straight_list(only_draw=True)
-        if len(_list) == 0:
+        # From _all_straight_list take only the straight draw (len<5)
+        _draw_list = list[list]
+        _draw_list = [_list for _list in self._all_straight_list() if len(_list) < 5]
+        if len(_draw_list) == 0:
             _score = PlayerCards.score_converter.partial_straight.Nothing
         else:
-            _reversed_index = list(range(len(_list)))
+            _reversed_index = list(range(len(_draw_list)))
             _reversed_index.reverse()
             # Looping all cards, starting from the highest
             for n in _reversed_index:
-                _count = len(_list[n])
+                _count = len(_draw_list[n])
                 if _count == 4:
                     # Choosing between inside/outside StraightDraw
-                    if _list[n][0].kind != 15 and _list[n][-1].kind != 15:
+                    if _draw_list[n][0].kind != 15 and _draw_list[n][-1].kind != 15:
                         _score = self.score_converter.partial_straight.OutsideStraightDraw
                         break
                     else:
@@ -290,8 +276,8 @@ class PlayerCards(ListOfCards):
                 else:
                     # Looking for inside StraightDraw
                     if _score == self.score_converter.partial_straight.Nothing:
-                        if n < len(_list)-1:
-                            _partialCount = _count + len(_list[n+1])
+                        if n < len(_draw_list)-1:
+                            _partialCount = _count + len(_draw_list[n+1])
                             if _partialCount >= 4:
                                 _score = self.score_converter.partial_straight.InsideStraightDraw
         return _score

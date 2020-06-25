@@ -4,6 +4,7 @@ from pokerpy.referee import *
 from pokerpy.cards_many import *
 from pokerpy.money import Pot
 from pokerpy.dealer import Croupier
+from pokerpy.consts import *
 
 
 def testPot():
@@ -24,13 +25,13 @@ def testTeresa():
     print()
     print('- - - TERESA TEST - - -')
     print()
-    croupier = Croupier(lowest_kind=7, number_cards_shared=3)
+    Croupier.set_rules(kind_of_deck=ITALIAN_DECK, number_cards_shared=3)
     Players = [Human("Dave"), Human("Claude")]
-    croupier.add_players(Players[0], Players[1])
-    croupier.start_hand()
-    print('Shared cards:', croupier.shared_cards)
+    Croupier.add_players(Players[0], Players[1])
+    Croupier.start_hand()
+    print('Shared cards:', Croupier.shared_cards)
     print()
-    croupier.show_shared_cards(3)
+    Croupier.show_shared_cards(3)
     for _player in Players:
         _player.showdown()
     _winner = Evaluator.head_to_head_winner(Players[0], Players[1])

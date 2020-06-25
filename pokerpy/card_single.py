@@ -1,12 +1,14 @@
 class Card:
     """This class represents a single playing card
 
-    kind: rank of the kind of the card
-    suit: rank of the suit of the card
+    kind: rank of the kind of the card (from 2, 7, 8, 9 or 10 to 14 = Ace)
+    suit: rank of the suit of the card (from 0 = ♠ to 3 = ♡)
     name: card name in symbolic format
     """
 
-    _symbol_of_suit = ("♠", "♣", "♢", "♡")
+    #_symbol_of_suit = (chr(9824), chr(9827), chr(9830), chr(9829))
+    #_symbol_of_suit = ("♠", "♣", "♢", "♡")
+    _symbol_of_suit = ('♤', '♧', '♦', '♥')
     #_symbol_of_suit = (chr(9824), chr(9827), chr(9830), chr(9829))
     # "0" and "1" are useless, but usefull to recognize fast the correct symbol
     _symbol_of_kind = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
@@ -17,7 +19,6 @@ class Card:
         self.name = '{} {}'.format(self._symbol_of_kind[kind], self._symbol_of_suit[suit])
         self.selected = False
         self.faced_down = True
-        self.place = 0
 
     #  __repr__ insted of __str__
     def __repr__(self):

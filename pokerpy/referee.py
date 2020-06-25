@@ -7,7 +7,8 @@ class Evaluator:
         #player.index(0)
         pass
 
-    def head_to_head_winner(player1: Player, player2: Player):
+    @classmethod
+    def head_to_head_winner(cls, player1: Player, player2: Player):
         _list = []
         if player1.score > player2.score:
             _list.append(player1)
