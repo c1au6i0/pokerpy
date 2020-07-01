@@ -40,7 +40,7 @@ class PlayerCards(Deck):
         Args:
             what: one of  ['cardNumber', 'suits']
 
-        Returns: a dataframe with  2 columns, the cardNumber or suits, and the number of occurrances.
+        Returns: a dataframe with  2 columns, the cardNumber or suits, and the number of occurrences.
 
         """
         assert what in ['cardNumber', 'suits'], print("The argument what is not one of ['cardNumber', 'suits']!")
@@ -50,7 +50,14 @@ class PlayerCards(Deck):
         counted_cards = counted_cards.loc[:,['number_of']]
         return counted_cards
 
-
+        # dave.hand.cards.cardNumber.sort_values().diff(1)
+        # prova = pd.Series([5,7,8,9,10])
+        # p_diff = prova.sort_values().diff(1).dropna().reset_index(drop=True)
+        # print(p_diff)
+        # # it should be minus 3 but we have already removed and NA
+        # for i in range(p_diff.size - 2):
+        #     x = p_diff.iloc[i : i + 3 ]
+        #     print(sum(x))
 
 
 if __name__ == '__main__':
@@ -59,7 +66,7 @@ if __name__ == '__main__':
     print("my_deck and dave created!\n\nWe start shuffling the deck!\n\n")
     my_deck.shuffle()
     print("\n\nNow we take 5 cards from the deck and we give them to dave\n\n")
-    extracted = my_deck.extract_cards(5)
+    extracted = my_deck.give_cards(5)
     print(extracted)
     dave.hand.cards = extracted
     print("\n\nNow look in dave hands!")
@@ -70,4 +77,31 @@ if __name__ == '__main__':
 
 # from pokerpy.deck import Deck
 # my_deck = Deck()
-# dave.hands.cards = my_deck.extract_cards(5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

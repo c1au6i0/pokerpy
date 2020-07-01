@@ -28,7 +28,7 @@ class Deck:
             {'14': "A", '13': "K", '12': "Q", '11': "J"}) + self.cards.suits.astype(str).replace(
             {'1': "♠", '2': "♢", '3': "♣", '4': "♡"})
 
-    def take_cards(self, index_card):
+    def give_specific_cards(self, index_card):
         """
         Extract one or multiple card from a particular position
         this is used internally by extract_cards
@@ -47,7 +47,7 @@ class Deck:
         self.cards = self.cards.drop(index_card, axis=0).reset_index(drop=True)
         return extracted_cards
 
-    def extract_cards(self, num_extract, from_pos='top'):
+    def give_cards(self, num_extract, from_pos='top'):
         """
         Extract cars from the deck.df. it uses take_cards.
         :param num_extract: number of cards to extract
@@ -67,7 +67,10 @@ class Deck:
         elif from_pos == 'random':
             to_extract = np.random.choice(self.cards.index, num_extract, replace=False)
 
-        extracted_cards = self.take_cards(to_extract)
+        # import pdb
+        # pdb.set_trace()
+
+        extracted_cards = self.give_specific_cards(to_extract)
         return extracted_cards
 
     def shuffle(self):
