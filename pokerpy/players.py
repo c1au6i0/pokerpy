@@ -1,4 +1,6 @@
 import pandas as pd
+from pandas import DataFrame
+
 from pokerpy.deck import Deck
 # from pokerpy.referee import Referee
 
@@ -50,14 +52,30 @@ class PlayerCards(Deck):
         counted_cards = counted_cards.loc[:,['number_of']]
         return counted_cards
 
-        # dave.hand.cards.cardNumber.sort_values().diff(1)
-        # prova = pd.Series([5,7,8,9,10])
-        # p_diff = prova.sort_values().diff(1).dropna().reset_index(drop=True)
-        # print(p_diff)
-        # # it should be minus 3 but we have already removed and NA
-        # for i in range(p_diff.size - 2):
-        #     x = p_diff.iloc[i : i + 3 ]
-        #     print(sum(x))
+    def identify_straight(self):
+
+        # create a diff array, sort it and drop na
+        cards_diff = self.cards.cardNumber.sort_values().diff(1)
+        cards_diff = cards_diff.dropna().reset_index(drop=True)
+
+        straight_point = []
+
+        # summ all the 4 values, if 4 then straight
+        if sum(cards_diff) == 4:
+            straight_point.append("straight")
+            return straight_point
+
+        # it should be minus 3 but we have already removed and NA
+        for i in range(cards_diff.size - 2):
+            snippet = cards_diff.iloc[i: i + 3]
+            if sum(snippet) == 4:
+                straight_point.append("incastro")
+            if sum(snippet) == 3:
+                straight_point.append("bilaterale")
+        # print(straight_point)
+        return straight_point
+
+
 
 
 if __name__ == '__main__':
@@ -71,9 +89,8 @@ if __name__ == '__main__':
     dave.hand.cards = extracted
     print("\n\nNow look in dave hands!")
 
-
-
-
+# import pdb
+# pdb.set_trace()
 
 # from pokerpy.deck import Deck
 # my_deck = Deck()
