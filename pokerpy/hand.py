@@ -9,14 +9,35 @@ class HandRules:
     # don't do it static: italian + telesina = 2 instance
     # erase min and max players?
 
-    def __init__(self):
-        self._tradable_cards = 4
-        self._shared_faced_down_cards = 0
-        self._shared_faced_up_cards = 0
-        self._shared_sequence = tuple()
-        self._player_faced_down_cards = 5
-        self._player_faced_up_cards = 0
-        self._min_opening_index = 1
+    def __init__(self, kind_of_game=AMERICAN_DRAW_GAME):
+        if kind_of_game == AMERICAN_DRAW_GAME or kind_of_game == ITALIAN_DRAW_GAME:
+            self._player_faced_down_cards = 5
+            self._player_faced_up_cards = 0
+            self._player_sequence = tuple(5)
+            self._tradable_cards = 4
+            self._shared_faced_down_cards = 0
+            self._shared_faced_up_cards = 0
+            self._shared_sequence = tuple()
+            self._min_opening_index = 1
+        elif kind_of_game == TEXAS_HOLD_EM:
+            self._tradable_cards = 0
+            self._player_faced_down_cards = 2
+            self._player_faced_up_cards = 0
+            self._player_sequence = tuple(2)
+            self._shared_faced_down_cards = 5
+            self._shared_faced_up_cards = 0
+            self._shared_sequence = tuple(3, 1, 1)
+            self._min_opening_index = 0
+        elif kind_of_game == TELESINA:
+            self._player_faced_down_cards = 1
+            self._player_faced_up_cards = 4
+            self._player_sequence = tuple(2, 1, 1, 1)
+            self._tradable_cards = 0
+            self._shared_faced_down_cards = 0
+            self._shared_faced_up_cards = 0
+            self._shared_sequence = tuple(1, 1, 1)
+            self._min_opening_index = 0
+
 
     # how many cards can trade a player? (default = 4 in draw game)
     @property
@@ -69,3 +90,12 @@ class HandRules:
     @property
     def player_cards(self):
         return self._player_faced_down_cards + self._player_faced_up_cards
+
+
+# TO DO: every step is a CardDistribution?
+class CardsDistribution:
+
+    def __init__(self, shared=False, faced_down=5, faced_up=0):
+        self.shared = shared
+        self.faced_down = faced_down
+        self.faced_up = faced_up

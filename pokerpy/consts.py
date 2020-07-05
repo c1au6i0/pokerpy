@@ -1,3 +1,7 @@
-# type_of_rules = ('Texas hold \'em', 'American Draw Game', 'Italian Draw Game')
 ITALIAN_DECK = 0
 AMERICAN_DECK = 1
+
+AMERICAN_DRAW_GAME = 0
+TEXAS_HOLD_EM = 1
+ITALIAN_DRAW_GAME = 2
+TELESINA = 3
