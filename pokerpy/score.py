@@ -53,7 +53,6 @@ class Referee:
                             break
         return _winners
 
-
     @classmethod
     def print_winners(cls, players):
         _winnerNames = ''
@@ -85,47 +84,6 @@ class ScoreRules:
             cls.consider_suit = True
             cls.suit_priority_in_flush = True
             cls.min_royal_beats_max_royal = True
-
-
-class ScoreIndex:
-
-    HighCard = 0
-    Pair = 1
-    TwoPair = 2
-    ThreeOfKind = 3
-    Straight = 4
-    Flush: int
-    FullHouse: int
-    FourOfKind = 7
-    StraightFlush = 8
-    RoyalFlush = 9
-
-    @classmethod
-    def initialize(cls, kind_of_deck=AMERICAN_DECK):
-        cls._set_variabilies(kind_of_deck)
-        cls._set_tuple(kind_of_deck)
-        # TO DO: just 1 partial?
-        cls.partial_straight = PartialStraight()
-        cls.partial_flush = PartialFlush()
-
-    @classmethod
-    def _set_variabilies(cls, kind_of_deck=AMERICAN_DECK):
-        if kind_of_deck == AMERICAN_DECK:
-            cls.Flush = 5
-            cls.FullHouse = 6
-        else:
-            cls.FullHouse = 5
-            cls.Flush = 6
-
-    @classmethod
-    def _set_tuple(cls, kind_of_deck):
-        _lowest_scores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
-        _highest_scores = ('Four of a kind', 'Straight flush', 'Royal flush')
-        if kind_of_deck == AMERICAN_DECK:
-            cls.rank = _lowest_scores + ('Flush', 'Full house')
-        else:
-            cls.rank = _lowest_scores + ('Full house', 'Flush')
-        cls.rank = cls.rank + _highest_scores
 
 
 class PartialStraight:
@@ -161,3 +119,46 @@ class PartialFlush:
     def OutsideRoyalFlush(self):
         return 3
 
+
+class ScoreIndex:
+
+    HighCard = 0
+    Pair = 1
+    TwoPair = 2
+    ThreeOfKind = 3
+    Straight = 4
+    Flush: int
+    FullHouse: int
+    FourOfKind = 7
+    StraightFlush = 8
+    RoyalFlush = 9
+    partial_straight: PartialStraight
+    partial_flush: PartialFlush
+    rank: list
+
+    @classmethod
+    def initialize(cls, kind_of_deck=AMERICAN_DECK):
+        cls._set_variabilies(kind_of_deck)
+        cls._set_tuple(kind_of_deck)
+        # TO DO: just 1 partial?
+        cls.partial_straight = PartialStraight()
+        cls.partial_flush = PartialFlush()
+
+    @classmethod
+    def _set_variabilies(cls, kind_of_deck=AMERICAN_DECK):
+        if kind_of_deck == AMERICAN_DECK:
+            cls.Flush = 5
+            cls.FullHouse = 6
+        else:
+            cls.FullHouse = 5
+            cls.Flush = 6
+
+    @classmethod
+    def _set_tuple(cls, kind_of_deck):
+        _lowest_scores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
+        _highest_scores = ('Four of a kind', 'Straight flush', 'Royal flush')
+        if kind_of_deck == AMERICAN_DECK:
+            cls.rank = _lowest_scores + ('Flush', 'Full house')
+        else:
+            cls.rank = _lowest_scores + ('Full house', 'Flush')
+        cls.rank = cls.rank + _highest_scores

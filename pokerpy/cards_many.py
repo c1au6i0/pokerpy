@@ -275,6 +275,8 @@ class PlayerCards(ListOfCards):
         # From _all_straight_list take only the straight draw (len<5)
         _draw_list = list[list]
         _draw_list = [_list for _list in self._all_straight_list() if len(_list) < 5]
+        _draw_list = PlayerCards(_draw_list)
+        _score = 0
         if len(_draw_list) == 0:
             _score = ScoreIndex.partial_straight.Nothing
         else:
@@ -301,7 +303,7 @@ class PlayerCards(ListOfCards):
                             if _partialCount >= 4:
                                 # I check the difference between highest card of lowest straight
                                 # and lowest card of highest straight
-                                if _draw_list[n+1][0] - _draw_list[n][-1] == 1:
+                                if _draw_list[n+1][0] - _draw_list[n][-1] == 2:
                                     _score = ScoreIndex.partial_straight.InsideStraightDraw
         return _score
 
