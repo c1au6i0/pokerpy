@@ -13,6 +13,8 @@ class Dealer:
     _number_cards_for_player: int
     players: list
     shared_cards: ListOfCards
+    deck: ListOfCards
+    rejects: ListOfCards
 
     # TO DO: what about faced_up_cards ? Use HandRules
     @classmethod
@@ -56,6 +58,12 @@ class Dealer:
         cls.players.extend(players)
 
     @classmethod
+    def change_cards(cls, player):
+        _cards = player.cards.give_selected
+        cls.rejects.extend(_cards)
+        player.cards.extend(cls.deck.give(len(_cards)))
+
+    @classmethod
     def face_up_shared_cards(cls, num=1):
         _shared_cards = cls.shared_cards.give(num)
         for _player in cls.players:
@@ -88,8 +96,9 @@ class Director:
 class HandPhase:
     # assign roles
     # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato,resti)
+    # puntataIniziale
     # tipoApertura=(normale,di parola,nessuno aprì)
-    # puntataIniziale e buio
+    # buio
     # distribuzioneCarte
     # puntata
     # cambioCarte

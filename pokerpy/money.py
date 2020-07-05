@@ -29,3 +29,22 @@ class Pot(Cash):
 
     def show_players(self):
         print([p for p in self._players_list])
+
+
+class MoneyRules:
+    # minBet:
+    # maxBet: minBet * n
+    # maxRise:
+    # richiestaPoste
+    # dealerBet
+    # incrementType
+    # incrementTime
+    # modalitaIncremento=(nullo,a tempo,giri,eliminazioneGiocatore)
+    # setBlind: [notAllowed, due, allowed]
+    # small  blind, big blind, over
+    # minBetType: [check, blind]
+    # resti / no limits
+    # obbligo di prendere posta
+    # allowLowerBets
+    pass
+
