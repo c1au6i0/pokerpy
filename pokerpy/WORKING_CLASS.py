@@ -23,7 +23,7 @@ def testTeresa():
     print()
     print('- - - TERESA TEST - - -')
     print()
-    Dealer.set_rules(kind_of_deck=ITALIAN_DECK, number_cards_shared=3)
+    Dealer.initialize(kind_of_deck=ITALIAN_DECK, number_cards_shared=3)
     Players = [Human("Dave"), Human("Claude"), Human("Bill"), Human("Jack")]
     # TO DO: change next method to accept a list?
     Dealer.add_players(Players[0], Players[1], Players[2], Players[3])

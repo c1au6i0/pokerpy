@@ -16,7 +16,7 @@ class Dealer:
 
     # TO DO: what about faced_up_cards ? Use HandRules
     @classmethod
-    def set_rules(cls, kind_of_deck=AMERICAN_DECK, number_cards_shared=0, number_cards_for_player=5):
+    def initialize(cls, kind_of_deck=AMERICAN_DECK, number_cards_shared=0, number_cards_for_player=5):
         cls._kind_of_deck = kind_of_deck
         cls._number_cards_shared = number_cards_shared
         cls._number_cards_for_player = number_cards_for_player

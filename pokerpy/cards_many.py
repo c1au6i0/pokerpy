@@ -1,5 +1,5 @@
 from pokerpy.card_single import Card
-from pokerpy.score import ScoreIndex
+from pokerpy.score import *
 from pokerpy.consts import *
 from random import shuffle, randint
 
@@ -31,14 +31,16 @@ class ListOfCards(list):
 
     def create_deck(self, lowest_kind=2, decks=1):
         """Create the deck, starting with choosed lowest_kind to Ace
-            Parameters:
+            Args:
                 lowest_kind: default is 2, American deck
                 decks: default is 1, Poker deck, but you could have 2 decks for Blackjack
         """
         if lowest_kind == 2:
             ScoreIndex.initialize(AMERICAN_DECK)
+            ScoreRules.initialize(AMERICAN_DECK)
         else:
             ScoreIndex.initialize(ITALIAN_DECK)
+            ScoreRules.initialize(ITALIAN_DECK)
         ListOfCards.lowest_kind = lowest_kind
         for k in range(lowest_kind, 15):
             for s in range(4):
@@ -62,7 +64,7 @@ class ListOfCards(list):
     # useless?
     def select_card(self, index=0):
         """Select a card
-            Parameters:
+            Args:
                 index: default is 0, the first card of the list
         """
         self[index].selected = True
@@ -70,7 +72,7 @@ class ListOfCards(list):
     # useless?
     def unselect_card(self, index=0):
         """Unselect a card
-            Parameters:
+            Args:
                 index: default is 0, the first card of the list
         """
         self[index].selected = False
@@ -78,7 +80,7 @@ class ListOfCards(list):
     def give(self, number_of_cards=5):
         """Remove some cards from this ListOfCards
             Return these Cards objects
-            Parameters:
+            Args:
                 number_of_cards: default is 5
         """
         # number cannot be lower than zero
@@ -137,7 +139,7 @@ class PlayerCards(ListOfCards):
         else:
             _pairs = self._kind_group(2)
             _threes = self._kind_group(3)
-            # There could be more than one three, if player's got more than five cards
+            # There could be more than one 'three', if player's got more than five cards
             if len(_threes) >= 1:
                 if len(_threes) > 1:
                     _pair_from_three = _threes[-2]
@@ -306,7 +308,7 @@ class PlayerCards(ListOfCards):
 # ScoreIndexFinder part
     def calculate_score(self):
         """Calculate the score and fill the the best_five cards list"""
-        self.score = max(self._create_kind_cards(), self._create_suit_cards(), self._create_straight_cards())
+        self.score = max(self._create_kind_cards(), self._create_suit_cards(ScoreRules.consider_suit), self._create_straight_cards())
         if self.score == ScoreIndex.Straight:
             self.best_five = self.straight_cards
         elif self.score == ScoreIndex.Flush or self.score == ScoreIndex.StraightFlush or self.score == ScoreIndex.RoyalFlush:

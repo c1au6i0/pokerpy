@@ -5,6 +5,7 @@ class Referee:
 
     @classmethod
     def initialize(cls, kind_of_deck=AMERICAN_DECK):
+        """ choose between american/italian deck"""
         ScoreRules.initialize(kind_of_deck)
         ScoreIndex.initialize(kind_of_deck)
 
