@@ -35,6 +35,11 @@ def testTeresa():
     for _player in Players:
         _player.showdown()
     _winner = Evaluator.head_to_head_winner(Players[0], Players[1])
+
+    _winners = Evaluator.winners(Players)
+    for p in range(len(_winners)):
+        print('Winner: ', _winners[p].name)
+
     _winnerNames = ''
     _number_of_winners = len(_winner)
     for p in range(_number_of_winners):

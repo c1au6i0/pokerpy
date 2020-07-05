@@ -1,14 +1,14 @@
 from pokerpy.consts import *
 
 
-class Score:
-
-    # almostScore=(puntoIntermedio,scalaAdIncastro,scalaBilaterale,4/5 colore,4/5 ScalaReale,4/5 ScalaReale bilaterale)
+# move to rules
+class ScoreIndex:
 
     @classmethod
-    def set_rules(cls, kind_of_deck=AMERICAN_DECK):
+    def initialize(cls, kind_of_deck=AMERICAN_DECK):
         cls._set_variabilies(kind_of_deck)
         cls._set_tuple(kind_of_deck)
+        # TO DO: just 1 partial?
         cls.partial_straight = PartialStraight()
         cls.partial_flush = PartialFlush()
 

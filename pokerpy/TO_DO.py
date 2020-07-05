@@ -1,6 +1,9 @@
 ########################################################################################
 # partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # more documentation (args)
+# minOpening
+# Dealer and HandRules
+# missingCards
 ########################################################################################
 # from PyQt5 import QtWidgets
 
