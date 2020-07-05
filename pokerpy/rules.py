@@ -85,8 +85,8 @@ class HandRules:
         return self._max_players
 
     @max_players.setter
-    def maxPlayers(self, value):
-        self.max_players = value
+    def max_players(self, value):
+        self._max_players = value
 
 
 class MoneyRules:

@@ -70,6 +70,10 @@ class Referee:
 
 class ScoreRules:
 
+    consider_suit: bool
+    suit_priority_in_flush: bool
+    min_royal_beats_max_royal: bool
+
     @classmethod
     def initialize(cls, kind_of_deck=AMERICAN_DECK):
         if kind_of_deck == AMERICAN_DECK:
@@ -84,6 +88,17 @@ class ScoreRules:
 
 class ScoreIndex:
 
+    HighCard = 0
+    Pair = 1
+    TwoPair = 2
+    ThreeOfKind = 3
+    Straight = 4
+    Flush: int
+    FullHouse: int
+    FourOfKind = 7
+    StraightFlush = 8
+    RoyalFlush = 9
+
     @classmethod
     def initialize(cls, kind_of_deck=AMERICAN_DECK):
         cls._set_variabilies(kind_of_deck)
@@ -94,20 +109,12 @@ class ScoreIndex:
 
     @classmethod
     def _set_variabilies(cls, kind_of_deck=AMERICAN_DECK):
-        cls.HighCard = 0
-        cls.Pair = 1
-        cls.TwoPair = 2
-        cls.ThreeOfKind = 3
-        cls.Straight = 4
         if kind_of_deck == AMERICAN_DECK:
             cls.Flush = 5
             cls.FullHouse = 6
         else:
             cls.FullHouse = 5
             cls.Flush = 6
-        cls.FourOfKind = 7
-        cls.StraightFlush = 8
-        cls.RoyalFlush = 9
 
     @classmethod
     def _set_tuple(cls, kind_of_deck):

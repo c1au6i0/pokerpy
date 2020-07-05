@@ -8,6 +8,11 @@ class Dealer:
         giving and taking them for then deck, the shared cards and the players"""
 
     lowest_kind: int
+    _kind_of_deck: int
+    _number_cards_shared: int
+    _number_cards_for_player: int
+    players: list
+    shared_cards: ListOfCards
 
     # TO DO: what about faced_up_cards ? Use HandRules
     @classmethod

@@ -11,8 +11,8 @@ class Player:
         self._deck = ListOfCards()
         # possibleMoves: collection
         # roleInHand: type
-        self.bankroll: Cash = None
-        self.seat: int = None
+        self.bankroll: Cash
+        self.seat: int
         self.role = None
 
     def __str__(self):
