@@ -11,14 +11,12 @@ class Evaluator:
 
     @classmethod
     def winners(cls, players):
-        # _best_score = player[0].score
-        # _best_cards = player[0].cards.best_five
+        _winners = [players[0]]
         _best_player = players[0]
-        _winners = [_best_player]
         for n in range(1, len(players)):
             if players[n].score > _best_player.score:
-                _winners.clear()
-                _winners.append(players[n])
+                _winners = [players[n]]
+                _best_player = players[n]
             elif players[n].score < _best_player.score:
                 continue
             else:
@@ -26,8 +24,8 @@ class Evaluator:
                 _reverse_range.reverse()
                 for c in _reverse_range:
                     if players[n].cards.best_five[c].kind > _best_player.cards.best_five[c].kind:
-                        _winners.clear()
-                        _winners.append(players[n])
+                        _winners = [players[n]]
+                        _best_player = players[n]
                         break
                     elif players[n].cards.best_five[c].kind < _best_player.cards.best_five[c].kind:
                         break

@@ -26,14 +26,16 @@ def testTeresa():
     print('- - - TERESA TEST - - -')
     print()
     Dealer.set_rules(kind_of_deck=ITALIAN_DECK, number_cards_shared=3)
-    Players = [Human("Dave"), Human("Claude")]
-    Dealer.add_players(Players[0], Players[1])
+    Players = [Human("Dave"), Human("Claude"), Human("Bill"), Human("Jack")]
+    # TO DO: change next method to accept a list?
+    Dealer.add_players(Players[0], Players[1], Players[2], Players[3])
     Dealer.start_hand()
     print('Shared cards:', Dealer.shared_cards)
     print()
     Dealer.face_up_shared_cards(3)
     for _player in Players:
         _player.showdown()
+    Evaluator.initialize(ITALIAN_DECK)
     _winner = Evaluator.winners(Players)
     _winnerNames = ''
     _number_of_winners = len(_winner)
