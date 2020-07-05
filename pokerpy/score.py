@@ -11,47 +11,61 @@ class Referee:
     @classmethod
     def winners(cls, players):
         _winners = [players[0]]
-        _best_player = players[0]
+        _best = players[0]
         for n in range(1, len(players)):
             # TO DO: Royal flush hearts vs. min Straight Flush spades
-            if players[n].score > _best_player.score:
+            if players[n].score > _best.score:
                 _winners = [players[n]]
-                _best_player = players[n]
-            elif players[n].score < _best_player.score:
+                _best = players[n]
+            elif players[n].score < _best.score:
                 continue
             else:
                 if ScoreRules.suit_priority_in_flush:
-                    if _best_player.score == ScoreIndex.Flush:
-                        if players[n].cards.best_five[4].kind > _best_player.cards.best_five[4].kind:
+                    if _best.score == ScoreIndex.Flush or _best.score == ScoreIndex.StraightFlush or _best.score == ScoreIndex.RoyalFlush:
+                        if players[n].cards.best_five[4].kind > _best.cards.best_five[4].kind:
                             _winners = [players[n]]
-                            _best_player = players[n]
-                        elif players[n].score < _best_player.score:
+                            _best = players[n]
+                        elif players[n].score < _best.score:
                             continue
                 _reverse_range = list(range(5))
                 _reverse_range.reverse()
                 for c in _reverse_range:
-                    if players[n].cards.best_five[c].kind > _best_player.cards.best_five[c].kind:
+                    if players[n].cards.best_five[c].kind > _best.cards.best_five[c].kind:
                         _winners = [players[n]]
-                        _best_player = players[n]
+                        _best = players[n]
                         break
-                    elif players[n].cards.best_five[c].kind < _best_player.cards.best_five[c].kind:
+                    elif players[n].cards.best_five[c].kind < _best.cards.best_five[c].kind:
                         break
                     else:
-                        # Here add suitRule
-                        # If last card (c==0) is still equal there is more than a winner
                         if c == 0:
                             if ScoreRules.consider_suit:
                                 for s in _reverse_range:
-                                    if players[n].cards.best_five[s].suit > _best_player.cards.best_five[s].suit:
+                                    if players[n].cards.best_five[s].suit > _best.cards.best_five[s].suit:
                                         _winners = [players[n]]
-                                        _best_player = players[n]
+                                        _best = players[n]
                                         break
-                                    elif players[n].cards.best_five[s].suit < _best_player.cards.best_five[s].suit:
+                                    elif players[n].cards.best_five[s].suit < _best.cards.best_five[s].suit:
                                         break
                             else:
+                                # If last card (c==0) is still equal there is more than a winner
                                 _winners.append(players[n])
                             break
         return _winners
+
+
+    @classmethod
+    def print_winners(cls, players):
+        _winnerNames = ''
+        _winners = cls.winners(players)
+        _number_of_winners = len(_winners)
+        for p in range(_number_of_winners):
+            _winnerNames = _winnerNames + _winners[p].name + ' '
+            if p < _number_of_winners - 1:
+                _winnerNames = _winnerNames + 'and '
+        if _number_of_winners == 1:
+            print('{}{}'.format(_winnerNames, 'wins'))
+        else:
+            print('{}{}'.format(_winnerNames, 'win'))
 
 
 class ScoreRules:

@@ -34,15 +34,5 @@ def testTeresa():
     for _player in Players:
         _player.showdown()
     Referee.initialize(ITALIAN_DECK)
-    _winner = Referee.winners(Players)
-    _winnerNames = ''
-    _number_of_winners = len(_winner)
-    for p in range(_number_of_winners):
-        _winnerNames = _winnerNames + _winner[p].name + ' '
-        if p < _number_of_winners-1:
-            _winnerNames = _winnerNames + 'and '
-    if _number_of_winners == 1:
-        print('{}{}'.format(_winnerNames, 'wins'))
-    else:
-        print('{}{}'.format(_winnerNames, 'win'))
+    Referee.print_winners(Players)
 
