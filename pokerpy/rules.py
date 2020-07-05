@@ -89,20 +89,6 @@ class HandRules:
         self.max_players = value
 
 
-class ScoreRules:
-
-    @classmethod
-    def initialize(cls, kind_of_deck=AMERICAN_DECK):
-        if kind_of_deck == AMERICAN_DECK:
-            cls.ignore_suit = True
-            cls.min_royal_beats_max_royal = False
-            cls.suit_priority_in_flush = False
-        else:
-            cls.ignore_suit = False
-            cls.min_royal_beats_max_royal = True
-            cls.suit_priority_in_flush = True
-
-
 class MoneyRules:
     # minBet:
     # maxBet: minBet * n

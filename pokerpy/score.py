@@ -1,0 +1,141 @@
+from pokerpy.consts import *
+
+
+class Referee:
+
+    @classmethod
+    def initialize(cls, kind_of_deck=AMERICAN_DECK):
+        ScoreRules.initialize(kind_of_deck)
+        ScoreIndex.initialize(kind_of_deck)
+
+    @classmethod
+    def winners(cls, players):
+        _winners = [players[0]]
+        _best_player = players[0]
+        for n in range(1, len(players)):
+            # TO DO: Royal flush hearts vs. min Straight Flush spades
+            if players[n].score > _best_player.score:
+                _winners = [players[n]]
+                _best_player = players[n]
+            elif players[n].score < _best_player.score:
+                continue
+            else:
+                if ScoreRules.suit_priority_in_flush:
+                    if _best_player.score == ScoreIndex.Flush:
+                        if players[n].cards.best_five[4].kind > _best_player.cards.best_five[4].kind:
+                            _winners = [players[n]]
+                            _best_player = players[n]
+                        elif players[n].score < _best_player.score:
+                            continue
+                _reverse_range = list(range(5))
+                _reverse_range.reverse()
+                for c in _reverse_range:
+                    if players[n].cards.best_five[c].kind > _best_player.cards.best_five[c].kind:
+                        _winners = [players[n]]
+                        _best_player = players[n]
+                        break
+                    elif players[n].cards.best_five[c].kind < _best_player.cards.best_five[c].kind:
+                        break
+                    else:
+                        # Here add suitRule
+                        # If last card (c==0) is still equal there is more than a winner
+                        if c == 0:
+                            if ScoreRules.consider_suit:
+                                for s in _reverse_range:
+                                    if players[n].cards.best_five[s].suit > _best_player.cards.best_five[s].suit:
+                                        _winners = [players[n]]
+                                        _best_player = players[n]
+                                        break
+                                    elif players[n].cards.best_five[s].suit < _best_player.cards.best_five[s].suit:
+                                        break
+                            else:
+                                _winners.append(players[n])
+                            break
+        return _winners
+
+
+class ScoreRules:
+
+    @classmethod
+    def initialize(cls, kind_of_deck=AMERICAN_DECK):
+        if kind_of_deck == AMERICAN_DECK:
+            cls.consider_suit = False
+            cls.suit_priority_in_flush = False
+            cls.min_royal_beats_max_royal = False
+        else:
+            cls.consider_suit = True
+            cls.suit_priority_in_flush = True
+            cls.min_royal_beats_max_royal = True
+
+
+class ScoreIndex:
+
+    @classmethod
+    def initialize(cls, kind_of_deck=AMERICAN_DECK):
+        cls._set_variabilies(kind_of_deck)
+        cls._set_tuple(kind_of_deck)
+        # TO DO: just 1 partial?
+        cls.partial_straight = PartialStraight()
+        cls.partial_flush = PartialFlush()
+
+    @classmethod
+    def _set_variabilies(cls, kind_of_deck=AMERICAN_DECK):
+        cls.HighCard = 0
+        cls.Pair = 1
+        cls.TwoPair = 2
+        cls.ThreeOfKind = 3
+        cls.Straight = 4
+        if kind_of_deck == AMERICAN_DECK:
+            cls.Flush = 5
+            cls.FullHouse = 6
+        else:
+            cls.FullHouse = 5
+            cls.Flush = 6
+        cls.FourOfKind = 7
+        cls.StraightFlush = 8
+        cls.RoyalFlush = 9
+
+    @classmethod
+    def _set_tuple(cls, kind_of_deck):
+        _lowest_scores = ('High card', 'Pair', 'Two pair', 'Three of a kind', 'Straight')
+        _highest_scores = ('Four of a kind', 'Straight flush', 'Royal flush')
+        if kind_of_deck == AMERICAN_DECK:
+            cls.rank = _lowest_scores + ('Flush', 'Full house')
+        else:
+            cls.rank = _lowest_scores + ('Full house', 'Flush')
+        cls.rank = cls.rank + _highest_scores
+
+
+class PartialStraight:
+
+    @property
+    def Nothing(self):
+        return 0
+
+    @property
+    def InsideStraightDraw(self):
+        return 1
+
+    @property
+    def OutsideStraightDraw(self):
+        return 2
+
+
+class PartialFlush:
+
+    @property
+    def Nothing(self):
+        return 0
+
+    @property
+    def FlushDraw(self):
+        return 1
+
+    @property
+    def InsideRoyalFlush(self):
+        return 2
+
+    @property
+    def OutsideRoyalFlush(self):
+        return 3
+

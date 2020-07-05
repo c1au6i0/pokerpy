@@ -1,7 +1,5 @@
-# import array as arr
 from pokerpy.players import *
-from pokerpy.referee import *
-from pokerpy.cards_many import *
+from pokerpy.score import *
 from pokerpy.money import Pot
 from pokerpy.dealer import Dealer
 from pokerpy.consts import *
@@ -35,8 +33,8 @@ def testTeresa():
     Dealer.face_up_shared_cards(3)
     for _player in Players:
         _player.showdown()
-    Evaluator.initialize(ITALIAN_DECK)
-    _winner = Evaluator.winners(Players)
+    Referee.initialize(ITALIAN_DECK)
+    _winner = Referee.winners(Players)
     _winnerNames = ''
     _number_of_winners = len(_winner)
     for p in range(_number_of_winners):

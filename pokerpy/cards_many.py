@@ -1,5 +1,5 @@
 from pokerpy.card_single import Card
-from pokerpy.score_converter import ScoreIndex
+from pokerpy.score import ScoreIndex
 from pokerpy.consts import *
 from random import shuffle, randint
 

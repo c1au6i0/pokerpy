@@ -1,2 +1,2 @@
-__all__ = ['consts.py', 'Converter', 'dealer.py', 'cards_many.py', 'money.py', 'referee.py',
+__all__ = ['consts.py', 'dealer.py', 'cards_many.py', 'money.py', 'score.py',
            'players.py', 'rules.py', 'card_single.py']
