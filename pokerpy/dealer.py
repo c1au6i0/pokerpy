@@ -1,5 +1,6 @@
 from pokerpy.players import *
 from pokerpy.consts import *
+from random import shuffle
 
 
 class Dealer:
@@ -58,6 +59,11 @@ class Dealer:
         cls.players.extend(players)
 
     @classmethod
+    def showdown(cls):
+        for _player in cls.players:
+            _player.showdown()
+
+    @classmethod
     def change_cards(cls, player):
         _cards = player.cards.give_selected
         cls.rejects.extend(_cards)
@@ -70,6 +76,21 @@ class Dealer:
             _player.take_cards(_shared_cards)
 
 
+class HandPhase:
+    # assign_roles
+    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato,resti)
+    # starting_bet
+    # buio/controbuio/over
+    # tipoApertura=(nessuna,normale,di parola,nessuno aprì)
+    # give_player_cards
+    # bet
+    # change_cards
+    # face_up_shared_cards
+    # showdown
+    # proclamaVincitore
+    pass
+
+
 class PlayingBoard:
     # place_card
     # shared_cards: ListOfCards()
@@ -80,7 +101,20 @@ class PlayingBoard:
     pass
 
 
+# direct Players, Dealer, Referee, ecc.
 class Director:
+
+    players = []
+
+    @classmethod
+    def add_players(cls, *players):
+        """Add the players"""
+        cls.players.extend(players)
+
+    @classmethod
+    def shuffle_players(cls):
+        """Randomize the players's order"""
+        shuffle(cls.players)
     # def assignHandRoles:
     # numberPlayers: int
     # turnsLeft
@@ -90,21 +124,6 @@ class Director:
     # add_player()
     # removePlayer()
     # setTurns()
-    pass
-
-
-class HandPhase:
-    # assign roles
-    # playerRole=(mazziere,puntatore,cambiatore,buio,comtrobuio,over,eliminato,resti)
-    # puntataIniziale
-    # tipoApertura=(normale,di parola,nessuno aprì)
-    # buio
-    # distribuzioneCarte
-    # puntata
-    # cambioCarte
-    # scopriCartaComune
-    # mostraPunti
-    # proclamaVincitore
     pass
 
 

@@ -31,8 +31,7 @@ def testTeresa():
     print('Shared cards:', Dealer.shared_cards)
     print()
     Dealer.face_up_shared_cards(3)
-    for _player in Players:
-        _player.showdown()
+    Dealer.showdown()
     Referee.initialize(ITALIAN_DECK)
     Referee.print_winners(Players)
 

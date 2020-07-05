@@ -1,10 +1,9 @@
 ########################################################################################
+# cards_many: _create_straight_draw_cards
 # partialScore (complete, insideStraightDraw, outsideStraightDraw)
 # minOpening
 # more documentation (args)
-# Dealer and HandRules
 # missingCards
-# cards_many: _create_straight_draw_cards
 ########################################################################################
 # from PyQt5 import QtWidgets
 

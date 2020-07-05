@@ -38,7 +38,7 @@ class HandRules:
             self._shared_sequence = tuple(1, 1, 1)
             self._min_opening_index = 0
 
-
+    # TO DO: erase setters
     # how many cards can trade a player? (default = 4 in draw game)
     @property
     def tradable_cards(self):
