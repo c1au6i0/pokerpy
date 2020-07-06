@@ -111,13 +111,14 @@ class PlayerCards(ListOfCards):
     def __init__(self, *args):
         super().__init__(*args)
         self.score = 0
-        self._partial_straight = 0
+        self.partial_straight = 0
         self.best_five = []
         self.kind_cards = []
         self.straight_cards = []
-        self._suit_cards = []
+        self.suit_cards = []
+        self.exist_outside_straight_draw = False
 
-# Kind part
+    # Kind part
     def _kind_group(self, number_of_equal_cards: int):
         """Return the list of the groups of cards with same kind"""
         _list = []
@@ -198,8 +199,8 @@ class PlayerCards(ListOfCards):
                     # Different rules: sometimes _highestSuit is better than _highest_card
                     if _list[-1] >= _highest_card or prefer_highest_suit:
                         _highest_card = _list[-1]
-                        self._suit_cards = _list.straight_cards
-                        if self._suit_cards[-1].kind == 15:
+                        self.suit_cards = _list.straight_cards
+                        if self.suit_cards[-1].kind == 15:
                             _score = ScoreIndex.RoyalFlush
                         else:
                             _score = ScoreIndex.StraightFlush
@@ -209,9 +210,21 @@ class PlayerCards(ListOfCards):
                     if _list[-1] >= _highest_card or prefer_highest_suit:
                         _highest_card = _list[-1]
                         # Taking just the last 5 cards
-                        self._suit_cards = _list[(_count-5):_count]
+                        self.suit_cards = _list[(_count-5):_count]
                         _score = ScoreIndex.Flush
         return _score
+
+    # TO DO: test it
+    def _exist_outside_straight_flush_draw(self):
+        _reversed_suit_list = list(range(4))
+        _reversed_suit_list.reverse()
+        for s in _reversed_suit_list:
+            _suit_list = PlayerCards([_card for _card in self.sorted() if _card.suit == s])
+            # TO DO: create straight draw?
+            if _suit_list._create_straight_draw_cards() == ScoreIndex.partial_straight.OutsideStraightDraw:
+                # self.best_five = _suit_list
+                return True
+        return False
 
 # Straight part
     def _all_straight_list(self):
@@ -219,23 +232,24 @@ class PlayerCards(ListOfCards):
         _list_of_lists = []
         # _no_duplicates_list is the list of the Cards with no pair
         _no_duplicates_list = self.no_duplicates_list()
-        if _no_duplicates_list[-1].kind == 15:
-            _list = [_no_duplicates_list[-1]]
-            _no_duplicates_list = _list + _no_duplicates_list
-        _list = [_no_duplicates_list[0]]
-        # Looping all cards, starting from the second
-        for n in range(1, len(_no_duplicates_list)):
-            _cardDifference = _no_duplicates_list[n].kind - _no_duplicates_list[n-1].kind
-            # cardDifference == 1 means than the cards are 'near'
-            # cardDifference == 15 means that the cards are the lowest and an ace
-            if _cardDifference == 1 or _no_duplicates_list[n-1].kind == 15:
-                _list.append(_no_duplicates_list[n])
-            else:
-                # Cards are not near so I have to close the _list
-                _list_of_lists.append(_list)
-                _list = [_no_duplicates_list[n]]
-        # After the loop I have to add the 'open' list to the list of lists
-        _list_of_lists.append(_list)
+        if len(_no_duplicates_list) > 0:
+            if _no_duplicates_list[-1].kind == 15:
+                _list = [_no_duplicates_list[-1]]
+                _no_duplicates_list = _list + _no_duplicates_list
+            _list = [_no_duplicates_list[0]]
+            # Looping all cards, starting from the second
+            for n in range(1, len(_no_duplicates_list)):
+                _cardDifference = _no_duplicates_list[n].kind - _no_duplicates_list[n-1].kind
+                # cardDifference == 1 means than the cards are 'near'
+                # cardDifference == 15 means that the cards are the lowest and an ace
+                if _cardDifference == 1 or _no_duplicates_list[n-1].kind == 15:
+                    _list.append(_no_duplicates_list[n])
+                else:
+                    # Cards are not near so I have to close the _list
+                    _list_of_lists.append(_list)
+                    _list = [_no_duplicates_list[n]]
+            # After the loop I have to add the 'open' list to the list of lists
+            _list_of_lists.append(_list)
         return _list_of_lists
 
     def no_duplicates_list(self):
@@ -273,7 +287,7 @@ class PlayerCards(ListOfCards):
             and return an index score
             (HighCard/OutsideStraightDraw/InsideStraightDraw)"""
         # From _all_straight_list take only the straight draw (len<5)
-        _draw_list = list[list]
+        _draw_list = list()
         _draw_list = [_list for _list in self._all_straight_list() if len(_list) < 5]
         _draw_list = PlayerCards(_draw_list)
         _score = 0
@@ -303,7 +317,7 @@ class PlayerCards(ListOfCards):
                             if _partialCount >= 4:
                                 # I check the difference between highest card of lowest straight
                                 # and lowest card of highest straight
-                                if _draw_list[n+1][0] - _draw_list[n][-1] == 2:
+                                if _draw_list[n+1][0].kind - _draw_list[n][-1].kind == 2:
                                     _score = ScoreIndex.partial_straight.InsideStraightDraw
         return _score
 
@@ -314,9 +328,14 @@ class PlayerCards(ListOfCards):
         if self.score == ScoreIndex.Straight:
             self.best_five = self.straight_cards
         elif self.score == ScoreIndex.Flush or self.score == ScoreIndex.StraightFlush or self.score == ScoreIndex.RoyalFlush:
-            self.best_five = self._suit_cards
+            self.best_five = self.suit_cards
         else:
             self.best_five = self.kind_cards
+        if self._exist_outside_straight_flush_draw():
+            # TO DO: looking for 4/5 StraightFlush
+            # partial_straight
+            # self.best_five = self.kind_cards
+            print('_exist_outside_straight_flush_draw')
 
     @property
     def score_name(self):
