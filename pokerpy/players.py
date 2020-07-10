@@ -75,6 +75,23 @@ class PlayerCards(Deck):
         # print(straight_point)
         return straight_point
 
+    # with this we get also the index so from that we can check the flush
+    # p_diff = prova.sort_values().diff(1).dropna()
+    # straight = []
+    # ids = []
+    #
+    # for i in range(p_diff.size - 2):
+    #     x = p_diff.iloc[i: i + 3]
+    #     if sum(x) == 4:
+    #         straight.append("incastro")
+    #         ids.append(x.index)
+    #     if sum(x) == 3:
+    #         straight.append("bilaterale")
+    #         ids.append(x.index)
+    #
+    # ids = list(map(lambda x: np.append(x[0] - 1, x), ids))
+    # # ids = [np.append(x[0] - 1 , x) for x in ids]
+
 
 
 
