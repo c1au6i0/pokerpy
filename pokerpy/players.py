@@ -68,6 +68,7 @@ class PlayerCards(Deck):
         # it should be minus 3 but we have already removed and NA
         for i in range(cards_diff.size - 2):
             snippet = cards_diff.iloc[i: i + 3]
+            #this has a bug: we can have same card twice
             if sum(snippet) == 4:
                 straight_point.append("incastro")
             if sum(snippet) == 3:
@@ -75,8 +76,10 @@ class PlayerCards(Deck):
         # print(straight_point)
         return straight_point
 
+    # THIS IS GOING TO BE BETTER
+    # only thing is that self need to be reorderd
     # with this we get also the index so from that we can check the flush
-    # p_diff = prova.sort_values().diff(1).dropna()
+    # p_diff = prova.cardNumber.sort_values().diff(1).dropna()
     # straight = []
     # ids = []
     #
@@ -105,7 +108,21 @@ if __name__ == '__main__':
     print(extracted)
     dave.hand.cards = extracted
     print("\n\nNow look in dave hands!")
+    prova = dave.hand.cards
+    p_diff = prova.cardNumber.sort_values().diff(1).dropna()
+    straight = []
+    ids = []
 
+    for i in range(p_diff.size - 2):
+        x = p_diff.iloc[i: i + 3]
+        if sum(x) == 4:
+            straight.append("incastro")
+            ids.append(x.index)
+        if sum(x) == 3:
+            straight.append("bilaterale")
+            ids.append(x.index)
+
+    ids = list(map(lambda x: np.append(x[0] - 1, x), ids))
 # import pdb
 # pdb.set_trace()
 
