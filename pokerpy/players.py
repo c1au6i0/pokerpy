@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from pandas import DataFrame
 
 from pokerpy.deck import Deck
@@ -54,47 +55,37 @@ class PlayerCards(Deck):
 
     def identify_straight(self):
 
+        self.cards = self.cards.sort_values(by=['cardNumber'])
         # create a diff array, sort it and drop na
-        cards_diff = self.cards.cardNumber.sort_values().diff(1)
-        cards_diff = cards_diff.dropna().reset_index(drop=True)
+        cards_diff = self.cards.cardNumber.diff(1)
+        cards_diff = cards_diff.dropna()
 
         straight_point = []
+        ids_straight = []
 
         # summ all the 4 values, if 4 then straight
-        if sum(cards_diff) == 4:
+        if set(cards_diff) == set([1, 1, 1, 1]):
             straight_point.append("straight")
-            return straight_point
+            ids_straight.append(self.cards.index)
+            return straight_point, ids_straight
+
 
         # it should be minus 3 but we have already removed and NA
         for i in range(cards_diff.size - 2):
             snippet = cards_diff.iloc[i: i + 3]
             #this has a bug: we can have same card twice
-            if sum(snippet) == 4:
+            if set(snippet.values) == set([1, 1, 2]):
                 straight_point.append("incastro")
-            if sum(snippet) == 3:
+                ids_straight.append(snippet.index)
+            if set(snippet.values) == set([1, 1, 1]):
                 straight_point.append("bilaterale")
-        # print(straight_point)
-        return straight_point
+                ids_straight.append(snippet.index)
 
-    # THIS IS GOING TO BE BETTER
-    # only thing is that self need to be reorderd
-    # with this we get also the index so from that we can check the flush
-    # p_diff = prova.cardNumber.sort_values().diff(1).dropna()
-    # straight = []
-    # ids = []
-    #
-    # for i in range(p_diff.size - 2):
-    #     x = p_diff.iloc[i: i + 3]
-    #     if sum(x) == 4:
-    #         straight.append("incastro")
-    #         ids.append(x.index)
-    #     if sum(x) == 3:
-    #         straight.append("bilaterale")
-    #         ids.append(x.index)
-    #
-    # ids = list(map(lambda x: np.append(x[0] - 1, x), ids))
-    # # ids = [np.append(x[0] - 1 , x) for x in ids]
-
+        ids_straight = list(map(lambda x: np.append(x[0] - 1, x), ids_straight))
+        # ids = [np.append(x[0] - 1 , x) for x in ids]
+        # import pdb
+        # pdb.set_trace()
+        return straight_point, ids_straight
 
 
 
@@ -103,26 +94,15 @@ if __name__ == '__main__':
     my_deck = Deck()
     print("my_deck and dave created!\n\nWe start shuffling the deck!\n\n")
     my_deck.shuffle()
-    print("\n\nNow we take 5 cards from the deck and we give them to dave\n\n")
+    print("\n\nNow we take 5 cards from the deck and we give them to dave")
     extracted = my_deck.give_cards(5)
-    print(extracted)
     dave.hand.cards = extracted
-    print("\n\nNow look in dave hands!")
-    prova = dave.hand.cards
-    p_diff = prova.cardNumber.sort_values().diff(1).dropna()
-    straight = []
-    ids = []
+    print("\n\nNow look in dave hands! He has a straight the MF!")
+    dave.hand.cards.cardNumber = [3,4,5,6,10]
+    print(dave.hand.cards)
+    # dave.hand.identify_straight()
 
-    for i in range(p_diff.size - 2):
-        x = p_diff.iloc[i: i + 3]
-        if sum(x) == 4:
-            straight.append("incastro")
-            ids.append(x.index)
-        if sum(x) == 3:
-            straight.append("bilaterale")
-            ids.append(x.index)
 
-    ids = list(map(lambda x: np.append(x[0] - 1, x), ids))
 # import pdb
 # pdb.set_trace()
 
